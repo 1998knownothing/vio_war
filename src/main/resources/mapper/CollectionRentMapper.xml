@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.CollectionRentDao">
+
+    <resultMap id="collectionRentMap" type="com.ye.vio.entity.CollectionRent">
+        <id column="collection_rent_id" property="collectionRentId" />
+        <result column="auser_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <association property="rentVo" column="arent_id"
+                     javaType="com.ye.vio.vo.RentVo">
+            <id column="brent_id" property="rentId" />
+            <result column="buser_id" property="userId" />
+            <result column="type" property="type" />
+            <result column="sex" property="sex" />
+            <result column="state" property="state" />
+            <result column="city" property="city" />
+            <result column="area" property="area" />
+            <result column="address" property="address" />
+            <result column="rental" property="rental" />
+            <result column="label" property="label" />
+            <result column="check_in_time" property="checkInTime" />
+        </association>
+    </resultMap>
+
+
+    <insert id="insertCollectionRent" parameterType="com.ye.vio.entity.CollectionRent">
+        INSERT INTO
+		collection_rent(collection_rent_id,user_id,rent_id,create_time)
+		VALUES
+		(#{collectionRentId},#{userId},#{rentVo.rentId},#{createTime})
+    </insert>
+
+    <delete id="deleteCollectionRent" >
+        DELETE FROM
+		collection_rent
+		WHERE
+		collection_rent_id = #{collectionRentId}
+		AND user_id=#{userId}
+    </delete>
+
+
+
+
+    <select id="queryCollectionRentListByUserId" resultMap="collectionRentMap">
+        SELECT
+        a.collection_rent_id ,
+        a.user_id as auser_id,
+        a.rent_id as arent_id,
+        a.create_time,
+        b.rent_id as brent_id,
+        b.user_id as buser_id,
+        b.type,
+        b.sex,
+        b.state,
+        b.city,
+        b.area,
+        b.address,
+        b.rental,
+        b.label,
+        b.check_in_time
+        FROM
+        collection_rent a,rent b
+        WHERE a.rent_id=b.rent_id AND a.user_id=#{userId}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>

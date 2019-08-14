@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.HouseImgDao">
+
+    <select id="queryHouseImgList" resultType="com.ye.vio.entity.HouseImg">
+		SELECT
+		*
+		FROM house_img
+		WHERE house_id=#{houseId}
+		ORDER BY
+		house_img_id ASC
+	</select>
+    <insert id="batchInsertHouseImg" parameterType="java.util.List">
+        INSERT INTO
+        house_img(house_img_id,house_img_addr,create_time,house_id)
+        VALUES
+        <foreach collection="list" item="houseImg" index="index"
+                 separator=",">
+            (
+            #{houseImg.houseImgId},
+            #{houseImg.houseImgAddr},
+            #{houseImg.createTime},
+            #{houseImg.houseId}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteHouseImgByHouseId">
+        <!-- 具体的sql -->
+        DELETE FROM
+        house_img
+        WHERE
+        house_id =
+        #{houseId}
+    </delete>
+
+</mapper>

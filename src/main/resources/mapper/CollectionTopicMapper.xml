@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.CollectionTopicDao">
+
+    <resultMap id="collectionTopicMap" type="com.ye.vio.entity.CollectionTopic">
+        <id column="collection_topic_id" property="collectionTopicId" />
+        <result column="auser_id" property="userId" />
+        <result column="acreate_time" property="createTime" />
+
+        <association property="topic" column="atopic_id"
+                     javaType="com.ye.vio.entity.Topic">
+            <id column="btopic_id" property="topicId" />
+
+            <result column="type" property="type" />
+            <result column="resume_img" property="resumeImg" />
+            <result column="content" property="content" />
+            <result column="bcreate_time" property="createTime" />
+            <result column="collect_num" property="collectNum" />
+            <result column="like_num" property="likeNum" />
+
+            <result column="comment_num" property="commentNum" />
+            <result column="label" property="label" />
+            <result column="check_in_time" property="checkInTime" />
+
+            <association property="userVo" column="buser_id"
+                         javaType="com.ye.vio.vo.UserVo">
+                <id column="cuser_id" property="userId" />
+                <result column="nick_name" property="nickName" />
+                <result column="sex" property="sex" />
+                <result column="company" property="company" />
+                <result column="school" property="school" />
+                <result column="img_addr" property="imgAddr" />
+            </association>
+        </association>
+    </resultMap>
+
+
+    <insert id="insertCollectionTopic" parameterType="com.ye.vio.entity.CollectionTopic">
+        INSERT INTO
+		collection_topic(collection_topic_id,user_id,topic_id,create_time)
+		VALUES
+		(#{collectionTopicId},#{userId},#{topic.topicId},#{createTime})
+    </insert>
+
+    <delete id="deleteCollectionTopic" >
+        DELETE FROM
+		collection_topic
+		WHERE
+		collection_topic_id = #{collectionTopicId}
+		AND user_id=#{userId}
+    </delete>
+
+    <update id="updateTopicCollectNum">
+      UPDATE topic
+      <set>
+          <if test="type==1">
+              collect_num=collect_num+1
+          </if>
+
+          <if test="type==2">
+              collect_num=collect_num-1
+          </if>
+      </set>
+
+      WHERE topic_id=#{topicId};
+
+    </update>
+
+
+    <select id="queryCollectionTopicListByUserId" resultMap="collectionTopicMap">
+        SELECT
+        a.collection_topic_id ,
+        a.user_id as auser_id,
+        a.topic_id as atopic_id,
+        a.create_time as acreate_time,
+        b.topic_id as btopic_id,
+        b.user_id as buser_id,
+        b.type,
+        b.resume_img,
+        b.content,
+        b.create_time as bcreate_time,
+        b.collect_num,
+        b.like_num,
+        b.comment_num,
+        c.user_id as cuser_id,
+        c.nick_name,
+        c.sex,
+        c.school,
+        c.company,
+        c.img_addr
+        FROM collection_topic a
+        LEFT JOIN topic b on a.topic_id=b.topic_id
+        LEFT JOIN user c on b.user_id=c.user_id
+        WHERE a.user_id=#{userId}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>

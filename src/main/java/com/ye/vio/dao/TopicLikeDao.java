@@ -1,0 +1,16 @@
+package com.ye.vio.dao;
+
+
+import com.ye.vio.entity.TopicLike;
+import org.apache.ibatis.annotations.Param;
+
+
+public interface TopicLikeDao {
+
+
+    public int insertTopicLike(TopicLike topicLike);
+
+    public int updateTopicLikeNum(@Param("type")int type, @Param("topicId") String topicId);
+
+    public int deleteTopicLike(@Param("userId") String userId, @Param("likedTopicId") String likedTopicId);
+}

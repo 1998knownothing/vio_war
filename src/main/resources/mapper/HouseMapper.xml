@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.HouseDao">
+
+    <select id="queryHouseByHouseId" parameterType="String" resultMap="houseMap">
+        select * from house a,user b,house_img c where a.user_id=b.user_id AND a.house_id=c.house_id AND a.house_id = #{houseId}
+    </select>
+
+    <insert id="insertHouse" parameterType="com.ye.vio.entity.House">
+        INSERT INTO
+		house(house_id,user_id,type,house_type,sex,
+		state,city,area,address,rental,contact,topic,
+		note,create_time,label)
+		VALUES
+		(#{houseId},#{user.userId},#{type},#{houseType},
+		#{sex},#{city},#{state},#{area},
+		#{address},#{rental},#{contact},#{topic},#{note},
+		#{createTime},#{label})
+    </insert>
+
+    <delete id="deleteHouseByHouseId" >
+        DELETE FROM
+		house
+		WHERE
+		house_id = #{houseId}
+		AND user_id=#{userId}
+    </delete>
+
+
+    <resultMap id="houseMap" type="com.ye.vio.entity.House">
+        <id column="house_id" property="houseId" />
+        <result column="type" property="type" />
+        <result column="house_type" property="houseType" />
+        <result column="sex" property="sex" />
+        <result column="state" property="state" />
+        <result column="city" property="city" />
+        <result column="area" property="area" />
+        <result column="address" property="address" />
+        <result column="rental" property="rental" />
+        <result column="contact" property="contact" />
+        <result column="topic" property="topic" />
+        <result column="note" property="note" />
+        <result column="create_time" property="createTime" />
+        <result column="label" property="label" />
+        <association property="user" column="user_id"
+                     javaType="com.ye.vio.vo.UserVo">
+            <id column="user_id" property="userId" />
+            <result column="nick_name" property="nickName" />
+            <result column="sex" property="sex" />
+            <result column="company" property="company" />
+            <result column="school" property="school" />
+            <result column="img_addr" property="imgAddr" />
+        </association>
+        <collection property="houseImgList" column="house_id"
+                    ofType="com.ye.vio.entity.HouseImg">
+            <id column="house_img_id" property="houseImgId" />
+            <result column="house_img_addr" property="houseImgAddr" />
+            <result column="house_id" property="houseId" />
+
+        </collection>
+    </resultMap>
+    <select id="queryHouseList" resultMap="houseMap">
+        SELECT *
+        FROM
+        house a,user b,house_img c
+        <where>
+        a.user_id=b.user_id and a.house_id=c.house_id
+            <if test="rentCondition.city!=null">
+                and a.city = #{rentCondition.city}
+            </if>
+            <if test="rentCondition.area!=null">
+               and a.area = #{rentCondition.area}
+            </if>
+            <if test="rentCondition.type!=0">
+                and a.type = #{rentCondition.type}
+            </if>
+            <if test="rentCondition.keyword!=null">
+                and ( a.label like '%${rentCondition.keyword}%' or a.address like '%${rentCondition.keyword}%')
+            </if>
+            <!-- 写like语句的时候 一般都会写成 like '% %' 在mybatis里面写就是应该是 like '%${name} %' 而不是
+                '%#{name} %' ${name} 是不带单引号的，而#{name} 是带单引号的 -->
+            <if test="rentCondition.rentalType==1">
+               and a.rental &lt;1000
+            </if>
+            <if test="rentCondition.rentalType==2">
+                and a.rental &gt;1000 and a.rental &lt;2000
+            </if>
+            <if test="rentCondition.rentalType==3">
+                and a.rental &gt;2000 and a.rental &lt;=3000
+            </if>
+            <if test="rentCondition.rentalType==4">
+                and a.rental &gt;3000
+            </if>
+
+        </where>
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+    <select id="queryHouseListByUserId" resultMap="houseMap">
+        SELECT *
+        FROM
+        house a,user b,house_img c
+        WHERE a.user_id=b.user_id AND a.house_id=c.house_id AND a.user_id=#{userId}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>

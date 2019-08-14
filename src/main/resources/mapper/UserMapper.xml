@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.UserDao">
+
+    <select id="queryUserById" parameterType="String" resultType="com.ye.vio.entity.User">
+        select * from user where user_id = #{userId}
+    </select>
+
+    <update id="updateUser" parameterType="com.ye.vio.entity.User">
+        update user
+        <set>
+
+            <if test="nickName!=null">nick_name=#{nickName},</if>
+            <if test="imgAddr!=null">img_addr=#{imgAddr},</if>
+            <if test="email!=null">email=#{email},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="school!=null">school=#{school},</if>
+            <if test="company!=null">company=#{company},</if>
+            <if test="position!=null">position=#{position},</if>
+            <if test="contact!=null">contact=#{contact},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="code!=null">code=#{code},</if>
+            <if test="createTime!=null">create_time=#{createTime}</if>
+        </set>
+        where user_id=#{userId};
+    </update>
+
+    <insert id="insertUser" parameterType="com.ye.vio.entity.User">
+        INSERT INTO
+		user(user_id,nick_name,img_addr,email,sex,school,company,
+		position,contact,state,code,create_time)
+		VALUES
+		(#{userId},#{nickName},#{imgAddr},
+		#{email},#{sex},#{school},#{company},
+		#{position},#{contact},#{state},#{code},
+		#{createTime})
+    </insert>
+
+
+</mapper>

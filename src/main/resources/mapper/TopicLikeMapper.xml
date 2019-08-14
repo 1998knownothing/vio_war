@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.TopicLikeDao">
+
+
+
+    <insert id="insertTopicLike" parameterType="com.ye.vio.entity.TopicLike">
+        INSERT INTO
+		topic_like(topic_like_id,user_id,liked_topic_id,to_user_id,create_time)
+		VALUES
+		(#{topicLikeId},#{userId},#{likedTopicId},#{toUserId},#{createTime})
+    </insert>
+
+
+    <update id="updateTopicLikeNum">
+        UPDATE topic
+        <set>
+            <if test="type==1">
+                like_num=like_num+1
+            </if>
+
+            <if test="type==2">
+                like_num=like_num-1
+            </if>
+        </set>
+
+        WHERE topic_id=#{topicId};
+
+    </update>
+
+    <delete id="deleteTopicLike">
+        DELETE FROM topic_like
+
+        WHERE   user_id=#{userId}     AND  liked_topic_id=#{likedTopicId};
+
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.EmploymentDao">
+
+    <select id="queryEmploymentByEmploymentId" parameterType="String" resultType="com.ye.vio.entity.Employment">
+        select * from Employment where employment_id = #{employmentId}
+    </select>
+
+    <insert id="insertEmployment" parameterType="com.ye.vio.entity.Employment">
+        INSERT INTO
+		employment(employment_id,user_id,company,city,position,
+		position_name,is_quick,period,contact,resume_format,
+		work_addr,position_desc,create_time,company_logo,state)
+		VALUES
+		(#{employmentId},#{userId},#{company},
+		#{city},#{position},#{positionName},#{isQuick},
+		#{period},#{contact},#{resumeFormat},#{workAddr},
+		#{positionDesc},#{createTime},#{companyLogo}
+		,#{state})
+    </insert>
+
+    <delete id="deleteEmploymentByEmploymentId" >
+        DELETE FROM
+		employment
+		WHERE
+		employment_id = #{employmentId}
+		AND user_id=#{userId}
+    </delete>
+
+
+    <resultMap id="employmentMap" type="com.ye.vio.entity.Employment">
+        <id column="employment_id" property="employmentId" />
+        <result column="user_id" property="userId" />
+        <result column="company" property="company" />
+        <result column="city" property="city" />
+        <result column="position" property="position" />
+        <result column="position_name" property="positionName" />
+        <result column="is_quick" property="isQuick" />
+        <result column="period" property="period" />
+        <result column="contact" property="contact" />
+        <result column="work_addr" property="workAddr" />
+        <result column="resume_format" property="resumeFormat" />
+        <result column="position_desc" property="positionDesc" />
+        <result column="create_time" property="createTime" />
+        <result column="company_logo" property="companyLogo" />
+        <result column="state" property="state" />
+
+    </resultMap>
+    <select id="queryEmploymentList" resultMap="employmentMap">
+        SELECT *
+        FROM
+        employment
+        <where>
+            <if test="employmentCondition.city!=null">
+                 city = #{employmentCondition.city}
+            </if>
+            <if test="employmentCondition.keyword!=null">
+                and ( company like '%${employmentCondition.keyword}%' or position_name like '%${employmentCondition.keyword}%')
+            </if>
+            <!-- 写like语句的时候 一般都会写成 like '% %' 在mybatis里面写就是应该是 like '%${name} %' 而不是
+                '%#{name} %' ${name} 是不带单引号的，而#{name} 是带单引号的 -->
+
+            <if test="employmentCondition.positionList!=null">
+                and position in
+                <foreach collection="employmentCondition.positionList" item="condition" index="index" open="(" close=")" separator=",">
+
+                        #{condition}
+
+                </foreach>
+            </if>
+
+        </where>
+        ORDER BY
+        create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+    <select id="queryEmploymentListByUserId" resultMap="employmentMap">
+        SELECT *
+        FROM
+        employment
+        WHERE user_id=#{userId}
+        ORDER BY
+        create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>

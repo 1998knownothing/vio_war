@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.ReplyLikeDao">
+
+
+
+    <insert id="insertReplyLike" parameterType="com.ye.vio.entity.ReplyLike">
+        INSERT INTO
+		reply_like(reply_like_id,user_id,liked_father_reply_id,liked_son_reply_id,to_user_id,create_time)
+		VALUES
+		(#{replyLikeId},#{userId},#{likedFatherReplyId},#{likedSonReplyId},#{toUserId},#{createTime})
+    </insert>
+
+
+    <update id="updateReplyNum">
+        UPDATE
+        <if test="sonReplyId!=null">
+            son_reply
+
+            <set>
+                <if test="type==1">
+                    like_num=like_num+1
+                </if>
+
+                <if test="type==2">
+                    like_num=like_num-1
+                </if>
+            </set>
+            WHERE son_reply_id=#{sonReplyId}
+
+        </if>
+        <if test="fatherReplyId!=null">
+            father_reply
+
+            <set>
+                <if test="type==1">
+                    like_num=like_num+1
+                </if>
+
+                <if test="type==2">
+                    like_num=like_num-1
+                </if>
+            </set>
+            WHERE father_reply_id=#{fatherReplyId}
+        </if>
+
+
+    </update>
+
+    <delete id="deleteReplyLike">
+        DELETE FROM reply_like
+
+        WHERE   user_id=#{userId}
+        <if test="fatherReplyId!=null">
+            AND  liked_father_reply_id=#{fatherReplyId};
+
+        </if>
+        <if test="sonReplyId!=null">
+            AND  liked_son_reply_id=#{sonReplyId};
+
+        </if>
+
+
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.RentDao">
+
+    <select id="queryRentByRentId" parameterType="String" resultMap="rentMap">
+        select * from rent a,user b where a.user_id=b.user_id  AND a.rent_id = #{rentId}
+    </select>
+
+    <insert id="insertRent" parameterType="com.ye.vio.entity.Rent">
+        INSERT INTO
+		rent(rent_id,user_id,type,sex,state,
+		city,area,address,rental,contact,
+		note,create_time,label,check_in_time)
+		VALUES
+		(#{rentId},#{user.userId},#{type},
+		#{sex},#{state},#{city},#{area},
+		#{address},#{rental},#{contact},#{note},
+		#{createTime},#{label},#{checkInTime})
+    </insert>
+
+    <delete id="deleteRentByRentId" >
+        DELETE FROM
+		rent
+		WHERE
+		rent_id = #{rentId}
+		AND user_id=#{userId}
+    </delete>
+
+
+    <resultMap id="rentMap" type="com.ye.vio.entity.Rent">
+        <id column="rent_id" property="rentId" />
+        <result column="type" property="type" />
+        <result column="sex" property="sex" />
+        <result column="state" property="state" />
+        <result column="city" property="city" />
+        <result column="area" property="area" />
+        <result column="address" property="address" />
+        <result column="rental" property="rental" />
+        <result column="contact" property="contact" />
+        <result column="note" property="note" />
+        <result column="create_time" property="createTime" />
+        <result column="label" property="label" />
+        <result column="check_in_time" property="checkInTime" />
+        <association property="user" column="user_id"
+                     javaType="com.ye.vio.vo.UserVo">
+            <id column="user_id" property="userId" />
+            <result column="nick_name" property="nickName" />
+            <result column="sex" property="sex" />
+            <result column="company" property="company" />
+            <result column="school" property="school" />
+            <result column="img_addr" property="imgAddr" />
+        </association>
+    </resultMap>
+    <select id="queryRentList" resultMap="rentMap">
+        SELECT *
+        FROM
+        rent a,user b
+        <where>
+        a.user_id=b.user_id
+            <if test="rentCondition.city!=null">
+                and a.city = #{rentCondition.city}
+            </if>
+            <if test="rentCondition.area!=null">
+               and a.area = #{rentCondition.area}
+            </if>
+            <if test="rentCondition.type!=0">
+                and a.type = #{rentCondition.type}
+            </if>
+            <if test="rentCondition.keyword!=null">
+                and ( a.label like '%${rentCondition.keyword}%' or a.address like '%${rentCondition.keyword}%')
+            </if>
+            <!-- 写like语句的时候 一般都会写成 like '% %' 在mybatis里面写就是应该是 like '%${name} %' 而不是
+                '%#{name} %' ${name} 是不带单引号的，而#{name} 是带单引号的 -->
+            <if test="rentCondition.rentalType==1">
+               and a.rental &lt;1000
+            </if>
+            <if test="rentCondition.rentalType==2">
+                and a.rental &gt;1000 and a.rental &lt;2000
+            </if>
+            <if test="rentCondition.rentalType==3">
+                and a.rental &gt;2000 and a.rental &lt;=3000
+            </if>
+            <if test="rentCondition.rentalType==4">
+                and a.rental &gt;3000
+            </if>
+
+        </where>
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+    <select id="queryRentListByUserId" resultMap="rentMap">
+        SELECT *
+        FROM
+        rent a,user b
+        WHERE a.user_id=b.user_id AND a.user_id=#{userId}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>

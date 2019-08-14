@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.CollectionEmpDao">
+
+    <resultMap id="collectionEmpMap" type="com.ye.vio.entity.CollectionEmp">
+        <id column="collection_emp_id" property="collectionEmpId" />
+        <result column="user_id" property="userId" />
+        <result column="acreate_time" property="createTime" />
+        <association property="employmentVo" column="aemployment_id"
+                     javaType="com.ye.vio.vo.EmploymentVo">
+            <id column="bemployment_id" property="employmentId" />
+            <result column="position_name" property="positionName" />
+            <result column="company" property="company" />
+            <result column="city" property="city" />
+            <result column="company_logo" property="companyLogo" />
+            <result column="bcreate_time" property="createTime" />
+        </association>
+    </resultMap>
+
+
+    <insert id="insertCollectionEmp" parameterType="com.ye.vio.entity.CollectionEmp">
+        INSERT INTO
+		collection_emp(collection_emp_id,user_id,employment_id,create_time)
+		VALUES
+		(#{collectionEmpId},#{userId},#{employmentVo.employmentId},#{createTime})
+    </insert>
+
+    <delete id="deleteCollectionEmp" >
+        DELETE FROM
+		collection_emp
+		WHERE
+		collection_emp_id = #{collectionEmpId}
+		AND user_id=#{userId}
+    </delete>
+
+
+
+
+    <select id="queryCollectionEmpListByUserId" resultMap="collectionEmpMap">
+        SELECT
+        a.collection_emp_id ,
+        a.user_id,
+        a.employment_id as aemployment_id,
+        a.create_time as acreate_time,
+        b.employment_id as bemployment_id,
+        b.position_name as position_name,
+        b.company,
+        b.city,
+        b.company_logo,
+        b.create_time as bcreate_time
+        FROM
+        collection_emp a,employment b
+        WHERE a.employment_id=b.employment_id AND a.user_id=#{userId}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>

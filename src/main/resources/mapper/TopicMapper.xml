@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.TopicDao">
+
+    <resultMap id="topicMap" type="com.ye.vio.entity.Topic">
+        <id column="topic_id" property="topicId" />
+        <result column="type" property="type" />
+        <result column="resume_img" property="resumeImg" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="collect_num" property="collectNum" />
+        <result column="like_num" property="likeNum" />
+        <result column="comment_num" property="commentNum" />
+        <association property="userVo" column="user_id"
+                     javaType="com.ye.vio.vo.UserVo">
+            <id column="user_id" property="userId" />
+            <result column="nick_name" property="nickName" />
+            <result column="sex" property="sex" />
+            <result column="company" property="company" />
+            <result column="school" property="school" />
+            <result column="img_addr" property="imgAddr" />
+        </association>
+    </resultMap>
+
+    <resultMap id="topicDetailMap" type="com.ye.vio.vo.TopicVo">
+        <id column="topic_id" property="topicId" />
+        <result column="type" property="type" />
+        <result column="resume_img" property="resumeImg" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="collect_num" property="collectNum" />
+        <result column="like_num" property="likeNum" />
+        <result column="comment_num" property="commentNum" />
+        <association property="userVo" column="user_id"
+                     javaType="com.ye.vio.vo.UserVo">
+            <id column="euser_id" property="userId" />
+            <result column="enick_name" property="nickName" />
+            <result column="esex" property="sex" />
+            <result column="ecompany" property="company" />
+            <result column="eschool" property="school" />
+            <result column="eimg_addr" property="imgAddr" />
+        </association>
+        <collection property="fatherReplyList" column="topic_id"
+                    ofType="com.ye.vio.entity.FatherReply">
+            <id column="father_reply_id" property="fatherReplyId" />
+            <result column="ftopic_id" property="topicId" />
+            <result column="fcontent" property="content" />
+            <result column="fto_user_id" property="toUserId" />
+            <result column="fcreate_time" property="createTime" />
+            <result column="flike_num" property="likeNum" />
+
+            <association property="userVo" column="fuser_id"
+                         javaType="com.ye.vio.vo.UserVo">
+                <id column="guser_id" property="userId" />
+                <result column="gnick_name" property="nickName" />
+                <result column="gsex" property="sex" />
+                <result column="gcompany" property="company" />
+                <result column="gschool" property="school" />
+                <result column="gimg_addr" property="imgAddr" />
+            </association>
+            <collection property="sonReplyList" column="father_reply_id"
+                        ofType="com.ye.vio.entity.SonReply">
+                <id column="son_reply_id" property="sonReplyId" />
+                <result column="stopic_id" property="topicId" />
+                <result column="sfather_reply_id" property="fatherReplyId" />
+                <result column="scontent" property="content" />
+                <result column="sto_user_id" property="toUserId" />
+                <result column="screate_time" property="createTime" />
+                <result column="slike_num" property="likeNum" />
+                <association property="userVo" column="suser_id"
+                             javaType="com.ye.vio.vo.UserVo">
+                    <id column="suser_id" property="userId" />
+                    <result column="dnick_name" property="nickName" />
+                    <result column="dsex" property="sex" />
+                    <result column="dcompany" property="company" />
+                    <result column="dschool" property="school" />
+                    <result column="dimg_addr" property="imgAddr" />
+                </association>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <insert id="insertTopic" parameterType="com.ye.vio.entity.Topic">
+        INSERT INTO
+		topic(topic_id,user_id,type,content,
+		create_time,collect_num,like_num,comment_num)
+		VALUES
+		(#{topicId},#{userVo.userId},#{type},
+		#{content},#{createTime},#{collectNum},#{likeNum},#{commentNum})
+    </insert>
+
+    <delete id="deleteTopic" >
+        DELETE FROM
+		topic
+		WHERE
+		topic_id = #{topicId}
+		AND user_id=#{userId}
+    </delete>
+
+    <select id="queryTopicList" resultMap="topicMap">
+        SELECT *
+        FROM
+        topic a,user b
+        <where>
+        a.user_id=b.user_id AND a.type=#{type}
+
+            <if test="keyword!=null">
+                and ( b.nick_name like '%${keyword}%' or a.content like '%${keyword}%')
+            </if>
+            <!-- 写like语句的时候 一般都会写成 like '% %' 在mybatis里面写就是应该是 like '%${name} %' 而不是
+                '%#{name} %' ${name} 是不带单引号的，而#{name} 是带单引号的 -->
+
+        </where>
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+    <select id="queryTopicListByUserId" resultMap="topicMap">
+        SELECT *
+        FROM
+        topic a,user b
+        WHERE a.user_id=b.user_id AND a.user_id=#{userId} AND a.type=#{type}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+    <select id="queryTopicByTopicId" resultMap="topicDetailMap">
+      SELECT
+       a.topic_id,
+       a.user_id,
+       a.type,
+       a.resume_img,
+       a.content,
+       a.create_time,
+       a.like_num,
+       a.collect_num,
+       a.comment_num,
+       e.user_id as euser_id,
+       e.nick_name as enick_name,
+       e.img_addr as eimg_addr,
+       e.sex as esex,
+       e.school as eschool,
+       e.company as ecompany,
+       b.father_reply_id,
+       b.topic_id as ftopic_id,
+       b.user_id as fuser_id,
+       b.to_user_id as fto_user_id,
+       b.content as fcontent,
+       b.create_time as fcreate_time,
+       b.like_num as flike_num,
+       g.user_id as guser_id,
+       g.nick_name as gnick_name,
+       g.img_addr as gimg_addr,
+       g.sex as gsex,
+       g.school as gschool,
+       g.company as gcompany,
+       c.son_reply_id ,
+       c.topic_id as stopic_id,
+       c.father_reply_id as sfather_reply_id,
+       c.user_id  as suser_id,
+       c.to_user_id as sto_user_id,
+       c.content as scontent,
+       c.create_time as screate_time,
+       c.like_num as slike_num,
+       d.user_id as duser_id,
+       d.nick_name as dnick_name,
+       d.img_addr as dimg_addr,
+       d.sex as dsex,
+       d.school as dschool,
+       d.company as dcompany
+       from ((topic a LEFT JOIN user e on e.user_id=a.user_id)
+      LEFT JOIN father_reply b on b.topic_id=a.topic_id) LEFT JOIN user g on g.user_id=b.user_id
+LEFT JOIN son_reply c on b.father_reply_id=c.father_reply_id LEFT JOIN user d on c.user_id=d.user_id where a.topic_id=#{topicId};
+    </select>
+
+</mapper>

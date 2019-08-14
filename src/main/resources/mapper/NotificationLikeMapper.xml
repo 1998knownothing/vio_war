@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.NotificationLikeDao">
+
+    <resultMap id="notificationLikeMap" type="com.ye.vio.entity.NotificationLike">
+        <id column="notification_like_id" property="notificationLikeId" />
+        <result column="user_id" property="fromUserId" />
+        <result column="from_nick_name" property="fromNickName" />
+
+        <result column="to_user_id" property="toUserId" />
+        <result column="to_nick_name" property="toNickName" />
+        <result column="topic_id" property="topicId" />
+        <result column="topic_content" property="topicContent" />
+        <result column="father_reply_id" property="fatherReplyId" />
+        <result column="father_reply_content" property="fatherReplyContent" />
+        <result column="son_reply_id" property="sonReplyId" />
+        <result column="son_reply_content" property="sonReplyContent" />
+        <result column="create_time" property="createTime" />
+        <result column="is_read" property="isRead" />
+        <result column="notification_type" property="notificationType" />
+
+    </resultMap>
+
+    <update id="updateNotificationLike" >
+          UPDATE notification_like SET is_read=1
+          WHERE
+        notification_like_id in
+        <foreach collection="list" item="nr" index="index" open="(" close=")"
+                 separator=",">
+             #{nr.notificationLikeId}
+        </foreach>
+    </update>
+
+    <insert id="insertNotificationLike" parameterType="com.ye.vio.entity.NotificationLike">
+        INSERT INTO
+		notification_like(notification_like_id,user_id,topic_id,father_reply_id,son_reply_id,to_user_id,create_time,notification_type)
+		VALUES
+		(#{notificationLikeId},#{fromUserId},#{topicId},#{fatherReplyId},#{sonReplyId},#{toUserId},#{createTime},#{notificationType})
+    </insert>
+
+
+    <select id="queryNotificationLikeListByToUserId" resultMap="notificationLikeMap">
+        SELECT
+        a.notification_like_id,
+        a.user_id,
+        b.nick_name as from_nick_name,
+        a.topic_id,
+        c.content as topic_content,
+        a.father_reply_id,
+        d.content as father_reply_content,
+        a.son_reply_id,
+        e.content as son_reply_content,
+        a.to_user_id,
+        f.nick_name as to_nick_name,
+        a.create_time,
+        a.notification_type,
+        a.is_read
+        FROM
+        notification_like a LEFT JOIN user b on a.user_id=b.user_id
+        LEFT JOIN topic c on a.topic_id=c.topic_id
+        LEFT JOIN father_reply d on a.father_reply_id=d.father_reply_id
+        LEFT JOIN son_reply e on a.son_reply_id=e.son_reply_id
+        LEFT JOIN user f on a.to_user_id=f.user_id
+        WHERE  a.to_user_id=#{toUserId}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.CollectionHouseDao">
+
+    <resultMap id="collectionHouseMap" type="com.ye.vio.entity.CollectionHouse">
+        <id column="collection_house_id" property="collectionHouseId" />
+        <result column="user_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <association property="houseVo" column="ahouse_id"
+                     javaType="com.ye.vio.vo.HouseVo">
+            <id column="bhouse_id" property="houseId" />
+            <result column="buser_id" property="userId" />
+            <result column="type" property="type" />
+            <result column="house_type" property="houseType" />
+            <result column="sex" property="sex" />
+            <result column="state" property="state" />
+            <result column="address" property="address" />
+            <result column="rental" property="rental" />
+            <result column="topic" property="topic" />
+            <result column="label" property="label" />
+            <collection property="houseImgList" column="house_id"
+                        ofType="com.ye.vio.entity.HouseImg">
+                <id column="house_img_id" property="houseImgId" />
+                <result column="house_img_addr" property="houseImgAddr" />
+                <result column="house_id" property="houseId" />
+                <result column="ccreate_time" property="createTime" />
+            </collection>
+        </association>
+
+    </resultMap>
+
+
+    <insert id="insertCollectionHouse" parameterType="com.ye.vio.entity.CollectionHouse">
+        INSERT INTO
+		collection_house(collection_house_id,user_id,house_id,create_time)
+		VALUES
+		(#{collectionHouseId},#{userId},#{houseVo.houseId},#{createTime})
+    </insert>
+
+    <delete id="deleteCollectionHouse" >
+        DELETE FROM
+		collection_house
+		WHERE
+		collection_house_id = #{collectionHouseId}
+		AND user_id=#{userId}
+    </delete>
+
+
+
+
+    <select id="queryCollectionHouseListByUserId" resultMap="collectionHouseMap">
+        SELECT
+        a.collection_house_id ,
+        a.user_id,
+        a.house_id as ahouse_id,
+        a.create_time as create_time,
+        b.house_id as bhouse_id,
+        b.user_id as buser_id,
+        b.type,
+        b.house_type,
+        b.sex,
+        b.state,
+        b.address,
+        b.rental,
+        b.topic,
+        b.label,
+        c.house_img_id,
+        c.house_id,
+        c.house_img_addr,
+        c.create_time as ccreate_time
+        FROM
+        collection_house a LEFT JOIN house b ON a.collection_house_id=b.house_id
+        LEFT JOIN house_img c ON c.house_id=b.house_id
+        WHERE a.user_id=#{userId}
+        ORDER BY
+        a.create_time DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+</mapper>
