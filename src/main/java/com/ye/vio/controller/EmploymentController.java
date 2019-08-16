@@ -2,7 +2,9 @@ package com.ye.vio.controller;
 
 import com.ye.vio.dto.EmploymentCondition;
 import com.ye.vio.dto.EmploymentExecution;
+import com.ye.vio.dto.ResultDTO;
 import com.ye.vio.entity.Employment;
+import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.service.EmploymentService;
 import com.ye.vio.vo.EmploymentVo;
 import org.springframework.stereotype.Controller;
@@ -30,128 +32,92 @@ public class EmploymentController {
     @Resource
     EmploymentService employmentService;
     //根据empid获取对应详细招聘信息
-    @RequestMapping(value = "/getempbyid/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getempbyempid/{id}",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getEmpById(@PathVariable("id")String id){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO getEmpById(@PathVariable("id")String id){
+        //Map<String,Object> map=new HashMap<>();
+        Employment employment =new Employment();
         try {
-            Employment employment = employmentService.getEmploymentByEmploymentId(id);
-
-            map.put("success",true);
-            map.put("emp",employment);
+            employment = employmentService.getEmploymentByEmploymentId(id);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("errorMsg","获取失败");
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+        return ResultDTO.okOf(employment);
     }
+
     //根据empid删除用户对应发布的招聘信息
     @RequestMapping(value = "/removeemp/{userid}/{empid}",method = RequestMethod.DELETE)
     @ResponseBody
-    public Map<String,Object> removeEmp(@PathVariable("empid")String empId,@PathVariable("userid")String userId){
+    public ResultDTO removeEmp(@PathVariable("empid")String empId,@PathVariable("userid")String userId){
 
-        Map<String,Object> map=new HashMap<>();
+
+        int effected=0;
         try {
-           int e=employmentService.removeEmploymentByEmploymentId(empId,userId);
-            map.put("success",true);
-            map.put("status",200);
-            map.put("emp",e);
+            effected=employmentService.removeEmploymentByEmploymentId(empId,userId);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("errorMsg","获取失败");
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+        return  ResultDTO.okOf(effected);
     }
     //用户作为发布者添加招聘信息
     @RequestMapping(value = "/addemp",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> addEmp(Employment employment
+    public ResultDTO addEmp(Employment employment
             ,@RequestParam(value = "logo",required = false) CommonsMultipartFile logo){
-        Map<String,Object> map=new HashMap<>();
+        int effected=0;
         try {
-            int e = employmentService.addEmployment(employment,logo);
-            map.put("success",true);
-            map.put("status",200);
-            map.put("emp",e);
+            effected= employmentService.addEmployment(employment,logo);
+
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","获取失败");
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+        return  ResultDTO.okOf(effected);
     }
     //根据用户id获取其所发布的招聘信息  id logo positionName city time
     @RequestMapping(value = "/getemplistbyuserid/{userid}/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getEmpListByUserId(@PathVariable("userid")String userId
+    public ResultDTO getEmpListByUserId(@PathVariable("userid")String userId
             ,@PathVariable("pageindex")int pageIndex){
-        Map<String,Object> map=new HashMap<>();
+
         try {
-            List<Employment> employmentList = employmentService.getEmploymentListByUserId(userId,pageIndex,2);
-            List<Employment> list=employmentList;
+            List<Employment> employmentList = employmentService.getEmploymentListByUserId(userId,pageIndex,10);
             List<EmploymentVo> employmentVoList=new ArrayList<>();
 
-            if(list!=null){
-                for(Employment employment:list){
+            if(employmentList!=null){
+                for(Employment employment:employmentList){
                     EmploymentVo vo=new EmploymentVo(employment);
                     employmentVoList.add(vo);
                 }
-            }else {
-                map.put("success",true);
-                map.put("status",404);
-                map.put("emp",employmentVoList);
-                return map;
             }
-
-
-            map.put("success",true);
-            map.put("status",200);
-            map.put("emp",employmentVoList);
-
+            return  ResultDTO.okOf(employmentVoList);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","获取失败");
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
     //获取所有招聘信息分页方式
     @RequestMapping(value = "/getemplist/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getEmpList(@PathVariable("pageindex")int pageIndex, EmploymentCondition employmentCondition){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO getEmpList(@PathVariable("pageindex")int pageIndex, EmploymentCondition employmentCondition){
         try {
-
-            List<Employment> list=employmentService.getEmploymentList(employmentCondition,pageIndex,10);
+            List<Employment> employmentList = employmentService.getEmploymentList(employmentCondition,pageIndex,10);
             List<EmploymentVo> employmentVoList=new ArrayList<>();
 
-            if(list!=null){
-                for(Employment employment:list){
+            if(employmentList!=null){
+                for(Employment employment:employmentList){
                     EmploymentVo vo=new EmploymentVo(employment);
                     employmentVoList.add(vo);
                 }
-            }else {
-                map.put("success",true);
-                map.put("status",404);
-                map.put("emp",employmentVoList);
-                return map;
             }
-
-
-            map.put("success",true);
-            map.put("status",200);
-            map.put("emp",employmentVoList);
+            return  ResultDTO.okOf(employmentVoList);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","获取失败");
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
     }
 
 }

@@ -7,6 +7,10 @@
         select * from user where user_id = #{userId}
     </select>
 
+    <select id="queryUserByAuthToken" parameterType="String" resultType="com.ye.vio.entity.User">
+        select * from user,auth where auth.token = #{token} and user.user_id=auth.user_id;
+    </select>
+
     <update id="updateUser" parameterType="com.ye.vio.entity.User">
         update user
         <set>

@@ -1,7 +1,9 @@
 package com.ye.vio.controller;
 
+import com.ye.vio.dto.ResultDTO;
 import com.ye.vio.entity.Rent;
 import com.ye.vio.entity.Topic;
+import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.service.TopicService;
 import com.ye.vio.vo.TopicVo;
 import org.springframework.stereotype.Controller;
@@ -31,131 +33,82 @@ public class TopicController {
 
     @RequestMapping(value = "/gettopicbytopicid/{topicid}",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getTopicByTopicId (@PathVariable("topicid")String topicId){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO getTopicByTopicId (@PathVariable("topicid")String topicId){
+
         try {
             TopicVo topicVo=topicService.getTopicByTopicId(topicId);
 
-            map.put("success",true);
-            map.put("status",200);
-            map.put("topicVo",topicVo);
-
+            return ResultDTO.okOf(topicVo);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("errorMsg","服务器出错");
-            map.put("status",500);
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
 
     }
 
 
     @RequestMapping(value = "/gettopiclistbyuserid/{type}/{userid}/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getRentByUserId(@PathVariable("userid")String userId,@PathVariable("type")int type,@PathVariable("pageindex") int pageIndex){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO getRentByUserId(@PathVariable("userid")String userId,@PathVariable("type")int type,@PathVariable("pageindex") int pageIndex){
+
 
         try {
             List<Topic> topicList=topicService.getTopicListByUserId(userId,type,pageIndex,10);
 
-            map.put("success",true);
-            map.put("status",200);
-            map.put("topicList",topicList);
-            return map;
+            return ResultDTO.okOf(topicList);
 
         }catch (Exception e){
-            map.put("success",false);
-
-            map.put("errorMsg","服务器出错");
-            map.put("status",500);
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
 
 
     @RequestMapping(value = "/gettopiclist/{type}/{pageindex}",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> getTopicList(String keyword,@PathVariable("type") int type,@PathVariable("pageindex") int pageIndex){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO getTopicList(String keyword,@PathVariable("type") int type,@PathVariable("pageindex") int pageIndex){
+
 
         try {
            List<Topic>  topicList=topicService.getTopicList(keyword,type,pageIndex,10);
 
-            map.put("success",true);
-            map.put("status",200);
-            map.put("topicList",topicList);
-            return map;
+            return ResultDTO.okOf(topicList);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("errorMsg","服务器出错");
-            map.put("exception",e.getMessage());
-            map.put("status",500);
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
 
 
     @RequestMapping(value = "/addtopic",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> addTopic(Topic topic){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO addTopic(Topic topic){
 
         try {
             int effected=topicService.addTopic(topic);
 
-            if(effected<=0){
-                map.put("success",true);
-                map.put("status",404);
-                map.put("errMsg","未能添加求租信息");
-                return map;
-            }
-
-            map.put("success",true);
-            map.put("status",200);
-            map.put("msg","成功添加求租信息");
-            return map;
+            return ResultDTO.okOf(effected);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","服务器出错");
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
 
     @RequestMapping(value = "/removetopic/{userid}/{topicid}",method = RequestMethod.DELETE)
     @ResponseBody
-    public Map<String,Object> removeRent(@PathVariable("topicid")String topicId,@PathVariable("userid")String userId){
-        Map<String,Object> map=new HashMap<>();
-
-
+    public ResultDTO removeRent(@PathVariable("topicid")String topicId,@PathVariable("userid")String userId){
 
         try {
             int effected=topicService.removeTopic(topicId,userId);
 
-            if(effected<=0){
-                map.put("success",true);
-                map.put("status",404);
-                map.put("errMsg","未能删除指定求租信息");
-                return map;
-            }
-
-            map.put("success",true);
-            map.put("status",200);
-            map.put("msg","成功删除指定求租信息");
-            return map;
+            return ResultDTO.okOf(effected);
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","服务器出错");
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
 }

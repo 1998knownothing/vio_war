@@ -1,8 +1,10 @@
 package com.ye.vio.controller;
 
 import com.ye.vio.dto.RentCondition;
+import com.ye.vio.dto.ResultDTO;
 import com.ye.vio.entity.House;
 import com.ye.vio.entity.Rent;
+import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.service.HouseService;
 import com.ye.vio.vo.UserVo;
 import org.springframework.stereotype.Controller;
@@ -32,8 +34,8 @@ public class HouseController {
 
     @RequestMapping(value = "/addhouse",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> addHouse(House house,@RequestParam(value = "file") CommonsMultipartFile[] files){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO addHouse(House house,@RequestParam(value = "file") CommonsMultipartFile[] files){
+
         List<CommonsMultipartFile> list=new ArrayList<>();
         UserVo user=new UserVo();
         user.setUserId("1");
@@ -47,121 +49,78 @@ public class HouseController {
         try {
             int effected=houseService.addHouse(house,list);
 
-            if(effected<=0){
-                map.put("success",true);
-                map.put("status",404);
-                map.put("errMsg","未能添加求租信息");
-            }
-
-            map.put("success",true);
-            map.put("status",200);
-            map.put("msg","成功添加求租信息");
-
+            return ResultDTO.okOf(effected);
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","服务器出错");
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
 
     @RequestMapping(value = "/removehouse/{houseid}",method = RequestMethod.DELETE)
     @ResponseBody
-    public Map<String,Object> removeHouse(@PathVariable("houseid")String houseId){
+    public ResultDTO removeHouse(@PathVariable("houseid")String houseId){
         Map<String,Object> map=new HashMap<>();
 
         String userId="1";
 
         try {
             int effected=houseService.removeHouseByHouseId(houseId,userId);
+            return ResultDTO.okOf(effected);
 
-            if(effected<=0){
-                map.put("success",true);
-                map.put("status",404);
-                map.put("errMsg","未能删除指定求租信息");
-                return map;
-            }
-
-            map.put("success",true);
-            map.put("status",200);
-            map.put("msg","成功删除指定求租信息");
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","服务器出错");
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
     }
 
 
 
     @RequestMapping(value = "/gethousebyhouseid/{houseid}",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getHouseByHouseId(@PathVariable("houseid")String houseId){
-        Map<String,Object> map=new HashMap<>();
-
-
+    public ResultDTO getHouseByHouseId(@PathVariable("houseid")String houseId){
 
         try {
             House house=houseService.getHouseByHouseId(houseId);
 
-            map.put("success",true);
-            map.put("status",200);
-            map.put("house",house);
+            return ResultDTO.okOf(house);
 
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","获取失败");
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
 
     @RequestMapping(value = "/gethouselistbyuserid/{userid}/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> getHouseListByUserId(@PathVariable("userid")String userId,@PathVariable("pageindex") int pageIndex){
+    public ResultDTO getHouseListByUserId(@PathVariable("userid")String userId,@PathVariable("pageindex") int pageIndex){
         Map<String,Object> map=new HashMap<>();
 
         try {
             List<House> houseList=houseService.getHouseListByUserId(userId,pageIndex,10);
 
-            map.put("success",true);
-            map.put("status",200);
-            map.put("houseList",houseList);
+           return ResultDTO.okOf(houseList);
 
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("status",500);
-            map.put("errorMsg","服务器出错");
-            map.put("exception",e.getMessage());
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
     @RequestMapping(value = "/gethouselist/{pageindex}",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> getHouseList(RentCondition rentCondition, @PathVariable("pageindex") int pageIndex){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO getHouseList(RentCondition rentCondition, @PathVariable("pageindex") int pageIndex){
+
 
         try {
             List<House> houseList=houseService.getHouseList(rentCondition,pageIndex,10);
 
-            map.put("success",true);
-            map.put("status",200);
-            map.put("houseList",houseList);
+            return ResultDTO.okOf(houseList);
 
 
         }catch (Exception e){
-            map.put("success",false);
-            map.put("errorMsg","服务器出错");
-            map.put("exception",e.getMessage());
-            map.put("status",500);
+            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
         }
-        return  map;
+
     }
 }

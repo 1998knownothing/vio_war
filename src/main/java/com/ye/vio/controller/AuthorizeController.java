@@ -7,6 +7,8 @@ import com.ye.vio.dto.GithubUser;
 import com.ye.vio.entity.Auth;
 import com.ye.vio.entity.User;
 import com.ye.vio.provider.GithubProvider;
+import com.ye.vio.service.AuthService;
+import com.ye.vio.service.UserService;
 import com.ye.vio.util.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -50,10 +52,10 @@ public class AuthorizeController {
     private String redirectUri;
 
     @Resource
-    private UserDao userDao;
+    private UserService userService;
 
     @Resource
-    private AuthDao authDao;
+    private AuthService authService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -76,20 +78,20 @@ public class AuthorizeController {
            String imgAddr=githubUser.getAvatar_url();
             User user = new User();
             //查询数据库是否已有该github用户
-            Auth authback=authDao.queryAuthByAuthId(authId);
+            Auth authback=authService.getAuthByAuthId(authId);
             if(authback!=null){
                 //非第一次登陆，更新user
                 user=authback.getUser();
                 user.setNickName(name);
                 user.setEmail(emial);
                 user.setImgAddr(imgAddr);
-                userDao.updateUser(user);
+                userService.modifyUser(user);
                 //更新token
                 Auth auth=new Auth();
                 auth.setAuthId(authId);
                 auth.setToken(token);
                 auth.setCreateTime(new Date());
-                authDao.updateAuth(auth);
+                authService.modifyAuth(auth);
 
             }else{
 
@@ -100,19 +102,19 @@ public class AuthorizeController {
                 user.setNickName(name);
                 user.setEmail(emial);
                 user.setImgAddr(imgAddr);
-                userDao.insertUser(user);
+                userService.addUser(user);
                 //存储关联githu账号信息
                 auth.setId(UUIDUtils.UUID());
                 auth.setAuthId(authId);
                 auth.setToken(token);
                 auth.setUser(user);
 
-                authDao.insertAuth(auth);
+               authService.addAuth(auth);
 
             }
             request.getSession().setAttribute("userId",user.getUserId());
-            request.getSession().setAttribute("token",token);
-            log.info("用户id："+user.getUserId()+"  用户token"+token);
+            request.getSession().setAttribute("token:",token);
+            log.info("用户id："+user.getUserId()+"  用户token:"+token);
             Cookie cookie = new Cookie("token", token);
             cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
             response.addCookie(cookie);

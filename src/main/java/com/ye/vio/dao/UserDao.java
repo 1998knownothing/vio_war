@@ -13,6 +13,8 @@ public interface UserDao {
 
     public User queryUserById(String userId);
 
+    public User queryUserByAuthToken(String token);
+
     public int updateUser(User user);
 
     public int insertUser(User user);

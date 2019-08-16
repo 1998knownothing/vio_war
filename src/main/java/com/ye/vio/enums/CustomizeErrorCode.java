@@ -8,9 +8,10 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     EMP_SUCCESS(1, "招聘信息操作成功"),
     NULL_EMP(1002,"添加招聘信息为空值"),
     EMP_NOT_FOUND(1003, "你找到招聘信息不在了，要不要换个试试？"),
+//comment
 
 
-
+    NULL_TOKEN(2001,"token为空"),
     TARGET_PARAM_NOT_FOUND(2002, "未选中任何问题或评论进行回复"),
     NO_LOGIN(2003, "当前操作需要登录，请登陆后重试"),
     SYS_ERROR(2004, "服务冒烟了，要不然你稍后再试试！！！"),

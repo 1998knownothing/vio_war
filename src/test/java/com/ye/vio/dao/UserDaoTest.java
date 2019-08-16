@@ -17,7 +17,8 @@ public class UserDaoTest extends BaseTest {
 
     @Test
     public void testQueryUserById(){
-        User user=userDao.queryUserById("1");
+        User user=userDao.queryUserByAuthToken("01c509ab4a414a1e85db279006820b19");
+
         System.out.println(user.getNickName());
     }
 
