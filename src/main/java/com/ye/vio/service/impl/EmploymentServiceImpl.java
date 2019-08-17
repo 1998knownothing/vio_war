@@ -11,6 +11,7 @@ import com.ye.vio.service.EmploymentService;
 import com.ye.vio.util.ImageUtil;
 import com.ye.vio.util.PageUtil;
 import com.ye.vio.util.PathUtil;
+import com.ye.vio.util.UUIDUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -34,8 +35,11 @@ public class EmploymentServiceImpl  implements EmploymentService {
 
     @Override
     public Employment getEmploymentByEmploymentId(String employmentId) {
+        if (employmentId==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
 
         Employment employment=employmentDao.queryEmploymentByEmploymentId(employmentId);
+
         return employment;
     }
 
@@ -47,7 +51,8 @@ public class EmploymentServiceImpl  implements EmploymentService {
             throw  new CustomizeException(CustomizeErrorCode.NULL_EMP);
         }
         int effected=0;
-        try{
+
+            employment.setEmploymentId(UUIDUtils.UUID());
             employment.setState(1);
             employment.setCreateTime(new Date());
             if(logo!=null){
@@ -57,12 +62,10 @@ public class EmploymentServiceImpl  implements EmploymentService {
             effected=employmentDao.insertEmployment(employment);
 
             if(effected<=0){
-                throw new RuntimeException("招聘信息添加失败");
+                throw new CustomizeException(CustomizeErrorCode.EMP_ADD_ERROR);
             }
 
-        }catch (Exception e){
-            throw new RuntimeException("add employment error :"+e.getMessage());
-        }
+
 
         return effected;
     }
@@ -71,7 +74,7 @@ public class EmploymentServiceImpl  implements EmploymentService {
     @Transactional
     public int removeEmploymentByEmploymentId(String employmentId, String userId) {
         int effectedNum=0;
-        try{
+
 
             Employment employment=employmentDao.queryEmploymentByEmploymentId(employmentId);
             if (employment.getCompanyLogo()!=null){
@@ -80,16 +83,17 @@ public class EmploymentServiceImpl  implements EmploymentService {
             effectedNum=employmentDao.deleteEmploymentByEmploymentId(employmentId,userId);
 
             if(effectedNum<=0){
-                throw  new RuntimeException("商品类别删除失败");
+                throw new CustomizeException(CustomizeErrorCode.EMP_DELETE_ERROR);
             }
-        }catch(Exception e){
-            throw new RuntimeException("delete employment error:"+e.getMessage());
-        }
+
         return effectedNum;
     }
 
     @Override
     public List<Employment> getEmploymentListByUserId(String userId, int pageIndex, int pageSize) {
+        if(userId==null||pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
 
         List<Employment> employmentList=employmentDao.queryEmploymentListByUserId(userId,rowIndex,pageSize);
@@ -99,10 +103,13 @@ public class EmploymentServiceImpl  implements EmploymentService {
 
     @Override
     public  List<Employment> getEmploymentList(EmploymentCondition employmentCondition, int pageIndex, int pageSize) {
+        if(pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
 
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
 
         List<Employment> employmentList=employmentDao.queryEmploymentList(employmentCondition,rowIndex,pageSize);
+
         return employmentList;
     }
 

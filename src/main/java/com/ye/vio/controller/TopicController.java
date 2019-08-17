@@ -86,14 +86,11 @@ public class TopicController {
     @ResponseBody
     public ResultDTO addTopic(Topic topic){
 
-        try {
+
             int effected=topicService.addTopic(topic);
 
             return ResultDTO.okOf(effected);
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 
@@ -101,14 +98,10 @@ public class TopicController {
     @ResponseBody
     public ResultDTO removeRent(@PathVariable("topicid")String topicId,@PathVariable("userid")String userId){
 
-        try {
+
             int effected=topicService.removeTopic(topicId,userId);
 
             return ResultDTO.okOf(effected);
-
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 }

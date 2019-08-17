@@ -13,6 +13,8 @@ public interface CollectionRentDao {
 
     public int insertCollectionRent(CollectionRent collectionRent);
 
+    public CollectionRent queryCollectionRent(CollectionRent collectionRent);
+
     public int deleteCollectionRent(@Param("userId") String userId, @Param("collectionRentId") String collectionRentId);
 
 

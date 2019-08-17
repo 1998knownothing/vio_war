@@ -3,6 +3,7 @@ package com.ye.vio.controller;
 import com.ye.vio.dao.TopicDao;
 import com.ye.vio.dto.ResultDTO;
 import com.ye.vio.enums.CustomizeErrorCode;
+import com.ye.vio.exception.CustomizeException;
 import com.ye.vio.service.TopicService;
 import com.ye.vio.vo.TopicVo;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,9 @@ public class PageController {
     public Object haha(){
 
         TopicVo topicVos=topicService.getTopicByTopicId("1");
+        if(1==1){
+            throw new CustomizeException(CustomizeErrorCode.NULL_TOKEN);
+        }
         return ResultDTO.okOf(topicVos);
     }
 

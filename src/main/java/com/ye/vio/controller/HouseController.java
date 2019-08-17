@@ -46,31 +46,23 @@ public class HouseController {
                 list.add(c);
             }
         }
-        try {
             int effected=houseService.addHouse(house,list);
 
             return ResultDTO.okOf(effected);
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
+
 
     }
 
     @RequestMapping(value = "/removehouse/{houseid}",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultDTO removeHouse(@PathVariable("houseid")String houseId){
-        Map<String,Object> map=new HashMap<>();
 
         String userId="1";
 
-        try {
             int effected=houseService.removeHouseByHouseId(houseId,userId);
             return ResultDTO.okOf(effected);
 
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
     }
 
 
@@ -79,32 +71,22 @@ public class HouseController {
     @ResponseBody
     public ResultDTO getHouseByHouseId(@PathVariable("houseid")String houseId){
 
-        try {
             House house=houseService.getHouseByHouseId(houseId);
 
             return ResultDTO.okOf(house);
 
-
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 
     @RequestMapping(value = "/gethouselistbyuserid/{userid}/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getHouseListByUserId(@PathVariable("userid")String userId,@PathVariable("pageindex") int pageIndex){
-        Map<String,Object> map=new HashMap<>();
 
-        try {
+
             List<House> houseList=houseService.getHouseListByUserId(userId,pageIndex,10);
 
            return ResultDTO.okOf(houseList);
 
-
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
     @RequestMapping(value = "/gethouselist/{pageindex}",method = RequestMethod.POST)
@@ -112,15 +94,12 @@ public class HouseController {
     public ResultDTO getHouseList(RentCondition rentCondition, @PathVariable("pageindex") int pageIndex){
 
 
-        try {
+
             List<House> houseList=houseService.getHouseList(rentCondition,pageIndex,10);
 
             return ResultDTO.okOf(houseList);
 
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 }

@@ -2,6 +2,8 @@ package com.ye.vio.service.impl;
 
 import com.ye.vio.dao.TopicDao;
 import com.ye.vio.entity.Topic;
+import com.ye.vio.enums.CustomizeErrorCode;
+import com.ye.vio.exception.CustomizeException;
 import com.ye.vio.service.TopicService;
 import com.ye.vio.util.PageUtil;
 import com.ye.vio.util.UUIDUtils;
@@ -28,18 +30,26 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public TopicVo getTopicByTopicId(String topicId) {
+        if (topicId==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
 
         return topicDao.queryTopicByTopicId(topicId);
     }
 
     @Override
     public List<Topic> getTopicList(String keyword, int type, int pageIndex, int pageSize) {
+        if (pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
         return topicDao.queryTopicList(keyword,type,rowIndex,pageSize);
     }
 
     @Override
     public List<Topic> getTopicListByUserId(String userId, int type, int pageIndex, int pageSize) {
+        if (userId==null||pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
         return topicDao.queryTopicListByUserId(userId,type,rowIndex,pageSize);
     }
@@ -47,17 +57,28 @@ public class TopicServiceImpl implements TopicService {
     @Override
     @Transactional
     public int addTopic(Topic topic) {
+        if (topic.getUserVo().getUserId()==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
         topic.setTopicId(UUIDUtils.UUID());
-        UserVo userVo=new UserVo();
-        userVo.setUserId("1");
-        topic.setUserVo(userVo);
         topic.setCreateTime(new Date());
-        return topicDao.insertTopic(topic);
+        int effected=topicDao.insertTopic(topic);
+        if (effected<=0)
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_DELETE_ERROR);
+
+        return effected;
     }
 
     @Override
     @Transactional
     public int removeTopic(String topicId, String userId) {
-        return topicDao.deleteTopic(topicId,userId);
+        if (topicId==null||userId==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
+        int effected=topicDao.deleteTopic(topicId,userId);
+        if (effected<=0)
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_DELETE_ERROR);
+
+        return effected;
     }
 }

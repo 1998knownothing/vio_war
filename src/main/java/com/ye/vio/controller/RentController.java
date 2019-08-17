@@ -32,15 +32,12 @@ public class RentController {
     public ResultDTO getRentByRentId(@PathVariable("rentid")String rentId){
         Map<String,Object> map=new HashMap<>();
 
-        try {
+
             Rent rent=rentService.getRentByRentId(rentId);
 
             return ResultDTO.okOf(rent);
 
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 
@@ -49,15 +46,12 @@ public class RentController {
     public ResultDTO getRentByUserId(@PathVariable("userid")String userId,@PathVariable("pageindex") int pageIndex){
         Map<String,Object> map=new HashMap<>();
 
-        try {
+
             List<Rent> rentList=rentService.getRentListByUserId(userId,pageIndex,10);
 
             return ResultDTO.okOf(rentList);
 
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 
@@ -66,15 +60,12 @@ public class RentController {
     public ResultDTO getRentList(RentCondition rentCondition,@PathVariable("pageindex") int pageIndex){
         Map<String,Object> map=new HashMap<>();
 
-        try {
+
             List<Rent> rentList=rentService.getRentList(rentCondition,pageIndex,10);
 
             return ResultDTO.okOf(rentList);
 
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
     }
 
     @RequestMapping(value = "/addrent",method = RequestMethod.POST)
@@ -82,14 +73,11 @@ public class RentController {
     public ResultDTO addRent(Rent rent){
         Map<String,Object> map=new HashMap<>();
 
-        try {
+
             int effected=rentService.addRent(rent);
 
             return ResultDTO.okOf(effected);
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 
@@ -100,14 +88,11 @@ public class RentController {
 
         String userId="1";
 
-        try {
+
             int effected=rentService.removeRentByRentId(rentId,userId);
 
             return ResultDTO.okOf(effected);
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
     }
 

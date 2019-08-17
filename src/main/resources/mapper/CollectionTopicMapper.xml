@@ -98,4 +98,12 @@
         LIMIT #{rowIndex},#{pageSize};
     </select>
 
+    <select id="queryCollectionTopic" resultMap="collectionTopicMap">
+        SELECT
+        *
+        FROM collection_topic
+        WHERE user_id=#{userId} and topic_id=#{topic.topicId}
+
+    </select>
+
 </mapper>

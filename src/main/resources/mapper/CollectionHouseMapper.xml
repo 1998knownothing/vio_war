@@ -48,6 +48,14 @@
 
 
 
+    <select id="queryCollectionHouse" resultMap="collectionHouseMap">
+        SELECT
+        *
+        FROM
+        collection_house
+        WHERE user_id=#{userId} and house_id=#{houseVo.houseId}
+
+    </select>
 
     <select id="queryCollectionHouseListByUserId" resultMap="collectionHouseMap">
         SELECT

@@ -4,9 +4,12 @@ import com.ye.vio.dao.CollectionEmpDao;
 import com.ye.vio.dao.CollectionHouseDao;
 import com.ye.vio.entity.CollectionEmp;
 import com.ye.vio.entity.CollectionHouse;
+import com.ye.vio.enums.CustomizeErrorCode;
+import com.ye.vio.exception.CustomizeException;
 import com.ye.vio.service.CollectionEmpService;
 import com.ye.vio.service.CollectionHouseService;
 import com.ye.vio.util.PageUtil;
+import com.ye.vio.util.UUIDUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,9 @@ public class CollectionHouseServiceImpl implements CollectionHouseService {
 
     @Override
     public List<CollectionHouse> getCollectionHouseListByUserId(String userId, int pageIndex, int pageSize) {
+        if(userId==null||pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
 
         return collectionHouseDao.queryCollectionHouseListByUserId(userId,rowIndex,pageSize);
@@ -35,13 +41,35 @@ public class CollectionHouseServiceImpl implements CollectionHouseService {
     @Override
     @Transactional
     public int addCollectionHouse(CollectionHouse collectionHouse) {
+        if(collectionHouse.getUserId()==null||collectionHouse.getHouseVo().getHouseId()==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
+        if(collectionHouseDao.queryCollectionHouse(collectionHouse)!=null)
+            throw  new CustomizeException(CustomizeErrorCode.COLLECTION_EXIST);
+
+        collectionHouse.setCollectionHouseId(UUIDUtils.UUID());
         collectionHouse.setCreateTime(new Date());
-        return collectionHouseDao.insertCollectionHouse(collectionHouse);
+        int effected=0;
+
+            effected=collectionHouseDao.insertCollectionHouse(collectionHouse);
+            if(effected<=0)throw new CustomizeException(CustomizeErrorCode.OPERATION_ERROR);
+
+        return effected;
+
     }
 
     @Override
     @Transactional
     public int removeCollectionHouse(String userId, String collectionHouseId) {
-        return removeCollectionHouse(userId,collectionHouseId);
+        if(userId==null||collectionHouseId==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
+        int effected=0;
+
+            effected=removeCollectionHouse(userId,collectionHouseId);
+            if(effected<=0)throw new CustomizeException(CustomizeErrorCode.OPERATION_ERROR);
+
+        return effected;
+
     }
 }

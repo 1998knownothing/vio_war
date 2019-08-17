@@ -59,7 +59,7 @@
     <!-- 配置权限拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/page/**" />
+            <mvc:mapping path="/page/h/**" />
 
             <bean class="com.ye.vio.interceptor.ApiInterceptor"></bean>
         </mvc:interceptor>

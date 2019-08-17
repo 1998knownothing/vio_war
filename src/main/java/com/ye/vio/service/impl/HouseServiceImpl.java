@@ -5,6 +5,8 @@ import com.ye.vio.dao.HouseImgDao;
 import com.ye.vio.dto.RentCondition;
 import com.ye.vio.entity.House;
 import com.ye.vio.entity.HouseImg;
+import com.ye.vio.enums.CustomizeErrorCode;
+import com.ye.vio.exception.CustomizeException;
 import com.ye.vio.service.HouseService;
 import com.ye.vio.util.ImageUtil;
 import com.ye.vio.util.PageUtil;
@@ -15,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,18 +42,23 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public House getHouseByHouseId(String houseId) {
+        if (houseId==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
         return houseDao.queryHouseByHouseId(houseId);
     }
 
     @Override
     public List<House> getHouseList(RentCondition rentCondition, int pageIndex, int pageSize) {
+        if(pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
-
         return houseDao.queryHouseList(rentCondition,rowIndex,pageSize);
     }
 
     @Override
     public List<House> getHouseListByUserId(String userId, int pageIndex, int pageSize) {
+        if(userId==null||pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
         return houseDao.queryHouseListByUserId(userId,rowIndex,pageSize);
     }
@@ -56,43 +66,45 @@ public class HouseServiceImpl implements HouseService {
     @Override
     @Transactional
     public int addHouse(House house,List<CommonsMultipartFile> houseImgs) {
-        if(house!=null&&house.getHouseId()!=null&&house.getUser().getUserId()!=null){
+        if(house==null||house.getHouseId()==null||house.getUser().getUserId()==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
+                house.setHouseId(UUIDUtils.UUID());
                 house.setState(1);
                 house.setCreateTime(new Date());
-            try {
-                int effectedNum = houseDao.insertHouse(house);
+        int effectedNum=0;
+
+                effectedNum = houseDao.insertHouse(house);
                 if (effectedNum <= 0) {
-                    throw new RuntimeException("创建商品失败");
+                    throw new CustomizeException(CustomizeErrorCode.HOUSE_ADD_ERROR);
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("创建商品失败:" + e.toString());
-            }
+
             if(houseImgs!=null&&houseImgs.size()>0){
                 addHouseImgs(house,houseImgs);
-            }
-            return 200;
-        }else{
+            }else
+                throw new CustomizeException(CustomizeErrorCode.HOUSE_IMG_UPLOAD_ERROR);
 
-        }
+            return effectedNum;
 
-        return 0;
     }
 
     @Override
     @Transactional
     public int removeHouseByHouseId(String houseId, String userId) {
 
-        try {
+        int effected=0;
+
             if (houseId != null && userId != null) {
                 deleteHouseImgs(houseId);
             }else {
-                throw new RuntimeException("删除房源图片失败，houseid 或 userid 不能为空");
+                throw new CustomizeException(4123,"删除房源图片失败，houseid 或 userid 不能为空");
             }
-        }catch (Exception e){
-            throw new RuntimeException(e.toString());
-        }
+            effected=houseDao.deleteHouseByHouseId(houseId,userId);
+            if(effected<=0)
+                throw new CustomizeException(CustomizeErrorCode.HOUSE_DELETE_ERROR);
 
-        return houseDao.deleteHouseByHouseId(houseId,userId);
+
+        return effected;
     }
 
     private void addHouseImgs(House house, List<CommonsMultipartFile> houseImgs) {
@@ -108,14 +120,12 @@ public class HouseServiceImpl implements HouseService {
                 houseImg.setCreateTime(new Date());
                 houseImgList.add(houseImg);
             }
-            try {
+
                 int effectedNum = houseImgDao.batchInsertHouseImg(houseImgList);
                 if (effectedNum <= 0) {
                     throw new RuntimeException("创建商品详情图片失败");
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("创建商品详情图片失败:" + e.toString());
-            }
+
         }
     }
 

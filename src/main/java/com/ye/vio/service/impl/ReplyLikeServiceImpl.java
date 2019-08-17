@@ -29,7 +29,7 @@ public class ReplyLikeServiceImpl implements ReplyLikeService {
         replyLike.setCreateTime(new Date());
 
         int effected=0;
-        try{
+
             effected=replyLikeDao.insertReplyLike(replyLike);
 
             if(effected<=0)throw new RuntimeException("添加评论点赞失败");
@@ -38,9 +38,6 @@ public class ReplyLikeServiceImpl implements ReplyLikeService {
 
             if (effectedUpdate<=0) throw new RuntimeException("更新评论点赞数失败");
 
-        }catch (Exception e){
-            throw new RuntimeException("add reply like failed :"+e.getMessage());
-        }
 
 
         return effected;
@@ -52,7 +49,7 @@ public class ReplyLikeServiceImpl implements ReplyLikeService {
 
 
         int effected=0;
-        try{
+
             effected=replyLikeDao.deleteReplyLike(replyLike.getUserId(),replyLike.getLikedSonReplyId(),replyLike.getLikedFatherReplyId());
 
             if(effected<=0)throw new RuntimeException("添加话题点赞失败");
@@ -60,10 +57,6 @@ public class ReplyLikeServiceImpl implements ReplyLikeService {
             int effectedUpdate=replyLikeDao.updateReplyNum(2,replyLike.getLikedSonReplyId(),replyLike.getLikedFatherReplyId());
 
             if (effectedUpdate<=0) throw new RuntimeException("更新话题点赞数失败");
-
-        }catch (Exception e){
-            throw new RuntimeException("delete reply like failed :"+e.getMessage());
-        }
 
 
         return effected;

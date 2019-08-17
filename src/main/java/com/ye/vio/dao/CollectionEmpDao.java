@@ -10,9 +10,12 @@ public interface CollectionEmpDao {
     public List<CollectionEmp> queryCollectionEmpListByUserId(@Param("userId")String userId,
                                                               @Param("rowIndex")int rowIndex,@Param("pageSize")int pageSize);
 
+    public CollectionEmp queryCollectionEmp(CollectionEmp collectionEmp);
+
     public int insertCollectionEmp(CollectionEmp collectionEmp);
 
     public int deleteCollectionEmp(@Param("userId")String userId,@Param("collectionEmpId")String collectionEmpId);
+
 
 
 }

@@ -3,12 +3,37 @@ package com.ye.vio.enums;
 import com.ye.vio.exception.ICustomizeErrorCode;
 
 public enum CustomizeErrorCode implements ICustomizeErrorCode {
+    //全体适用
+    OPERATION_ERROR(1001,"您的添加或删除或更新操作失败！"),
+
+
 //employment
-    EMP_ERROR(1001, "招聘信息操作失败"),
+
+    EMP_ERROR(1003, "招聘信息操作失败"),
     EMP_SUCCESS(1, "招聘信息操作成功"),
     NULL_EMP(1002,"添加招聘信息为空值"),
+    EMP_ADD_ERROR(1004,"添加招聘信息失败"),
     EMP_NOT_FOUND(1003, "你找到招聘信息不在了，要不要换个试试？"),
-//comment
+    EMP_DELETE_ERROR(1005,"添加招聘信息失败"),
+
+//collection
+    CTOPIC_ADD_ERROR(3001,"收藏topic失败"),
+    CTOPIC_UPDATE_ERROR(3002,"更新topic收藏数失败"),
+    COLLECTION_EXIST(3003,"已收藏，请勿重复收藏"),
+
+    //HOUSE
+
+    HOUSE_IMG_UPLOAD_ERROR(4001,"房源信息图片上传失败"),
+    HOUSE_DELETE_ERROR(4002,"删除房源记录失败"),
+    HOUSE_ADD_ERROR(4003,"添加房源记录失败"),
+
+    //rent
+    RENT_ADD_ERROR(5001,"求租信息添加失败"),
+    RENT_DELETE_ERROR(5001,"求租信息添加失败"),
+
+    //topic
+    TOPIC_DELETE_ERROR(6001,"删除话题失败"),
+    TOPIC_ADD_ERROR(6002,"添加话题失败"),
 
 
     NULL_TOKEN(2001,"token为空"),

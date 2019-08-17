@@ -25,7 +25,7 @@ public class CollectionRentDaoTest extends BaseTest {
     CollectionRentDao collectionRentDao;
     @Test
     public void testQueryListByUserId(){
-        List<CollectionRent> collectionRents=collectionRentDao.queryCollectionRentListByUserId("1",0,10);
+        List<CollectionRent> collectionRents=collectionRentDao.queryCollectionRentListByUserId(null,0,10);
 
         System.out.println(collectionRents.get(1));
 

@@ -13,6 +13,8 @@ public interface CollectionTopicDao {
 
     public int insertCollectionTopic(CollectionTopic collectionTopic);
 
+    public CollectionTopic queryCollectionTopic(CollectionTopic collectionTopic);
+
     public int updateTopicCollectNum(@Param("type")int type, @Param("topicId") String topicId);
 
     public int deleteCollectionTopic(@Param("userId") String userId, @Param("collectionTopicId") String collectionTopicId);

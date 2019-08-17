@@ -30,7 +30,7 @@ public class TopicLikeServiceImpl implements com.ye.vio.service.TopicLikeService
         topicLike.setCreateTime(new Date());
 
         int effected=0;
-        try{
+
             effected=topicLikeDao.insertTopicLike(topicLike);
 
             if(effected<=0)throw new RuntimeException("添加话题点赞失败");
@@ -39,9 +39,6 @@ public class TopicLikeServiceImpl implements com.ye.vio.service.TopicLikeService
 
             if (effectedUpdate<=0) throw new RuntimeException("更新话题点赞数失败");
 
-        }catch (Exception e){
-            throw new RuntimeException("add topic like failed :"+e.getMessage());
-        }
 
 
         return effected;
@@ -52,7 +49,7 @@ public class TopicLikeServiceImpl implements com.ye.vio.service.TopicLikeService
     @Transactional
     public int removeTopicLike(TopicLike topicLike) {
         int effectedDelete=0;
-        try{
+
             effectedDelete=topicLikeDao.deleteTopicLike(topicLike.getUserId(),topicLike.getLikedTopicId());
 
             if(effectedDelete<=0)throw new RuntimeException("删除话题点赞失败");
@@ -61,9 +58,6 @@ public class TopicLikeServiceImpl implements com.ye.vio.service.TopicLikeService
 
             if (effectedUpdate<=0) throw new RuntimeException("更新话题点赞数失败");
 
-        }catch (Exception e){
-            throw new RuntimeException("delete topic like failed :"+e.getMessage());
-        }
 
 
         return effectedDelete;

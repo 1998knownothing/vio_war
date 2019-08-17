@@ -82,7 +82,7 @@ public class EmploymentController {
     public ResultDTO getEmpListByUserId(@PathVariable("userid")String userId
             ,@PathVariable("pageindex")int pageIndex){
 
-        try {
+
             List<Employment> employmentList = employmentService.getEmploymentListByUserId(userId,pageIndex,10);
             List<EmploymentVo> employmentVoList=new ArrayList<>();
 
@@ -94,16 +94,12 @@ public class EmploymentController {
             }
             return  ResultDTO.okOf(employmentVoList);
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
-
     }
     //获取所有招聘信息分页方式
     @RequestMapping(value = "/getemplist/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getEmpList(@PathVariable("pageindex")int pageIndex, EmploymentCondition employmentCondition){
-        try {
+
             List<Employment> employmentList = employmentService.getEmploymentList(employmentCondition,pageIndex,10);
             List<EmploymentVo> employmentVoList=new ArrayList<>();
 
@@ -115,9 +111,6 @@ public class EmploymentController {
             }
             return  ResultDTO.okOf(employmentVoList);
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
     }
 
 }

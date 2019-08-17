@@ -11,6 +11,8 @@ public interface CollectionHouseDao {
     public List<CollectionHouse> queryCollectionHouseListByUserId(@Param("userId") String userId,
                                                               @Param("rowIndex") int rowIndex, @Param("pageSize") int pageSize);
 
+    public CollectionHouse queryCollectionHouse(CollectionHouse collectionHouse);
+
     public int insertCollectionHouse(CollectionHouse collectionHouse);
 
     public int deleteCollectionHouse(@Param("userId") String userId, @Param("collectionHouseId") String collectionHouseId);

@@ -11,6 +11,11 @@ public class CustomizeException extends RuntimeException{
     private String message;
     private Integer code;
 
+    public CustomizeException(Integer errorCode,String message) {
+        this.code = errorCode;
+        this.message = message;
+    }
+
     public CustomizeException(ICustomizeErrorCode errorCode) {
         this.code = errorCode.getCode();
         this.message = errorCode.getMessage();

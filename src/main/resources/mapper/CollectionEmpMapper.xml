@@ -34,6 +34,12 @@
 		AND user_id=#{userId}
     </delete>
 
+    <select id="queryCollectionEmp" resultMap="collectionEmpMap">
+        SELECT *
+        FROM
+        collection_emp
+        WHERE employment_id=#{employmentVo.employmentId} AND user_id=#{userId}
+    </select>
 
 
 

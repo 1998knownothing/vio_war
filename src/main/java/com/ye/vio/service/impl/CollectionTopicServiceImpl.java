@@ -4,9 +4,12 @@ import com.ye.vio.dao.CollectionEmpDao;
 import com.ye.vio.dao.CollectionTopicDao;
 import com.ye.vio.entity.CollectionEmp;
 import com.ye.vio.entity.CollectionTopic;
+import com.ye.vio.enums.CustomizeErrorCode;
+import com.ye.vio.exception.CustomizeException;
 import com.ye.vio.service.CollectionEmpService;
 import com.ye.vio.service.CollectionTopicService;
 import com.ye.vio.util.PageUtil;
+import com.ye.vio.util.UUIDUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,8 @@ public class CollectionTopicServiceImpl implements CollectionTopicService {
 
     @Override
     public List<CollectionTopic> getCollectionTopicListByUserId(String userId, int pageIndex, int pageSize) {
+        if(userId==null||pageIndex<=0)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
 
         return collectionTopicDao.queryCollectionTopicListByUserId(userId,rowIndex,pageSize);
@@ -35,17 +40,22 @@ public class CollectionTopicServiceImpl implements CollectionTopicService {
     @Override
     @Transactional
     public int addCollectionTopic(CollectionTopic collectionTopic) {
+        if(collectionTopic.getUserId()==null||collectionTopic.getTopic().getTopicId()==null)
+            throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
+
+        if(collectionTopicDao.queryCollectionTopic(collectionTopic)!=null)
+            throw new CustomizeException(CustomizeErrorCode.COLLECTION_EXIST);
+
         collectionTopic.setCreateTime(new Date());
+        collectionTopic.setCollectionTopicId(UUIDUtils.UUID());
 
         int effectedInsert=0;
-        try{
+
             effectedInsert=collectionTopicDao.insertCollectionTopic(collectionTopic);
             if(effectedInsert<=0)throw new RuntimeException("添加话题收藏失败");
             int effectedUpdate=collectionTopicDao.updateTopicCollectNum(1,collectionTopic.getCollectionTopicId());
             if(effectedUpdate<=0)throw new RuntimeException("更新话题收藏数失败++");
-        }catch (Exception e){
-            throw new RuntimeException("add topic collect failed; "+e.getMessage());
-        }
+
         return effectedInsert;
     }
 
@@ -53,14 +63,12 @@ public class CollectionTopicServiceImpl implements CollectionTopicService {
     @Transactional
     public int removeCollectionTopic(String userId, String collectionTopicId) {
         int effectedDelete=0;
-        try{
+
             effectedDelete=removeCollectionTopic(userId,collectionTopicId);
             if(effectedDelete<=0)throw new RuntimeException("添加话题收藏失败");
             int effectedUpdate=collectionTopicDao.updateTopicCollectNum(2,collectionTopicId);
             if(effectedUpdate<=0)throw new RuntimeException("更新话题收藏数失败--");
-        }catch (Exception e){
-            throw new RuntimeException("add topic collect failed; "+e.getMessage());
-        }
+
         return effectedDelete;
     }
 }

@@ -27,6 +27,18 @@ public class CollectionEmpDaoTest  extends BaseTest {
 
         System.out.println(collectionEmps.get(0));
     }
+    @Test
+    public void testQuery(){
+
+        CollectionEmp collectionEmp=new CollectionEmp();
+        EmploymentVo employmentVo=new EmploymentVo();
+        employmentVo.setEmploymentId("1");
+        collectionEmp.setUserId("1");
+        collectionEmp.setEmploymentVo(employmentVo);
+        CollectionEmp collectionEmps= collectionEmpDao.queryCollectionEmp(collectionEmp);
+
+        System.out.println(collectionEmps.getCollectionEmpId());
+    }
 
 
     @Test
