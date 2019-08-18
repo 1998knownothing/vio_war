@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +35,15 @@ public class HouseController {
 
     @RequestMapping(value = "/addhouse",method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO addHouse(House house,@RequestParam(value = "file") CommonsMultipartFile[] files){
+    public ResultDTO addHouse(House house,@RequestParam(value = "file") CommonsMultipartFile[] files, HttpServletRequest request){
 
         List<CommonsMultipartFile> list=new ArrayList<>();
+        String userId=(String)request.getSession().getAttribute("userId");
+
         UserVo user=new UserVo();
-        user.setUserId("1");
+        user.setUserId(userId);
         house.setUser(user);
+
         if(files!=null&&files.length>0){
 
             for (CommonsMultipartFile c:files){
@@ -55,10 +59,9 @@ public class HouseController {
 
     @RequestMapping(value = "/removehouse/{houseid}",method = RequestMethod.DELETE)
     @ResponseBody
-    public ResultDTO removeHouse(@PathVariable("houseid")String houseId){
+    public ResultDTO removeHouse(@PathVariable("houseid")String houseId, HttpServletRequest request){
 
-        String userId="1";
-
+            String userId=(String)request.getSession().getAttribute("userId");
             int effected=houseService.removeHouseByHouseId(houseId,userId);
             return ResultDTO.okOf(effected);
 
@@ -78,10 +81,11 @@ public class HouseController {
 
     }
 
-    @RequestMapping(value = "/gethouselistbyuserid/{userid}/{pageindex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/gethouselistbyuserid/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getHouseListByUserId(@PathVariable("userid")String userId,@PathVariable("pageindex") int pageIndex){
+    public ResultDTO getHouseListByUserId(@PathVariable("pageindex") int pageIndex, HttpServletRequest request){
 
+            String userId=(String)request.getSession().getAttribute("userId");
 
             List<House> houseList=houseService.getHouseListByUserId(userId,pageIndex,10);
 

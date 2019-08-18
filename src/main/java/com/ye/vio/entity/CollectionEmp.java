@@ -1,5 +1,6 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ye.vio.vo.EmploymentVo;
 
 import java.util.Date;
@@ -17,7 +18,7 @@ public class CollectionEmp {
     String userId;
 
     EmploymentVo employmentVo;
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     Date createTime;
 
     public String getCollectionEmpId() {

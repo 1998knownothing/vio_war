@@ -6,10 +6,12 @@ import com.ye.vio.dto.ResultDTO;
 import com.ye.vio.entity.Rent;
 import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.service.RentService;
+import com.ye.vio.vo.UserVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +32,6 @@ public class RentController {
     @RequestMapping(value = "/getrentbyrentid/{rentid}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getRentByRentId(@PathVariable("rentid")String rentId){
-        Map<String,Object> map=new HashMap<>();
-
 
             Rent rent=rentService.getRentByRentId(rentId);
 
@@ -41,11 +41,11 @@ public class RentController {
 
     }
 
-    @RequestMapping(value = "/getrentlistbyuserid/{userid}/{pageindex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getrentlistbyuserid/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getRentByUserId(@PathVariable("userid")String userId,@PathVariable("pageindex") int pageIndex){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO getRentByUserId(HttpServletRequest request, @PathVariable("pageindex") int pageIndex){
 
+            String userId=(String)request.getSession().getAttribute("userId");
 
             List<Rent> rentList=rentService.getRentListByUserId(userId,pageIndex,10);
 
@@ -58,8 +58,6 @@ public class RentController {
     @RequestMapping(value = "/getrentlist/{pageindex}",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO getRentList(RentCondition rentCondition,@PathVariable("pageindex") int pageIndex){
-        Map<String,Object> map=new HashMap<>();
-
 
             List<Rent> rentList=rentService.getRentList(rentCondition,pageIndex,10);
 
@@ -70,11 +68,15 @@ public class RentController {
 
     @RequestMapping(value = "/addrent",method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO addRent(Rent rent){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO addRent(Rent rent,HttpServletRequest request){
 
+        String userId=(String)request.getSession().getAttribute("userId");
 
-            int effected=rentService.addRent(rent);
+        UserVo userVo=new UserVo();
+        userVo.setUserId(userId);
+        rent.setUser(userVo);
+
+        int effected=rentService.addRent(rent);
 
             return ResultDTO.okOf(effected);
 
@@ -83,13 +85,11 @@ public class RentController {
 
     @RequestMapping(value = "/removerent/{rentid}",method = RequestMethod.DELETE)
     @ResponseBody
-    public ResultDTO removeRent(@PathVariable("rentid")String rentId){
-        Map<String,Object> map=new HashMap<>();
+    public ResultDTO removeRent(@PathVariable("rentid")String rentId,HttpServletRequest request){
 
-        String userId="1";
+        String userId=(String)request.getSession().getAttribute("userId");
 
-
-            int effected=rentService.removeRentByRentId(rentId,userId);
+        int effected=rentService.removeRentByRentId(rentId,userId);
 
             return ResultDTO.okOf(effected);
 

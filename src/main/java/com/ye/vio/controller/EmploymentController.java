@@ -35,53 +35,47 @@ public class EmploymentController {
     @RequestMapping(value = "/getempbyempid/{id}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getEmpById(@PathVariable("id")String id){
-        //Map<String,Object> map=new HashMap<>();
+
         Employment employment =new Employment();
-        try {
+
             employment = employmentService.getEmploymentByEmploymentId(id);
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
         return ResultDTO.okOf(employment);
     }
 
     //根据empid删除用户对应发布的招聘信息
-    @RequestMapping(value = "/removeemp/{userid}/{empid}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/removeemp/{empid}",method = RequestMethod.DELETE)
     @ResponseBody
-    public ResultDTO removeEmp(@PathVariable("empid")String empId,@PathVariable("userid")String userId){
+    public ResultDTO removeEmp(@PathVariable("empid")String empId,HttpServletRequest request){
+
+        String userId=(String)request.getSession().getAttribute("userId");
+
+        int effected=employmentService.removeEmploymentByEmploymentId(empId,userId);
 
 
-        int effected=0;
-        try {
-            effected=employmentService.removeEmploymentByEmploymentId(empId,userId);
-
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
         return  ResultDTO.okOf(effected);
     }
     //用户作为发布者添加招聘信息
     @RequestMapping(value = "/addemp",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO addEmp(Employment employment
-            ,@RequestParam(value = "logo",required = false) CommonsMultipartFile logo){
-        int effected=0;
-        try {
-            effected= employmentService.addEmployment(employment,logo);
+            ,@RequestParam(value = "logo",required = false) CommonsMultipartFile logo
+            ,HttpServletRequest request){
+        String userId=(String)request.getSession().getAttribute("userId");
 
+        employment.setUserId(userId);
 
-        }catch (Exception e){
-            return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
+        int effected= employmentService.addEmployment(employment,logo);
+
         return  ResultDTO.okOf(effected);
     }
     //根据用户id获取其所发布的招聘信息  id logo positionName city time
     @RequestMapping(value = "/getemplistbyuserid/{userid}/{pageindex}",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getEmpListByUserId(@PathVariable("userid")String userId
+    public ResultDTO getEmpListByUserId(HttpServletRequest request
             ,@PathVariable("pageindex")int pageIndex){
 
+            String userId=(String)request.getSession().getAttribute("userId");
 
             List<Employment> employmentList = employmentService.getEmploymentListByUserId(userId,pageIndex,10);
             List<EmploymentVo> employmentVoList=new ArrayList<>();

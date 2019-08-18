@@ -1,5 +1,7 @@
 package com.ye.vio.dto;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * @author: Mr.liu
  * @create: 2019-08-04 17:35
  **/
+@Data
 public class EmploymentCondition {
 
     //城市
@@ -18,27 +21,5 @@ public class EmploymentCondition {
     //多岗位（职位）筛选
     List<String> positionList;
 
-    public String getCity() {
-        return city;
-    }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    public List<String> getPositionList() {
-        return positionList;
-    }
-
-    public void setPositionList(List<String> positionList) {
-        this.positionList = positionList;
-    }
 }

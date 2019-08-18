@@ -42,15 +42,11 @@ public class UserController {
                 }
             }
 
-        try{
             if(token!=null)return ResultDTO.errorOf(CustomizeErrorCode.NULL_TOKEN);
             User user=userService.getUserByAuthToken(token);
 
             return ResultDTO.okOf(user);
-        }catch (Exception e){
 
-            return  ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-        }
 
 
     }
