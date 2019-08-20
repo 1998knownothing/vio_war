@@ -33,9 +33,9 @@ public class NotificationReplyServiceImpl implements NotificationReplyService {
             throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
 
-        List<NotificationReply>   notificationReplyList;
 
-            notificationReplyList= notificationReplyDao.queryNotificationReplyListByToUserId(toUserId,rowIndex,pageSize);
+
+        List<NotificationReply>  notificationReplyList= notificationReplyDao.queryNotificationReplyListByToUserId(toUserId,rowIndex,pageSize);
 
             if(notificationReplyList!=null&&notificationReplyList.size()>0) {
                 int effectedNum = notificationReplyDao.updateNotificationReply(notificationReplyList);

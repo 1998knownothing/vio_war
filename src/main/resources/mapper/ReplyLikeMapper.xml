@@ -4,6 +4,22 @@
 <mapper namespace="com.ye.vio.dao.ReplyLikeDao">
 
 
+    <select id="queryReplyLikeByReplyIdAndUserId" resultType="com.ye.vio.entity.ReplyLike">
+        select * from reply_like
+        <where>
+        user_id=#{userId}
+
+            <if test="likedFatherReplyId!=null">
+                and liked_father_reply_id=#{likedFatherReplyId}
+            </if>
+            <if test="likedSonReplyId!=null">
+                and liked_son_reply_id=#{likedSonReplyId}
+            </if>
+
+        </where>
+
+    </select>
+
 
     <insert id="insertReplyLike" parameterType="com.ye.vio.entity.ReplyLike">
         INSERT INTO

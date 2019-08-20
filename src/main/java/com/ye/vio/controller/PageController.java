@@ -8,10 +8,12 @@ import com.ye.vio.service.TopicService;
 import com.ye.vio.vo.TopicVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -28,15 +30,13 @@ public class PageController {
     @Resource
     private TopicService topicService;
 
-    @GetMapping("/haha")
+    @GetMapping("/haha/{userid}")
     @ResponseBody
-    public Object haha(){
+    public Object haha(@PathVariable("userid")String userId, HttpServletRequest request){
 
-        TopicVo topicVos=topicService.getTopicByTopicId("1");
-        if(1==1){
-            throw new CustomizeException(CustomizeErrorCode.NULL_TOKEN);
-        }
-        return ResultDTO.okOf(topicVos);
+        request.getSession().setAttribute("userId",userId);
+
+        return ResultDTO.okOf(userId);
     }
 
 }

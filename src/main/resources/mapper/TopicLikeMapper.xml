@@ -5,6 +5,11 @@
 
 
 
+    <select id="queryTopicLikeByTopicIdAndUserId" resultType="com.ye.vio.entity.TopicLike">
+
+        select * from topic_like where liked_topic_id=#{likedTopicId} and user_id=#{userId}
+    </select>
+
     <insert id="insertTopicLike" parameterType="com.ye.vio.entity.TopicLike">
         INSERT INTO
 		topic_like(topic_like_id,user_id,liked_topic_id,to_user_id,create_time)

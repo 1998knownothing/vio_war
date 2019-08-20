@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.vio.dao.SonReplyDao">
+
+
+
+    <insert id="insertSonReply" parameterType="com.ye.vio.entity.SonReply">
+        INSERT INTO
+		son_reply(son_reply_id,topic_id,father_reply_id,user_id,to_user_id,content,create_time)
+		VALUES
+		(#{sonReplyId},#{topicId},#{fatherReplyId},#{userVo.userId},#{toUserId},#{content},#{createTime})
+    </insert>
+
+    <delete id="deleteSonReplyByUserIdAndSonReplyId">
+        DELETE  FROM son_reply WHERE user_id=#{userId} and son_reply_id=#{sonReplyId}
+    </delete>
+
+
+
+</mapper>

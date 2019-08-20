@@ -23,7 +23,11 @@ public class ReplyLikeDaoTest extends BaseTest {
    ReplyLikeDao replyLikeDao;
     @Test
     public void testQueryListByUserId(){
+        ReplyLike replyLike=new ReplyLike();
+        replyLike.setLikedFatherReplyId("2");
+        replyLike.setUserId("1");
 
+           replyLikeDao.queryReplyLikeByReplyIdAndUserId(replyLike);
 
     }
     @Test

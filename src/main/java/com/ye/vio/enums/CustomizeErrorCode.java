@@ -34,7 +34,25 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     //topic
     TOPIC_DELETE_ERROR(6001,"删除话题失败"),
     TOPIC_ADD_ERROR(6002,"添加话题失败"),
+//reply
+    REPLY_ADD_ERROR(7001,"添加评论失败"),
+    REPLY_DELETE_ERROR(7002,"删除评论失败"),
+    REPLY_UPDATE_ERROR(7003,"更新评论失败"),
+    REPLY_NOTIFICATION_ERROR(7003,"更新评论失败"),
+    //replylike
+    REPLY_LIKE_ADD_ERROR(8001,"点赞评论失败"),
+    REPLY_LIKE_UPDATE_REPLY_ERROR(8002,"评论点赞数更新失败"),
+    REPLY_LIKE_REPEAT_ERROR(8003,"您已经点赞，请勿重复点赞"),
+    REPLY_LIKE_DELETE_ERROR(8004,"取消评论点赞失败"),
 
+    //topiclike
+    TOPIC_LIKE_ADD_ERROR(9001,"话题点赞失败"),
+    TOPIC_LIKE_UPDATE_REPLY_ERROR(9002,"话题点赞数更新失败"),
+    TOPIC_LIKE_REPEAT_ERROR(9003,"您已经点赞，请勿重复点赞"),
+    TOPIC_LIKE_DELETE_ERROR(9004,"取消话题点赞失败"),
+
+    //notificationlike
+    NOTI_LIKE_ADD_ERROR(9010,"点赞提醒失败"),
 
     NULL_TOKEN(2001,"token为空"),
     TARGET_PARAM_NOT_FOUND(2002, "未选中任何问题或评论进行回复"),
