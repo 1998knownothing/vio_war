@@ -4,6 +4,7 @@ import com.ye.vio.BaseTest;
 import com.ye.vio.entity.FatherReply;
 import com.ye.vio.entity.SonReply;
 import com.ye.vio.entity.Topic;
+import com.ye.vio.entity.User;
 import com.ye.vio.vo.TopicVo;
 import com.ye.vio.vo.UserVo;
 import org.junit.Test;
@@ -73,6 +74,22 @@ public class TopicDaoTest extends BaseTest {
     public void testQueryList(){
 
         topicDao.queryTopicList(null,1,0,10);
+
+    }
+    @Test
+    public void testUpdate(){
+
+        Topic topic=new Topic();
+        topic.setTopicId("7");
+        UserVo userVo=new UserVo();
+        userVo.setUserId("1");
+        topic.setUserVo(userVo);
+        topic.setContent("hahahahtest");
+        topic.setResumeImg("312312");
+        topic.setLikeNum(0);
+        topic.setCollectNum(0);
+        topic.setCommentNum(0);
+        topicDao.updateTopic(topic);
 
     }
 

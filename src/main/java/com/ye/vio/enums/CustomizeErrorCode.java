@@ -54,6 +54,10 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     //notificationlike
     NOTI_LIKE_ADD_ERROR(9010,"点赞提醒失败"),
 
+    //topicresume
+    TOPIC_RESUMEIMG_ERROR(9021,"存储简历图片失败"),
+    TOPIC_UPDATE_RESUME_ERROR(9022,"更新数据库简历图片地址失败"),
+
     NULL_TOKEN(2001,"token为空"),
     TARGET_PARAM_NOT_FOUND(2002, "未选中任何问题或评论进行回复"),
     NO_LOGIN(2003, "当前操作需要登录，请登陆后重试"),

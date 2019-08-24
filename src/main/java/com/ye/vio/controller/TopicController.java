@@ -8,10 +8,8 @@ import com.ye.vio.service.TopicService;
 import com.ye.vio.vo.TopicVo;
 import com.ye.vio.vo.UserVo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -73,7 +71,7 @@ public class TopicController {
 
     @RequestMapping(value = "/addtopic",method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO addTopic(Topic topic,HttpServletRequest request){
+    public ResultDTO addTopic(Topic topic, @RequestParam(value = "file",required = false)CommonsMultipartFile file, HttpServletRequest request){
 
         String userId=(String)request.getSession().getAttribute("userId");
 
@@ -82,7 +80,7 @@ public class TopicController {
 
         topic.setUserVo(userVo);
 
-        int effected=topicService.addTopic(topic);
+        int effected=topicService.addTopic(topic,file);
 
             return ResultDTO.okOf(effected);
 

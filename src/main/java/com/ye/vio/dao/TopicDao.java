@@ -19,5 +19,6 @@ public interface TopicDao {
 
     public int deleteTopic(@Param("topicId")String topicId,@Param("userId")String userId);
 
+    public int updateTopic(Topic topic);
 
 }

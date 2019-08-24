@@ -81,6 +81,35 @@
         </collection>
     </resultMap>
 
+    <update id="updateTopic" parameterType="com.ye.vio.entity.Topic">
+        update topic
+        <set>
+            <if test="type!=null">
+                type=#{type},
+            </if>
+            <if test="resumeImg!=null">
+                resume_img=#{resumeImg},
+            </if>
+            <if test="content!=null">
+                content=#{content},
+            </if>
+            <if test="createTime!=null">
+                create_time=#{createTime},
+            </if>
+            <if test="collectNum!=null">
+                collect_num=#{collectNum},
+            </if>
+            <if test="likeNum!=null">
+                like_num=#{likeNum},
+            </if>
+            <if test="commentNum!=null">
+                comment_num=#{commentNum}
+            </if>
+        </set>
+        where user_id=#{userVo.userId} and topic_id=#{topicId}
+
+    </update>
+
     <insert id="insertTopic" parameterType="com.ye.vio.entity.Topic">
         INSERT INTO
 		topic(topic_id,user_id,type,content,

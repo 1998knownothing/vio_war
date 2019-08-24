@@ -1,16 +1,20 @@
 package com.ye.vio.service.impl;
 
 import com.ye.vio.dao.TopicDao;
+import com.ye.vio.entity.HouseImg;
 import com.ye.vio.entity.Topic;
 import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.exception.CustomizeException;
 import com.ye.vio.service.TopicService;
+import com.ye.vio.util.ImageUtil;
 import com.ye.vio.util.PageUtil;
+import com.ye.vio.util.PathUtil;
 import com.ye.vio.util.UUIDUtils;
 import com.ye.vio.vo.TopicVo;
 import com.ye.vio.vo.UserVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -56,17 +60,23 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     @Transactional
-    public int addTopic(Topic topic) {
-        if (topic.getUserVo().getUserId()==null)
+    public int addTopic(Topic topic,CommonsMultipartFile file) {
+        if (topic.getUserVo().getUserId()==null||topic.getContent()==null)
             throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
 
         topic.setTopicId(UUIDUtils.UUID());
         topic.setCreateTime(new Date());
-        int effected=topicDao.insertTopic(topic);
-        if (effected<=0)
-            throw new CustomizeException(CustomizeErrorCode.TOPIC_DELETE_ERROR);
+        int effectedAdd=topicDao.insertTopic(topic);
+            if(file!=null){
+                addTopicResumImg(topic,file);
+            }
+        int effectedUpdate=topicDao.updateTopic(topic);
+        if (effectedUpdate<=0)
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_UPDATE_RESUME_ERROR);
+        if (effectedAdd<=0)
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_ADD_ERROR);
 
-        return effected;
+        return effectedAdd;
     }
 
     @Override
@@ -75,10 +85,27 @@ public class TopicServiceImpl implements TopicService {
         if (topicId==null||userId==null)
             throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
 
+        deleteTopicResumeImgs(topicId);
+
         int effected=topicDao.deleteTopic(topicId,userId);
+
         if (effected<=0)
             throw new CustomizeException(CustomizeErrorCode.TOPIC_DELETE_ERROR);
 
         return effected;
     }
+
+    public void addTopicResumImg(Topic topic, CommonsMultipartFile logo){
+        //获取图片目录相对值路径
+        String dest= PathUtil.getResumeImagePath(topic.getTopicId());
+        String resumeImgAddr= ImageUtil.generateThombnail(logo,dest);
+        topic.setResumeImg(resumeImgAddr);
+    }
+
+    private void deleteTopicResumeImgs(String topicId) {
+      TopicVo topicVo= topicDao.queryTopicByTopicId(topicId);
+      ImageUtil.deleteFile(topicVo.getResumeImg());
+
+    }
+
 }

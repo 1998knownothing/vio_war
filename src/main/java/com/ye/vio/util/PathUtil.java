@@ -26,7 +26,7 @@ public class PathUtil {
     }
 
      /**
-     * @Description: 获取店铺图片存储路径
+     * @Description: 获取图片存储路径
      * @Param:
      * @return:
      * @Author: Mr.liu
@@ -39,6 +39,11 @@ public class PathUtil {
 
     public static String getHouseImagePath(String houseId){
         String imagePath="/upload/house/item/"+houseId+"/";
+        return imagePath.replace("/",seperator);
+    }
+
+    public static String getResumeImagePath(String topicId){
+        String imagePath="/upload/topic/item/"+topicId+"/";
         return imagePath.replace("/",seperator);
     }
 
