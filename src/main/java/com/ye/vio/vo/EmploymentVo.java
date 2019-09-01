@@ -1,6 +1,8 @@
 package com.ye.vio.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ye.vio.entity.Employment;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -10,6 +12,7 @@ import java.util.Date;
  * @author: Mr.liu
  * @create: 2019-08-06 15:24
  **/
+@Data
 public class EmploymentVo {
 
     private String employmentId;
@@ -22,6 +25,11 @@ public class EmploymentVo {
 
     private String companyLogo;
 
+    private String period;
+
+    private int isQuick;
+
+    @JsonFormat(pattern="yyyy-MM-dd", locale="zh", timezone="GMT+8")
     private Date createTime;
 
     public EmploymentVo(){}
@@ -33,54 +41,9 @@ public class EmploymentVo {
         this.company=employment.getCompany();
         this.city=employment.getCity();
         this.createTime=employment.getCreateTime();
-
+        this.period=employment.getPeriod();
+        this.isQuick=employment.getIsQuick();
     }
 
-    public String getEmploymentId() {
-        return employmentId;
-    }
 
-    public void setEmploymentId(String employmentId) {
-        this.employmentId = employmentId;
-    }
-
-    public String getPositionName() {
-        return positionName;
-    }
-
-    public void setPositionName(String positionName) {
-        this.positionName = positionName;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCompanyLogo() {
-        return companyLogo;
-    }
-
-    public void setCompanyLogo(String companyLogo) {
-        this.companyLogo = companyLogo;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 }

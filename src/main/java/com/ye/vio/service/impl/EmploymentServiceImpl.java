@@ -47,8 +47,8 @@ public class EmploymentServiceImpl  implements EmploymentService {
     @Transactional
     public int addEmployment(Employment employment,CommonsMultipartFile logo) {
 
-        if(employment==null){
-            throw  new CustomizeException(CustomizeErrorCode.NULL_EMP);
+        if(employment.getUserId()==null){
+            throw  new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
         }
         int effected=0;
 

@@ -90,11 +90,25 @@ public class EmploymentController {
 
     }
     //获取所有招聘信息分页方式
-    @RequestMapping(value = "/getemplist/{pageindex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getemplist",method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO getEmpList(@PathVariable("pageindex")int pageIndex, EmploymentCondition employmentCondition){
+    public ResultDTO getEmpList(int page, EmploymentCondition employmentCondition){
+            List<String> list=employmentCondition.getPositionList();
+            if(list!=null){
+                for (String s:list
+                     ) {
+                    System.out.println(s);
 
-            List<Employment> employmentList = employmentService.getEmploymentList(employmentCondition,pageIndex,10);
+                }
+
+            }else {
+                System.out.println("list is null");
+            }
+
+            if(employmentCondition.getKeyword()==""){
+                employmentCondition.setKeyword(null);
+            }
+            List<Employment> employmentList = employmentService.getEmploymentList(employmentCondition,page,10);
             List<EmploymentVo> employmentVoList=new ArrayList<>();
 
             if(employmentList!=null){

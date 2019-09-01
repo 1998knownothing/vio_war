@@ -4,6 +4,7 @@ import com.ye.vio.BaseTest;
 import com.ye.vio.dto.EmploymentCondition;
 import com.ye.vio.entity.Employment;
 import com.ye.vio.entity.User;
+import com.ye.vio.util.ImageUtil;
 import com.ye.vio.util.UUIDUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,14 @@ import java.util.UUID;
 public class EmploymentDaoTest extends BaseTest {
     @Autowired
     EmploymentDao employmentDao;
+
+
+    @Test
+    public void testQuery1ById(){
+        Employment employment =employmentDao.queryEmploymentByEmploymentId("8c8751454bf047deace9874a65b5b4fa");
+        ImageUtil.deleteFile(employment.getCompanyLogo());
+
+    }
 
     @Test
     public void testQueryById(){

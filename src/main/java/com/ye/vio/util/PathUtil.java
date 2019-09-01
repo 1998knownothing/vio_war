@@ -20,7 +20,7 @@ public class PathUtil {
         }else {
             basePath="/home/xiangze/vio/";
         }
-        basePath=basePath.replace("/",seperator);
+        //basePath=basePath.replace("/",seperator);
         System.out.println("---------os:"+os+"  seperator"+seperator);
         return basePath;
     }
@@ -34,17 +34,20 @@ public class PathUtil {
      */
      public static String getLogoImagePath(String employmentId){
          String imagePath="/upload/company_logo/item/"+employmentId+"/";
-         return imagePath.replace("/",seperator);
+         //imagePath=imagePath.replace("/",seperator);
+         return imagePath;
      }
 
     public static String getHouseImagePath(String houseId){
         String imagePath="/upload/house/item/"+houseId+"/";
-        return imagePath.replace("/",seperator);
+        //imagePath=imagePath.replace("/",seperator);
+        return imagePath;
     }
 
     public static String getResumeImagePath(String topicId){
         String imagePath="/upload/topic/item/"+topicId+"/";
-        return imagePath.replace("/",seperator);
+        //imagePath=imagePath.replace("/",seperator);
+        return imagePath;
     }
 
 }

@@ -39,4 +39,10 @@ public class PageController {
         return ResultDTO.okOf(userId);
     }
 
+    @GetMapping("/haha/in")
+    public String haha1(){
+
+        return "in";
+    }
+
 }
