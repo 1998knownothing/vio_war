@@ -50,7 +50,7 @@ public class EmploymentDaoTest extends BaseTest {
         lists.add("技术");
         lists.add("产品");
         EmploymentCondition e=new EmploymentCondition();
-        e.setCity("武汉");
+        e.setCity(null);
        // e.setKeyword("腾讯");
         e.setPositionList(lists);
         List<Employment> list=employmentDao.queryEmploymentList(e,0,10);

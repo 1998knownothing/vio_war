@@ -40,6 +40,9 @@
 				<div class="bui-panel-main">
 					<!-- 示例搜索过滤 -->
 					<div class="bui-filter bui-fluid-space-3" id="haha">
+						<div class="span1">
+							<input class="bui-check" type="radio" name="service" uncheck="全国" check="全国" value="1">
+						</div>
 					    <div class="span1">
 					        <input class="bui-check" type="radio" name="service" uncheck="北京" check="北京" value="北京">
 					    </div>
@@ -65,9 +68,9 @@
 				<div class="bui-panel-head bui-box-center"><div class="span1">岗位类型</div><i class="icon-accordion"></i></div>
 				<div class="bui-panel-main">
 					<!-- 示例搜索过滤 -->
-					<div class="bui-filter bui-fluid-space-3">
+					<div class="bui-filter bui-fluid-space-3" id="hehe">
 							<div class="span1">
-								<input class="bui-check" type="checkbox" name="type" uncheck="运营" check="运营" value="运营">
+								<input class="bui-check"  type="checkbox" name="type" uncheck="运营" check="运营" value="运营">
 							</div>
 							<div class="span1">
 								<input class="bui-check" type="checkbox" name="type" uncheck="产品" check="产品" value="产品">
@@ -106,7 +109,8 @@
  */
 
 
- bui.ready(function(){
+
+bui.ready(function(){
  //条件筛选控件结构
  //折叠面板
     var uiAccordion = bui.accordion({
@@ -133,8 +137,8 @@
        // 列表加载
        var uiList = bui.list({
              id: "#scrollSearch",
-             url: "http://192.168.43.136:8080/vio_war/employment/getemplist",
-		     method: "POST",
+             url: "http://localhost:8080/vio_war/employment/getemplist",
+		     //method: "POST",
              field: {
                  data:"data"
              },
@@ -143,6 +147,7 @@
              },
              page:1,
              pageSize:5,
+
              template: function (data) {
                  var html = "";
                  data.map(function(el, index) {
@@ -167,7 +172,7 @@
 							 break;
 					 }
 
-					 html += `<li class="bui-btn bui-box" href="pages/ui/article.html" data-id="${el.employmentId}" param='${paramStr}'>
+					 html += `<li class="bui-btn bui-box" href="http://localhost:8080/vio_war/page/haha/job.html" data-id="${el.employmentId}" param='${paramStr}'>
                 <div class="bui-thumbnail ${subClass}" data-sub="${sub}" ><img src="${el.companyLogo}" alt=""></div>
                 <div class="span1">
                     <h3 class="item-title">${el.positionName}</h3>
@@ -188,7 +193,7 @@
        var uiSearchbar = bui.searchbar({
            id:"#searchbar",
            onInput: function(e,keyword) {
-			   console.log(service);
+
            },
            onRemove: function(e,keyword) {
                //删除关键词需要做什么其它处理
@@ -198,8 +203,12 @@
                if( uiList ){
 				   //var val = $('.radio[name="city"]:checked').val();
 				   var h=$('input[name="service"]:checked').val();
-				   var val = $("#interester2").prop("checked");
-				   alert(val);
+				   if(h==1)h=null;
+				   var chk_value =[];
+				   $("#hehe").find('input[name="type"]:checked').each(function(){ //遍历，将所有选中的值放到数组中
+					   chk_value.push($(this).val());
+				   });
+				   //alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);
                    //点击搜索清空数据
                    uiList.empty();
                    // 重新初始化数据
@@ -207,7 +216,8 @@
                        page: 1,
                        data: {
                            "keyword":keyword,
-						   "city":h
+						   "city":h,
+						   "chk_value":chk_value
                        }
                    });
                }

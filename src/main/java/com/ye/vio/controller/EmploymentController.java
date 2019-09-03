@@ -90,25 +90,38 @@ public class EmploymentController {
 
     }
     //获取所有招聘信息分页方式
-    @RequestMapping(value = "/getemplist",method = RequestMethod.POST)
+    @RequestMapping(value = "/getemplist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getEmpList(int page, EmploymentCondition employmentCondition){
-            List<String> list=employmentCondition.getPositionList();
-            if(list!=null){
-                for (String s:list
-                     ) {
-                    System.out.println(s);
+    public ResultDTO getEmpList(int page,
+                                @RequestParam(value="keyword",required = false)String keyword,
+                                @RequestParam(value="city",required = false)String city,
+                                @RequestParam(value="chk_value[]",required = false)String[] checkboxValue){
+            List<String> positionList=new ArrayList<>();//岗位筛选条件集合
+            EmploymentCondition employmentCondition=new EmploymentCondition();//封装筛选条件
 
+        if(checkboxValue!=null) {//多选条件封装进筛选对象
+            for (int i = 0; i < checkboxValue.length; i++) {
+                if(checkboxValue[i]!="") {
+                    //System.out.println(s[i]);
+                    positionList.add(checkboxValue[i]);
                 }
-
-            }else {
-                System.out.println("list is null");
             }
+        }
 
-            if(employmentCondition.getKeyword()==""){
-                employmentCondition.setKeyword(null);
+        if(positionList!=null&&positionList.size()>0)
+        employmentCondition.setPositionList(positionList);
+        else employmentCondition.setPositionList(null);
+
+            if(keyword!=""&&keyword!=null){//关键词搜索
+                employmentCondition.setKeyword(keyword);
             }
+            if(city==null||city.equals("null")){
+                employmentCondition.setCity(null);
+            }else employmentCondition.setCity(city);
+
+
             List<Employment> employmentList = employmentService.getEmploymentList(employmentCondition,page,10);
+
             List<EmploymentVo> employmentVoList=new ArrayList<>();
 
             if(employmentList!=null){
