@@ -32,24 +32,24 @@ public class NotificationController {
     @Resource
     private NotificationLikeService notificationLikeService;
 
-    @RequestMapping(value = "/reply/{pageIndex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/reply",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getNotificationReply(HttpServletRequest request, @PathVariable("pageIndex") int pageIndex){
+    public ResultDTO getNotificationReply(HttpServletRequest request, int page){
 
         String userId=(String) request.getSession().getAttribute("userId");
 
-        List<NotificationReply> notificationReplyList=notificationReplyService.getNotificationReplyListByToUserId(userId,1,10);
+        List<NotificationReply> notificationReplyList=notificationReplyService.getNotificationReplyListByToUserId(userId,page,10);
 
         return ResultDTO.okOf(notificationReplyList);
     }
 
-    @RequestMapping(value = "/like/{pageIndex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/like",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getNotificationLike(HttpServletRequest request, @PathVariable("pageIndex") int pageIndex){
+    public ResultDTO getNotificationLike(HttpServletRequest request, int page){
 
         String userId=(String) request.getSession().getAttribute("userId");
 
-        List<NotificationLike> notificationLikeList=notificationLikeService.getNotificationLikeListByToUserId(userId,pageIndex,10);
+        List<NotificationLike> notificationLikeList=notificationLikeService.getNotificationLikeListByToUserId(userId,page,10);
 
         return ResultDTO.okOf(notificationLikeList);
     }

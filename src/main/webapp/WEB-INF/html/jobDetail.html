@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>BUI示例</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+    <style></style>
+</head>
+<body>
+<style>
+    .personal-img {
+        border-radius: 50%;
+        background:#fff;
+        /* border: 2px solid #fff; */
+        overflow: hidden;
+        margin: 0 auto .2rem auto;
+        text-align: center;
+    }
+
+
+</style>
+<div class="bui-page">
+    <header class="bui-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">职位详情</div>
+        <div class="bui-bar-right">
+            <div class="bui-btn btn-share"><i class="icon-share"></i></div>
+
+        </div>
+    </header>
+    <main>
+        <article class="bui-article">
+            <p id="logo"></p>
+            <h1 id="positionName">前端开发实习生</h1>
+            <h3 id="company">网易</h3>
+            <div class="article-info bui-box">
+                <span class="article-from" id="city"></span>
+                <div class="span1"> <i class="icon-time" id="period"></i></div>
+                <div class="span1"> <i class="icon-time" id="createTime"></i></div>
+                <i class="icon-warning" id="isQuick"></i>
+
+            </div>
+            <div>
+                <ul class="bui-list contact-list">
+
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label">投递邮箱</label>
+                        <div class="span1" >
+                            <div class="bui-value" id="email">wangxx@xxx.net</div>
+                        </div>
+                    </li>
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label">简历名称</label>
+                        <div class="span1">
+                            <div class="bui-value" id="resumeFormat"></div>
+                        </div>
+                    </li>
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label info">职位描述</label>
+                    </li>
+                    <div class="span1">
+                        <div class="bui-value" id="positionDesc"></div>
+                    </div>
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label info">工作地址</label>
+                    </li>
+                    <div class="span1">
+                        <div class="bui-value" id="workAddr"></div>
+                    </div>
+                </ul>
+
+
+            </div>
+
+        </article>
+    </main>
+</div>
+
+<script>bui.ready(function(){
+
+    //获取url上的目标id
+    var getParams = bui.getPageParams();
+    var empId;
+    getParams.done(function(result){
+        console.log(result);
+        empId=result.id;
+    })
+
+
+    var pageview = {};
+
+    pageview.init = function () {
+        // 绑定分享
+        var uiActionsheet = bui.actionsheet({
+            trigger: ".btn-share",
+            buttons: [{ name:"分享到微博",value:"weibo" },{ name:"朋友圈",value:"pyq" }],
+            callback: function (e) {
+                var val = $(e.target).attr("value");
+                if( val == "cancel"){
+                    this.hide();
+                }
+            }
+        })
+
+
+        bui.get("http://localhost:8080/vio_war/employment/get/emp/"+empId).then(function(res){
+            console.log(res);
+            handleUser(res.data);
+        },function(res,status){
+            console.log(status);
+            // status = "timeout" || "error" || "abort", "parsererror"
+        })
+
+
+    }
+
+    function handleUser(data) {
+        $('#positionName').text(data.positionName);
+        $('#company').text(data.company);
+        $('#email').text(data.contact);
+        $('#resumeFormat').text(data.resumeFormat);
+        $('#city').text(data.city);
+        $('#period').text(data.period);
+        $('#workAddr').text(data.workAddr);
+        $('#positionDesc').text(data.positionDesc);
+        $('#createTime').text(data.createTime);
+        var html="";
+        html += `<div class="personal-img">
+                <img src="${data.companyLogo}" alt="">
+            </div>`;
+        $("#logo").html(html);
+
+        if(data.isQuick==1){
+            $('#isQuick').text("尽快入职[是]");
+        }else {
+            $('#isQuick').text("尽快入职[否]");
+        }
+
+    }
+    pageview.init();
+
+    return pageview;
+})
+
+</script>
+</body>
+</html>l>

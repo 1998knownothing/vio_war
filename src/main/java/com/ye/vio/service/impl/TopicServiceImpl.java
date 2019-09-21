@@ -50,12 +50,12 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public List<Topic> getTopicListByUserId(String userId, int type, int pageIndex, int pageSize) {
+    public List<Topic> getTopicListByUserId(String userId, int pageIndex, int pageSize) {
         if (userId==null||pageIndex<=0)
             throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
 
         int rowIndex= PageUtil.pageIndexToRowIndex(pageIndex,pageSize);
-        return topicDao.queryTopicListByUserId(userId,type,rowIndex,pageSize);
+        return topicDao.queryTopicListByUserId(userId,rowIndex,pageSize);
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface TopicService {
     public List<Topic> getTopicList(String keyword, int type,
                                      int pageIndex, int pageSize);
 
-    public List<Topic> getTopicListByUserId(String userId,int type,
+    public List<Topic> getTopicListByUserId(String userId,
                                                int pageIndex, int pageSize);
     public int addTopic(Topic topic, CommonsMultipartFile file);
 

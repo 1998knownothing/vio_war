@@ -31,7 +31,7 @@ public class TopicController {
     @Resource
     private TopicService topicService;
 
-    @RequestMapping(value = "/gettopicbytopicid/{topicid}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get/topic/{topicid}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getTopicByTopicId (@PathVariable("topicid")String topicId){
 
@@ -44,24 +44,24 @@ public class TopicController {
     }
 
 
-    @RequestMapping(value = "/gettopiclistbyuserid/{type}/{userid}/{pageindex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get/user/topiclist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getRentByUserId(HttpServletRequest request, @PathVariable("type")int type, @PathVariable("pageindex") int pageIndex){
+    public ResultDTO getRentByUserId(HttpServletRequest request,int page){
 
         String userId=(String)request.getSession().getAttribute("userId");
 
-        List<Topic> topicList=topicService.getTopicListByUserId(userId,type,pageIndex,10);
+        List<Topic> topicList=topicService.getTopicListByUserId(userId,page,10);
 
             return ResultDTO.okOf(topicList);
 
     }
 
 
-    @RequestMapping(value = "/gettopiclist/{type}/{pageindex}",method = RequestMethod.POST)
+    @RequestMapping(value = "/get/topiclist/{type}",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getTopicList(String keyword,@PathVariable("type") int type,@PathVariable("pageindex") int pageIndex){
+    public ResultDTO getTopicList(String keyword,@PathVariable("type") int type,int page){
 
-           List<Topic>  topicList=topicService.getTopicList(keyword,type,pageIndex,10);
+           List<Topic>  topicList=topicService.getTopicList(keyword,type,page,10);
 
             return ResultDTO.okOf(topicList);
 
@@ -69,7 +69,7 @@ public class TopicController {
     }
 
 
-    @RequestMapping(value = "/addtopic",method = RequestMethod.POST)
+    @RequestMapping(value = "/add/topic",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO addTopic(Topic topic, @RequestParam(value = "file",required = false)CommonsMultipartFile file, HttpServletRequest request){
 
@@ -87,7 +87,7 @@ public class TopicController {
 
     }
 
-    @RequestMapping(value = "/removetopic/{topicid}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/topic/{topicid}",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultDTO removeRent(@PathVariable("topicid")String topicId,HttpServletRequest request){
 

@@ -27,18 +27,18 @@ public class CollectionHouseController {
     @Resource
     private CollectionHouseService collectionHouseService;
 
-    @RequestMapping(value = "/getcollectionhouselistbyuserid/{pageindex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get/houselist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getCollectionHouseListByUserId(HttpServletRequest request, @PathVariable("pageindex") int pageIndex){
+    public ResultDTO getCollectionHouseListByUserId(HttpServletRequest request,int page){
 
         String userId=(String) request.getSession().getAttribute("userId");
 
-        List<CollectionHouse> collectionHouseList=collectionHouseService.getCollectionHouseListByUserId(userId,pageIndex,10);
+        List<CollectionHouse> collectionHouseList=collectionHouseService.getCollectionHouseListByUserId(userId,page,10);
 
         return ResultDTO.okOf(collectionHouseList);
     }
 
-    @RequestMapping(value = "/addcollectionhouse/{houseid}",method = RequestMethod.POST)
+    @RequestMapping(value = "/add/house/{houseid}",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO addCollectionHouse(HttpServletRequest request,@PathVariable("houseid") String houseId){
 
@@ -57,7 +57,7 @@ public class CollectionHouseController {
         return ResultDTO.okOf(effected);
     }
 
-    @RequestMapping(value = "/removecollectionhouse/{collectionHouseId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/house/{collectionHouseId}",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultDTO removeCollectionHouseByUserId(HttpServletRequest request, @PathVariable("collectionHouseId")String collectionHouseId){
 

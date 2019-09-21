@@ -1,5 +1,9 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import java.util.Date;
 
 /**
@@ -8,6 +12,7 @@ import java.util.Date;
  * @author: Mr.liu
  * @create: 2019-08-04 13:27
  **/
+@Data
 public class Employment {
 
     private String employmentId;
@@ -34,129 +39,12 @@ public class Employment {
 
     private String positionDesc;
 
+    @JsonFormat(pattern="yyyy-MM-dd", locale="zh", timezone="GMT+8")
     private Date createTime;
 
     private String companyLogo;
 
     private int state;
 
-    public String getEmploymentId() {
-        return employmentId;
-    }
 
-    public void setEmploymentId(String employmentId) {
-        this.employmentId = employmentId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getPositionName() {
-        return positionName;
-    }
-
-    public void setPositionName(String positionName) {
-        this.positionName = positionName;
-    }
-
-    public int getIsQuick() {
-        return isQuick;
-    }
-
-    public void setIsQuick(int isQuick) {
-        this.isQuick = isQuick;
-    }
-
-    public String getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(String period) {
-        this.period = period;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getResumeFormat() {
-        return resumeFormat;
-    }
-
-    public void setResumeFormat(String resumeFormat) {
-        this.resumeFormat = resumeFormat;
-    }
-
-    public String getWorkAddr() {
-        return workAddr;
-    }
-
-    public void setWorkAddr(String workAddr) {
-        this.workAddr = workAddr;
-    }
-
-    public String getPositionDesc() {
-        return positionDesc;
-    }
-
-    public void setPositionDesc(String positionDesc) {
-        this.positionDesc = positionDesc;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getCompanyLogo() {
-        return companyLogo;
-    }
-
-    public void setCompanyLogo(String companyLogo) {
-        this.companyLogo = companyLogo;
-    }
-
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
 }

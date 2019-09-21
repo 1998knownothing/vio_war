@@ -29,7 +29,7 @@ public class RentController {
     @Resource
     RentService rentService;
 
-    @RequestMapping(value = "/getrentbyrentid/{rentid}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get/rent/{rentid}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getRentByRentId(@PathVariable("rentid")String rentId){
 
@@ -41,13 +41,13 @@ public class RentController {
 
     }
 
-    @RequestMapping(value = "/getrentlistbyuserid/{pageindex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get/user/rentlist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getRentByUserId(HttpServletRequest request, @PathVariable("pageindex") int pageIndex){
+    public ResultDTO getRentByUserId(HttpServletRequest request,int page){
 
             String userId=(String)request.getSession().getAttribute("userId");
 
-            List<Rent> rentList=rentService.getRentListByUserId(userId,pageIndex,10);
+            List<Rent> rentList=rentService.getRentListByUserId(userId,page,10);
 
             return ResultDTO.okOf(rentList);
 
@@ -55,18 +55,18 @@ public class RentController {
 
     }
 
-    @RequestMapping(value = "/getrentlist/{pageindex}",method = RequestMethod.POST)
+    @RequestMapping(value = "/get/rentlist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getRentList(RentCondition rentCondition,@PathVariable("pageindex") int pageIndex){
+    public ResultDTO getRentList(RentCondition rentCondition,int page){
 
-            List<Rent> rentList=rentService.getRentList(rentCondition,pageIndex,10);
+            List<Rent> rentList=rentService.getRentList(rentCondition,page,10);
 
             return ResultDTO.okOf(rentList);
 
 
     }
 
-    @RequestMapping(value = "/addrent",method = RequestMethod.POST)
+    @RequestMapping(value = "/add/rent",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO addRent(Rent rent,HttpServletRequest request){
 
@@ -83,7 +83,7 @@ public class RentController {
 
     }
 
-    @RequestMapping(value = "/removerent/{rentid}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/rent/{rentid}",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultDTO removeRent(@PathVariable("rentid")String rentId,HttpServletRequest request){
 

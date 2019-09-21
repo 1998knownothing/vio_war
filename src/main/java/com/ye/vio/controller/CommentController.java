@@ -31,7 +31,7 @@ public class CommentController {
     @Resource
     private SonReplyService sonReplyService;
 
-    @RequestMapping(value = "/addfather",method = RequestMethod.POST)
+    @RequestMapping(value = "/add/father",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO addFatherReply(FatherReply fatherReply, HttpServletRequest  request){
 
@@ -49,7 +49,7 @@ public class CommentController {
         return ResultDTO.okOf(effected);
     }
 
-    @RequestMapping(value = "/removefather/{topicId}/{fatherReplyId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/father/{topicId}/{fatherReplyId}",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultDTO removeFatherReply( @PathVariable("topicId")String topicId
                                      ,@PathVariable("fatherReplyId") String fatherReplyId
@@ -63,7 +63,7 @@ public class CommentController {
         return ResultDTO.okOf(effected);
     }
 
-    @RequestMapping(value = "/addson",method = RequestMethod.POST)
+    @RequestMapping(value = "/add/son",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO addSonReply(SonReply sonReply, HttpServletRequest  request){
 
@@ -80,7 +80,7 @@ public class CommentController {
         return ResultDTO.okOf(effected);
     }
 
-    @RequestMapping(value = "/removeson/{topicId}/{sonReplyId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/son/{topicId}/{sonReplyId}",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultDTO removeSonReply(@PathVariable("topicId")String topicId, @PathVariable("sonReplyId") String sonReplyId,HttpServletRequest  request){
 

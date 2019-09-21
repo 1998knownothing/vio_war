@@ -50,7 +50,7 @@ public class TopicDaoTest extends BaseTest {
     @Test
     public void test(){
 
-        topicDao.queryTopicListByUserId("1",1,0,10);
+       // topicDao.queryTopicListByUserId("1",0,10);
 
     }
 

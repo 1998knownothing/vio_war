@@ -149,7 +149,7 @@
         SELECT *
         FROM
         topic a,user b
-        WHERE a.user_id=b.user_id AND a.user_id=#{userId} AND a.type=#{type}
+        WHERE a.user_id=b.user_id AND a.user_id=#{userId}
         ORDER BY
         a.create_time DESC
         LIMIT #{rowIndex},#{pageSize};

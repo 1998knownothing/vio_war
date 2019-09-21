@@ -29,18 +29,18 @@ public class CollectionRentController {
     @Resource
     private CollectionRentService collectionRentService;
 
-    @RequestMapping(value = "/getcollectionrentlistbyuserid/{pageindex}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get/rentlist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getCollectionRentListByUserId(HttpServletRequest request, @PathVariable("pageindex") int pageIndex){
+    public ResultDTO getCollectionRentListByUserId(HttpServletRequest request,int page){
 
         String userId=(String) request.getSession().getAttribute("userId");
 
-        List<CollectionRent> collectionRentList=collectionRentService.getCollectionRentListByUserId(userId,pageIndex,10);
+        List<CollectionRent> collectionRentList=collectionRentService.getCollectionRentListByUserId(userId,page,10);
 
         return ResultDTO.okOf(collectionRentList);
     }
 
-    @RequestMapping(value = "/addcollectionRent/{rentid}",method = RequestMethod.POST)
+    @RequestMapping(value = "/add/rent/{rentid}",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO addCollectionRent(HttpServletRequest request,@PathVariable("rentid") String rentId){
 
@@ -59,7 +59,7 @@ public class CollectionRentController {
         return ResultDTO.okOf(effected);
     }
 
-    @RequestMapping(value = "/removecollectionrent/{collectionRentId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/rent/{collectionRentId}",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultDTO removeCollectionRentByUserId(HttpServletRequest request, @PathVariable("collectionRentId")String collectionRentId){
 

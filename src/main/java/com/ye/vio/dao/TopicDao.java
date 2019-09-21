@@ -13,7 +13,7 @@ public interface TopicDao {
     public List<Topic> queryTopicList(@Param("keyword")String keyword,@Param("type")int type,
                                        @Param("rowIndex") int rowIndex, @Param("pageSize") int pageSize);
 
-    public List<Topic> queryTopicListByUserId(@Param("userId")String userId,@Param("type")int type,
+    public List<Topic> queryTopicListByUserId(@Param("userId")String userId,
                                        @Param("rowIndex") int rowIndex, @Param("pageSize") int pageSize);
     public int insertTopic(Topic topic);
 

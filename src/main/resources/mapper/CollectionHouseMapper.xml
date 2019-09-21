@@ -78,7 +78,7 @@
         c.house_img_addr,
         c.create_time as ccreate_time
         FROM
-        collection_house a LEFT JOIN house b ON a.collection_house_id=b.house_id
+        collection_house a LEFT JOIN house b ON a.house_id=b.house_id
         LEFT JOIN house_img c ON c.house_id=b.house_id
         WHERE a.user_id=#{userId}
         ORDER BY

@@ -39,10 +39,16 @@ public class PageController {
         return ResultDTO.okOf(userId);
     }
 
-    @GetMapping("/haha/job.html")
-    public String haha1(){
+    @GetMapping("/job.html")
+    public String job(){
 
         return "job";
+    }
+
+    @GetMapping("/jobDetail.html")
+    public String jobDetail(){
+
+        return "jobDetail";
     }
 
 }
