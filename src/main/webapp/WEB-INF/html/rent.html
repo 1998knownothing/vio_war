@@ -1,0 +1,284 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>职前公社</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+    <style></style>
+</head>
+<body>
+<style>
+    .publish-mark {
+        position: fixed;
+        right: .2rem;
+        bottom: .3rem;
+        width: 60px;
+        height: 60px;
+        line-height: .8rem;
+        text-align: center;
+        background-color: #26d76d;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    .publish-mark i {
+        font-size: .36rem;
+        text-align: center;
+        color: #fff;
+    }
+
+
+</style>
+<div class="bui-page" id="page">
+    <header class="bui-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">职前公社</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <!-- 搜索条控件结构 -->
+        <div id="searchbar" class="bui-searchbar bui-box">
+            <div class="span1">
+                <div class="bui-input">
+                    <i class="icon-search"></i>
+                    <input name="keyword" type="search" value="" placeholder="搜索职位或公司名称"/>
+                </div>
+            </div>
+            <div class="btn-search">搜索</div>
+        </div>
+
+        <!-- 条件筛选控件结构 -->
+        <div class="bui-interval">
+            <!-- 控件结构 -->
+            <div class="bui-panel">
+                <div class="bui-panel-head bui-box-center"><div class="span1">城市</div><i class="icon-accordion"></i></div>
+                <div class="bui-panel-main">
+                    <!-- 示例搜索过滤 -->
+                    <div class="bui-filter bui-fluid-space-3" id="haha">
+                        <div class="span1">
+                            <input class="bui-check" type="radio" name="service" uncheck="全国" check="全国" value="1">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="radio" name="service" uncheck="北京" check="北京" value="北京">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="radio" name="service" uncheck="上海" check="上海" value="上海">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="radio" name="service" uncheck="深圳" check="深圳" value="深圳">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="radio" name="service" uncheck="杭州" check="杭州" value="杭州">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="radio" name="service" uncheck="广州" check="广州" value="广州">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="radio" name="service" uncheck="其他" check="其他" value="其他">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bui-panel">
+                <div class="bui-panel-head bui-box-center"><div class="span1">岗位类型</div><i class="icon-accordion"></i></div>
+                <div class="bui-panel-main">
+                    <!-- 示例搜索过滤 -->
+                    <div class="bui-filter bui-fluid-space-3" id="hehe">
+                        <div class="span1">
+                            <input class="bui-check"  type="checkbox" name="type" uncheck="运营" check="运营" value="运营">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="checkbox" name="type" uncheck="产品" check="产品" value="产品">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="checkbox" name="type" uncheck="技术" check="技术" value="技术">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="checkbox" name="type" uncheck="设计" check="设计" value="设计">
+                        </div>
+                        <div class="span1">
+                            <input class="bui-check" type="checkbox" name="type" uncheck="市场" check="市场" value="市场">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 列表控件结构 -->
+        <div id="scrollSearch" class="bui-scroll">
+            <div class="bui-scroll-head"></div>
+            <div class="bui-scroll-main">
+                <ul class="bui-list">
+
+                </ul>
+            </div>
+            <div class="bui-scroll-foot"></div>
+        </div>
+        <a href="page/job.html">
+            <div class="publish-mark bui-btn" id="publish-open" href="page/job.html">
+                <i >发布</i>
+            </div>
+        </a>
+    </main>
+</div>
+
+<script>/**
+ * 搜索列表页模板
+ * 默认模块名: pages/searchbar/searchbar
+ * @return {[object]}  [ 返回一个对象 ]
+ */
+
+
+bui.ready(function(){
+    //条件筛选控件结构
+    //折叠面板
+    var uiAccordion = bui.accordion({
+        id:".bui-panel",    //必须
+        handle: ".bui-panel-head",  //默认,除非修改才需要加
+        target: ".bui-panel-main"  //被控制的目标
+    });
+
+    //默认全部展开
+    // uiAccordion.showAll();
+    // var service = $('input[name="service"]:checked').val();
+    // alert(service);
+    // 取值
+    // var positionList = $('input[name="type"]').prop("checked",true);
+    // var service = $('input[name="service"]:checked').val();
+    // console.log(service)
+    //var city="广州";
+
+
+
+
+    var pageview = {};
+
+
+    // 模块初始化定义
+    pageview.init = function () {
+
+
+        // 列表加载
+        var uiList = bui.list({
+            id: "#scrollSearch",
+            // url: "http://www.knownothing.xyz/vio/employment/get/emplist",
+            url: "http://www.knownothing.xyz/vio/rent/get/rentlist",
+            //method: "POST",
+            field: {
+                data:"data"
+            },
+            data: {
+                // "keyword":keyword,
+            },
+            page:1,
+            pageSize:5,
+
+            template: function (data) {
+                var html = "";
+                data.map(function(el, index) {
+                    // 演示传参,标准JSON才能转换
+                    var param = { "id": index, "title": el.name };
+                    var paramStr = JSON.stringify(param);
+                    // 处理角标状态
+                    var sub = '',
+                        subClass = '';
+                    switch (el.isQuick) {
+                        case 1:
+                            sub = '急';
+                            subClass = 'bui-sub';
+                            break;
+                        case 2:
+                            sub = '热门';
+                            subClass = 'bui-sub danger';
+                            break;
+                        default:
+                            sub = '';
+                            subClass = '';
+                            break;
+                    }
+
+                    html += `<li class="bui-btn bui-box" href="">
+                <div class="bui-thumbnail ${subClass}" data-sub="${sub}" ><img src="" alt=""></div>
+                <div class="span1">
+                    <h3 class="item-title">${el.rentId}</h3>
+                    <p class="item-text">${el.city}</p>
+                    <p class="item-text">${el.city}</p>
+                    <p class="item-text"></p>
+                </div>
+                <span class="price">${el.createTime}<i>发布</i>
+                </span>
+
+            </li>`
+                });
+
+                return html;
+            }
+        });
+
+        // var n = 0;
+        //搜索条的初始化
+        var uiSearchbar = bui.searchbar({
+            id:"#searchbar",
+            onInput: function(e,keyword) {
+
+            },
+            onRemove: function(e,keyword) {
+                //删除关键词需要做什么其它处理
+                // console.log(keyword);
+            },
+            callback: function (e,keyword) {
+                if( uiList ){
+                    //var val = $('.radio[name="city"]:checked').val();
+                    var h=$('input[name="service"]:checked').val();
+                    if(h==1)h=null;
+                    var chk_value =[];
+                    $("#hehe").find('input[name="type"]:checked').each(function(){ //遍历，将所有选中的值放到数组中
+                        chk_value.push($(this).val());
+                    });
+                    //alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);
+                    //点击搜索清空数据
+                    uiList.empty();
+                    // 重新初始化数据
+                    uiList.init({
+                        page: 1,
+                        data: {
+                            "keyword":keyword,
+                            "city":h,
+                            "chk_value":chk_value
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    pageview.bind = function () {
+
+        /*		$("#publish-open").on("click", function () {
+                    alert("发布");
+                    //window.router = bui.router();
+                    router.load({ url: "page/job.html", param: {} });
+                });*/
+
+    }
+    // 执行初始化
+    pageview.init();
+    // 绑定事件
+    pageview.bind();
+    //页面初始化后，给指定id的div的btn注册
+    bui.btn({
+        id:"#page",
+        handle: ".bui-btn"  // 绑定多个 ".bui-btn,.submit,a"
+    }).load();
+
+})
+
+</script>
+</body>
+</html>

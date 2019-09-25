@@ -51,4 +51,15 @@ public class PageController {
         return "jobDetail";
     }
 
+    @GetMapping("/topic.html")
+    public String topic(){
+
+        return "topic";
+    }
+    @GetMapping("/rent.html")
+    public String rent(){
+
+        return "rent";
+    }
+
 }

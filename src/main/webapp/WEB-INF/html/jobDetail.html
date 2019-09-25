@@ -107,7 +107,7 @@
             }
         })
 
-
+//http://www.knownothing.xyz/vio/employment/get/emp/
         bui.get("http://localhost:8080/vio_war/employment/get/emp/"+empId).then(function(res){
             console.log(res);
             handleUser(res.data);
@@ -129,7 +129,7 @@
         $('#workAddr').text(data.workAddr);
         $('#positionDesc').text(data.positionDesc);
         $('#createTime').text(data.createTime);
-        var html="";
+        var html="";//http://www.knownothing.xyz/upload
         html += `<div class="personal-img">
                 <img src="${data.companyLogo}" alt="">
             </div>`;

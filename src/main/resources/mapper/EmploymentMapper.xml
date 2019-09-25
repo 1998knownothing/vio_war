@@ -4,7 +4,7 @@
 <mapper namespace="com.ye.vio.dao.EmploymentDao">
 
     <select id="queryEmploymentByEmploymentId" parameterType="String" resultType="com.ye.vio.entity.Employment">
-        select * from Employment where employment_id = #{employmentId}
+        select * from employment where employment_id = #{employmentId}
     </select>
 
     <insert id="insertEmployment" parameterType="com.ye.vio.entity.Employment">
