@@ -6,6 +6,7 @@ import com.ye.vio.entity.User;
 import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,32 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @RequestMapping(value = "/modify",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO modifyUser(User user,HttpServletRequest request){
+
+       String userId=(String) request.getSession().getAttribute("userId");
+
+       user.setUserId(userId);
+
+       int effected=userService.modifyUser(user);
+        return ResultDTO.okOf(effected);
+
+
+
+    }
+
+    @RequestMapping(value = "/get/{userid}",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO getUserByUserId(@PathVariable("userid")String userId){
+
+
+        User user=userService.getUserById(userId);
+        return ResultDTO.okOf(user);
+
+
+
+    }
 
     @RequestMapping(value = "/getuserbytoken",method = RequestMethod.GET)
     @ResponseBody

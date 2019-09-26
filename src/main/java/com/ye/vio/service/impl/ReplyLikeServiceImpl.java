@@ -42,14 +42,26 @@ public class ReplyLikeServiceImpl implements ReplyLikeService {
         //查询是否已经点赞，前端也需要cookie缓存
         List<ReplyLike> replyLikeList=replyLikeDao.queryReplyLikeByReplyIdAndUserId(replyLike);
 
-
-        if(replyLikeList!=null&&replyLikeList.size()>0)
-            throw new CustomizeException(CustomizeErrorCode.REPLY_LIKE_REPEAT_ERROR);//
-
         replyLike.setReplyLikeId(UUIDUtils.UUID());
         replyLike.setCreateTime(new Date());
 
-        int effected=replyLikeDao.insertReplyLike(replyLike);
+        if(replyLikeList!=null&&replyLikeList.size()>0)
+            //throw new CustomizeException(CustomizeErrorCode.REPLY_LIKE_REPEAT_ERROR);//
+        {
+            int effected=replyLikeDao.deleteReplyLike(replyLike.getUserId(),replyLike.getLikedSonReplyId(),replyLike.getLikedFatherReplyId());
+
+            if(effected<=0)throw new CustomizeException(CustomizeErrorCode.REPLY_LIKE_DELETE_ERROR);
+
+            int effectedUpdate=replyLikeDao.updateReplyNum(2,replyLike.getLikedSonReplyId(),replyLike.getLikedFatherReplyId());
+
+            if (effectedUpdate<=0) throw new CustomizeException(CustomizeErrorCode.REPLY_LIKE_UPDATE_REPLY_ERROR);
+
+
+            return effected;
+
+        }else{
+
+            int effected=replyLikeDao.insertReplyLike(replyLike);
 
             if(effected<=0)throw new CustomizeException(CustomizeErrorCode.REPLY_LIKE_ADD_ERROR);
 
@@ -57,23 +69,26 @@ public class ReplyLikeServiceImpl implements ReplyLikeService {
 
             if (effectedUpdate<=0) throw new CustomizeException(CustomizeErrorCode.REPLY_UPDATE_ERROR);
 
-        NotificationLike notificationLike=new NotificationLike();
-        notificationLike.setNotificationLikeId(UUIDUtils.UUID());
-        notificationLike.setFromUserId(replyLike.getUserId());
-        notificationLike.setToUserId(replyLike.getToUserId());
-        notificationLike.setCreateTime(new Date());
-        notificationLike.setTopicId(replyLike.getTopicId());
-        notificationLike.setFatherReplyId(replyLike.getLikedFatherReplyId());
-        notificationLike.setSonReplyId(replyLike.getLikedSonReplyId());
-        if(replyLike.getLikedFatherReplyId()!=null)notificationLike.setNotificationType(2);
-        else notificationLike.setNotificationType(3);
+            NotificationLike notificationLike=new NotificationLike();
+            notificationLike.setNotificationLikeId(UUIDUtils.UUID());
+            notificationLike.setFromUserId(replyLike.getUserId());
+            notificationLike.setToUserId(replyLike.getToUserId());
+            notificationLike.setCreateTime(new Date());
+            notificationLike.setTopicId(replyLike.getTopicId());
+            notificationLike.setFatherReplyId(replyLike.getLikedFatherReplyId());
+            notificationLike.setSonReplyId(replyLike.getLikedSonReplyId());
+            if(replyLike.getLikedFatherReplyId()!=null)notificationLike.setNotificationType(2);
+            else notificationLike.setNotificationType(3);
 
             int effectedNoti=notificationLikeDao.insertNotificationLike(notificationLike);
 
             if(effectedNoti<=0)
                 throw new CustomizeException(CustomizeErrorCode.NOTI_LIKE_ADD_ERROR);
 
-        return effected;
+            return effected;
+        }
+
+
     }
 
     @Override

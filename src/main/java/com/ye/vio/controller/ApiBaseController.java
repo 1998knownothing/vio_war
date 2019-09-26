@@ -25,7 +25,7 @@ public  class ApiBaseController {
 	public Map<String,Object> customizeExceptionHandler(CustomizeException e,HttpServletResponse response){
 		Map<String,Object> res = new HashMap<String,Object>();
 		res.put("code", e.getCode());
-		res.put("message", "系统出现bug，请联系你大烨！！！CustomizeException."+e.getMessage());
+		res.put("message", "系统出现bug，请联系ETO！！！CustomizeException."+e.getMessage());
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		return res;
 	}
@@ -35,7 +35,7 @@ public  class ApiBaseController {
 	public Map<String,Object> nullPointerHandler(NullPointerException e,HttpServletResponse response){
 		Map<String,Object> res = new HashMap<String,Object>();
 		res.put("code", "5001");
-		res.put("message", "系统出现bug，请联系你大烨！！！Null pointer exception."+e.getMessage());
+		res.put("message", "系统出现bug，请联系ETO！！！Null pointer exception."+e.getMessage());
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		return res;
 	}
@@ -45,7 +45,7 @@ public  class ApiBaseController {
 	public Map<String,Object> exceptionHandler(Exception e,HttpServletResponse response){
 		Map<String,Object> res = new HashMap<String,Object>();
 		res.put("code", "5002");
-		res.put("message", "系统出现bug，请联系你大烨！！！exception."+e.getMessage());
+		res.put("message", "系统出现bug，请联系ETO！！！exception."+e.getMessage());
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		return res;
 	}
@@ -57,7 +57,7 @@ public  class ApiBaseController {
 	public Map<String,Object> runtimeExceptionHandler(RuntimeException e,HttpServletResponse response){
 		Map<String,Object> res = new HashMap<String,Object>();
 		res.put("code", "5003");
-		res.put("message", "系统出现bug，请联系你大烨！！！RuntimeException"+e.getMessage());
+		res.put("message", "系统出现bug，请联系ETO！！！RuntimeException"+e.getMessage());
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		return res;
 	}

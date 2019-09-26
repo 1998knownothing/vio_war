@@ -40,38 +40,61 @@ public class TopicLikeServiceImpl implements com.ye.vio.service.TopicLikeService
         if(topicLike.getUserId()==null||topicLike.getToUserId()==null||topicLike.getLikedTopicId()==null)
             throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
        List<TopicLike> topicLikeList= topicLikeDao.queryTopicLikeByTopicIdAndUserId(topicLike);
-        if(topicLikeList!=null&&topicLikeList.size()>0)
-            throw new  CustomizeException(CustomizeErrorCode.TOPIC_LIKE_REPEAT_ERROR);
+
 
         topicLike.setTopicLikeId(UUIDUtils.UUID());
         topicLike.setCreateTime(new Date());
 
-        int effected=topicLikeDao.insertTopicLike(topicLike);
+        if(topicLikeList!=null&&topicLikeList.size()>0)//如果查询结果不为空，则说明已经点赞，那执行取消操作
+            //throw new  CustomizeException(CustomizeErrorCode.TOPIC_LIKE_REPEAT_ERROR);
+        {
+            int effectedDelete=topicLikeDao.deleteTopicLike(topicLike.getUserId(),topicLike.getLikedTopicId());
+
+            if(effectedDelete<=0)throw new CustomizeException(CustomizeErrorCode.TOPIC_LIKE_DELETE_ERROR);
+
+            int effectedUpdate=topicLikeDao.updateTopicLikeNum(2,topicLike.getLikedTopicId());
+
+            if (effectedUpdate<=0) new CustomizeException(CustomizeErrorCode.TOPIC_LIKE_UPDATE_REPLY_ERROR);
+
+
+
+            return effectedDelete;
+
+        }
+//无则进行话题点赞操作
+        else{
+            int effected=topicLikeDao.insertTopicLike(topicLike);//记录点赞
 
             if(effected<=0)throw new CustomizeException(CustomizeErrorCode.TOPIC_LIKE_ADD_ERROR);
 
-            int effectedUpdate=topicLikeDao.updateTopicLikeNum(1,topicLike.getLikedTopicId());
+            int effectedUpdate=topicLikeDao.updateTopicLikeNum(1,topicLike.getLikedTopicId());//话题点赞数更新
 
             if (effectedUpdate<=0) throw new CustomizeException(CustomizeErrorCode.TOPIC_LIKE_UPDATE_REPLY_ERROR);
 
-        NotificationLike notificationLike=new NotificationLike();
+            //消息提醒
+            NotificationLike notificationLike=new NotificationLike();
 
-        notificationLike.setNotificationLikeId(UUIDUtils.UUID());//设置唯一标识
-        notificationLike.setTopicId(topicLike.getLikedTopicId());//点赞话题id
-        notificationLike.setFromUserId(topicLike.getUserId());//谁点的赞
-        notificationLike.setToUserId(topicLike.getToUserId());//给谁
-        notificationLike.setNotificationType(1);//什么类型，话题
-        notificationLike.setCreateTime(new Date());
+            notificationLike.setNotificationLikeId(UUIDUtils.UUID());//设置唯一标识
+            notificationLike.setTopicId(topicLike.getLikedTopicId());//点赞话题id
+            notificationLike.setFromUserId(topicLike.getUserId());//谁点的赞
+            notificationLike.setToUserId(topicLike.getToUserId());//给谁
+            notificationLike.setNotificationType(1);//什么类型，话题
+            notificationLike.setCreateTime(new Date());
 
-       int effectedNoti= notificationLikeDao.insertNotificationLike(notificationLike);
+            int effectedNoti= notificationLikeDao.insertNotificationLike(notificationLike);
 
-       if(effectedNoti<=0)
-           throw new CustomizeException(CustomizeErrorCode.NOTI_LIKE_ADD_ERROR);
+            if(effectedNoti<=0)
+                throw new CustomizeException(CustomizeErrorCode.NOTI_LIKE_ADD_ERROR);
 
-        return effected;
+            return effected;
+
+
+        }
+
+
     }
 
-
+//待确定
     @Override
     @Transactional
     public int removeTopicLike(TopicLike topicLike) {

@@ -16,6 +16,9 @@ public class ApiInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		System.out.println("hello i am prehandle"+request.getContextPath() );
+		String userId=(String)request.getSession().getAttribute("userId");
+		if(userId!=null)
+			return true;
 /*		boolean flag=(boolean) request.getSession().getAttribute("userLoginFlag");
 		String userno=(String)request.getSession().getAttribute("userNo");
 		Cookie[] cookies = request.getCookies();
@@ -36,14 +39,14 @@ public class ApiInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println("hello i am posthandle");
+		//System.out.println("hello i am posthandle");
 
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("hello i am afterhandle");
+		//System.out.println("hello i am afterhandle");
 		
 	}
 
