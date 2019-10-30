@@ -31,21 +31,26 @@ public class ImageUtil {
     private static final Random r=new Random();
 
     public static String generateThombnail(CommonsMultipartFile thumbnail, String targetAddr){
-       String realFileName=getRandomFileName();//获取随机名
-        String extension=getFileExtension(thumbnail);//获取扩展名
-        makeDirPath(targetAddr);//创建文件目录
-        String relativeAddr=targetAddr+realFileName+extension;
-        logger.debug("current relativeAddr is:"+relativeAddr);
-        logger.debug("file:  "+thumbnail.getName());
-        logger.debug("basePath: "+basePath);
-        logger.debug("current complete addr is:"+PathUtil.getImgBasePath()+relativeAddr);
-
-        File dest=new File(PathUtil.getImgBasePath()+relativeAddr);
+        String relativeAddr=null;
         try {
+            String realFileName=getRandomFileName();//获取随机名
+            String extension=getFileExtension(thumbnail);//获取扩展名
+            makeDirPath(targetAddr);//创建文件目录
+            relativeAddr=targetAddr+realFileName+extension;
+            logger.debug("current relativeAddr is:"+relativeAddr);
+            logger.debug("file:  "+thumbnail.getName());
+            logger.debug("basePath: "+basePath);
+            logger.debug("current complete addr is:"+PathUtil.getImgBasePath()+relativeAddr);
+
+            File dest=new File(PathUtil.getImgBasePath()+relativeAddr);
             Thumbnails.of(thumbnail.getInputStream())
                     .size(200,200)
                     .outputQuality(0.8f).toFile(dest);//压缩比例
+
+
+            logger.debug("success++++:"+dest.getAbsolutePath());
         } catch (IOException e) {
+            logger.debug(e.getMessage());
             e.printStackTrace();
         }
         return relativeAddr;

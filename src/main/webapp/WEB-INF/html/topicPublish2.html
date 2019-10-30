@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>招聘信息发布</title>
+    <title>话题</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
     <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
@@ -47,82 +47,11 @@
 <div class="bui-page" id="page">
     <header class="bui-bar">
         <div class="bui-bar-left"> 	<a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a> </div>
-        <div class="bui-bar-main">招聘信息发布表单</div>
+        <div class="bui-bar-main">话题发布</div>
         <div class="bui-bar-right"> </div>
     </header>
     <main>
-        <h3 class="section-title">基本信息</h3>
-        <ul class="bui-list">
-            <li class="bui-btn bui-box clearactive">
-                <label class="bui-label" for="company">公司名称:</label>
-                <div class="span1">
-                    <div class="bui-input user-input">
-                        <input id="company" type="text" value="" placeholder="请输入公司名称" maxlength="16"> </div>
-                </div>
-            </li>
-            <li class="bui-btn bui-box clearactive">
-                <label class="bui-label" for="positionName">职位名称:</label>
-                <div class="span1">
-                    <div class="bui-input user-input">
-                        <input id="positionName" type="text" value="" placeholder="请输入职位名称" maxlength="16"> </div>
-                </div>
-            </li>
-            <li class="bui-list">
-            <li class="bui-btn bui-box">
-                <label class="bui-label">职位类型</label>
-                <div class="span1"> </div>
-                <div id="selectPosition" class="bui-select">请选择 </div> <i class="icon-listright"></i> </li>
-            </li>
-        </ul>
-
-        <ul class="bui-list">
-            <li class="bui-btn bui-box">
-                <label class="bui-label">所在城市</label>
-                <div class="span1"> </div>
-                <div id="selectCity" class="bui-select">请选择 </div> <i class="icon-listright"></i> </li>
-        </ul>
-
-        <ul class="bui-list">
-            <li class="bui-btn bui-box">
-                <label class="bui-label">实习周期</label>
-                <div class="span1"> </div>
-                <div id="selectPeriod" class="bui-select">请选择 </div> <i class="icon-listright"></i> </li>
-        </ul>
-
-        <ul id="selectLine" class="bui-list">
-            <li class="bui-btn bui-box">
-                <label class="bui-label">尽快入职</label>
-                <div class="span1"></div>
-                <div class="bui-value">
-                    <input type="checkbox" class="bui-switch-text" value="0" uncheck="ON" check="OFF" checked="checked" id="isQuick"> </div>
-            </li>
-        </ul>
-
-        <li class="bui-btn bui-box clearactive">
-            <label class="bui-label" for="positionName">投递邮箱</label>
-            <div class="span1">
-                <div class="bui-input user-input">
-                    <input id="contact" type="text" value="" placeholder="请输入邮箱地址"> </div>
-            </div>
-        </li>
-
-        <li class="bui-btn bui-box clearactive">
-            <label class="bui-label" for="positionName">简历命名</label>
-            <div class="span1">
-                <div class="bui-input user-input">
-                    <input id="resumeFormat" type="text" value="" placeholder="请输入工作具体地址"> </div>
-            </div>
-        </li>
-
-        <li class="bui-btn bui-box clearactive">
-            <label class="bui-label" for="positionName">工作地址</label>
-            <div class="span1">
-                <div class="bui-input user-input">
-                    <input id="address" type="text" value="" placeholder="请输入工作具体地址"> </div>
-            </div>
-        </li>
-
-        <h3 class="section-title">职位描述</h3>
+        <h3 class="section-title">简历话题发布</h3>
         <ul class="bui-list">
             <li class="bui-btn clearactive">
                 <div class="bui-input">
@@ -133,7 +62,7 @@
 
         <!-- 上传示例 -->
         <div class="section-title">
-            公司logo上传:
+            上传简历:
         </div>
         <div id="buiPhoto" class="bui-upload bui-fluid-space-4">
             <div class="span1">
@@ -149,7 +78,7 @@
 
             <div class="bui-box-space">
                 <div class="span1">
-                    <div class="bui-btn info" id="upload">提交招聘信息</div>
+                    <div class="bui-btn info" id="upload">发布话题</div>
                 </div>
 
             </div>
@@ -159,7 +88,7 @@
     <footer>
         <!-- tab菜单结构 -->
         <ul id="tabDynamicNav" class="bui-nav">
-            <li class="bui-btn bui-box-vertical active" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
                 <div class="span1">招聘</div>
             </li>
             <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
@@ -169,7 +98,7 @@
                 <div class="span1">房源</div>
             </li>
 
-            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/topic.html"><i class="icon-edit"></i>
+            <li class="bui-btn bui-box-vertical   active" href="http://localhost:8080/vio_war/page/topic.html"><i class="icon-edit"></i>
                 <div class="span1">社区</div>
             </li>
 
@@ -191,94 +120,6 @@
         }
     })
 
-    //动态绑定
-    var uiCity = bui.select({
-        trigger: "#selectCity",
-        title: "请选择公司所在城市",
-        type: "radio",
-        data: [{
-            "name": "北京",
-            "value": "北京"
-        }, {
-            "name": "上海",
-            "value": "上海"
-        }, {
-            "name": "广州",
-            "value": "广州"
-        }, {
-            "name": "深圳",
-            "value": "深圳"
-        }, {
-            "name": "杭州",
-            "value": "杭州"
-        }, {
-            "name": "其他",
-            "value": "其他"
-        }]
-
-    });
-
-    //动态绑定
-    var uiPosition = bui.select({
-        trigger: "#selectPosition",
-        title: "请选择职位类型",
-        type: "radio",
-        data: [{
-            "name": "市场",
-            "value": "市场"
-        }, {
-            "name": "运营",
-            "value": "运营"
-        }, {
-            "name": "产品",
-            "value": "产品"
-        }, {
-            "name": "设计",
-            "value": "设计"
-        }, {
-            "name": "技术",
-            "value": "技术"
-        }, {
-            "name": "其他",
-            "value": "其他"
-        }]
-
-    });
-
-    //动态绑定
-    var uiPeriod = bui.select({
-        trigger: "#selectPeriod",
-        title: "请选择实习周期",
-        type: "radio",
-        data: [{
-            "name": "一个月",
-            "value": "一个月"
-        }, {
-            "name": "三个月",
-            "value": "三个月"
-        }, {
-            "name": "六个月",
-            "value": "六个月"
-        }, {
-            "name": "联系详谈实习周期",
-            "value": "联系详谈实习周期"
-        }]
-
-    });
-
-    uiPeriod.on("change", function() {
-        //var val = uiSelect3.text();
-
-        // alert(val);
-    })
-
-
-    var citySelect = null;
-
-
-    $("#chooseCity").on("click", function() {
-        citySelect.show();
-    })
 
 
 
@@ -420,34 +261,18 @@
 
     // 上传图片
     $("#upload").on("click", function(argument) {
-        var company=$("#company").val();
-        var positionName=$("#positionName").val();
-        var contact=$("#contact").val();
-        var resumeFormat=$("#resumeFormat").val();
-        var address=$("#address").val();
-        var positionDesc=$("#commentContent").val();
-        var city=uiCity.text();
-        var position =uiPosition.text();
-        var period=uiPeriod.text();
-        var isQuick=$('input[id="isQuick"]:checked').val();
-        if(isQuick!=0)isQuick=1;
+
+        var content=$("#commentContent").val();
+
 
         uiUpload.startAll({
             // url: "http://eid.bingosoft.net:83/share/apis/upload/image",
-            url: "http://localhost:8080/vio_war/employment/add/emp",
+            url: "http://localhost:8080/vio_war/topic/add/topic",
             // url: "https://www.swla.com.cn/demo/upload.asp",
             // url:"http://10.201.78.23:81/dataservice.ashx?CommandName=Atd$ImgUpLoad",
             data: {
-                "company":company,
-                "positionName":positionName,
-                "contact":contact,
-                "resumeFormat":resumeFormat,
-                "workAddr":address,
-                "city":city,
-                "position":position,
-                "period":period,
-                "isQuick":isQuick,
-                "positionDesc":positionDesc,
+                "type":2,
+                "content":content
             },
             onSuccess: function(data) {
                 console.log(data)

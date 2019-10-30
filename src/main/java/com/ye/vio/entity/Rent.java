@@ -1,5 +1,6 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ye.vio.vo.UserVo;
 
 import java.util.Date;
@@ -35,10 +36,12 @@ public class Rent {
     //详细需求备注
     private String note;
     //创建时间
+    @JsonFormat(pattern="yyyy-MM-dd", locale="zh", timezone="GMT+8")
     private Date createTime;
     //要求公司标签
     private String label;
     //入住时间
+    @JsonFormat(pattern="yyyy-MM-dd", locale="zh", timezone="GMT+8")
     private Date checkInTime;
 
     public String getRentId() {

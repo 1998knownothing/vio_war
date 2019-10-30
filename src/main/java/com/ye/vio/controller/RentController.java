@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +46,7 @@ public class RentController {
 
     @RequestMapping(value = "/get/user/rentlist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getRentByUserId(HttpServletRequest request,int page){
+    public ResultDTO getRentByUserId(HttpServletRequest request,@RequestParam(defaultValue = "1")int page){
 
             String userId=(String)request.getSession().getAttribute("userId");
 
@@ -57,8 +60,12 @@ public class RentController {
 
     @RequestMapping(value = "/get/rentlist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getRentList(RentCondition rentCondition,int page){
+    public ResultDTO getRentList(RentCondition rentCondition,@RequestParam(defaultValue = "1")int page){
 
+
+        if(rentCondition.getKeyword()==""||rentCondition.getKeyword()==null){//关键词搜索
+           rentCondition.setKeyword(null);
+        }
             List<Rent> rentList=rentService.getRentList(rentCondition,page,10);
 
             return ResultDTO.okOf(rentList);
@@ -68,15 +75,33 @@ public class RentController {
 
     @RequestMapping(value = "/add/rent",method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO addRent(Rent rent,HttpServletRequest request){
+    public ResultDTO addRent(int type,int sex,
+                             String city,String area,
+                             String address,String rental,
+                             String contact,
+                             String label,String checkInTime,String note,HttpServletRequest request){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ParsePosition pos = new ParsePosition(0);
+        Date strtodate = formatter.parse(checkInTime, pos);
 
         String userId=(String)request.getSession().getAttribute("userId");
-
+        Rent rent=new Rent();
         UserVo userVo=new UserVo();
-        userVo.setUserId(userId);
+        userVo.setUserId("1");
         rent.setUser(userVo);
+        rent.setType(type);
+        rent.setSex(sex);
+        rent.setCity(city);
+        rent.setArea(area);
+        rent.setAddress(address);
+        rent.setRental(rental);
+        rent.setContact(contact);
+        rent.setLabel(label);
+        rent.setNote(note);
+        rent.setCheckInTime(strtodate);
 
         int effected=rentService.addRent(rent);
+
 
             return ResultDTO.okOf(effected);
 

@@ -118,11 +118,11 @@ public class AuthorizeController {
             Cookie cookie = new Cookie("token", token);
             cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
             response.addCookie(cookie);
-            return "redirect:/";
+            return "redirect:/page/personal.html";
         } else {
             log.error("callback get github error,{}", githubUser);
             // 登录失败，重新登录
-            return "redirect:/";
+            return "redirect:/page/personal.html";
         }
     }
 
@@ -136,4 +136,7 @@ public class AuthorizeController {
         response.addCookie(cookie);
         return "redirect:/";
     }
+
+
+
 }

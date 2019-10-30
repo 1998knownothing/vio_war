@@ -1,5 +1,7 @@
 package com.ye.vio.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -29,7 +31,7 @@ public class RentVo {
     String rental;
 
     String label;
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     Date checkInTime;
 
     public String getRentId() {

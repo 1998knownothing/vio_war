@@ -5,17 +5,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+import com.ye.vio.controller.PageController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 public class ApiInterceptor implements HandlerInterceptor{
 
-
+	Logger logger= LoggerFactory.getLogger(ApiInterceptor.class);
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("hello i am prehandle"+request.getContextPath() );
+		logger.info(" i am pre!!");
 		String userId=(String)request.getSession().getAttribute("userId");
 		if(userId!=null)
 			return true;

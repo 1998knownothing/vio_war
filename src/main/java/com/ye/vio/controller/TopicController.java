@@ -46,7 +46,7 @@ public class TopicController {
 
     @RequestMapping(value = "/get/user/topiclist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getRentByUserId(HttpServletRequest request,int page){
+    public ResultDTO getRentByUserId(HttpServletRequest request,@RequestParam(defaultValue = "1")int page){
 
         String userId=(String)request.getSession().getAttribute("userId");
 
@@ -59,7 +59,7 @@ public class TopicController {
 
     @RequestMapping(value = "/get/topiclist/{type}",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getTopicList(String keyword,@PathVariable("type") int type,int page){
+    public ResultDTO getTopicList(String keyword,@PathVariable("type") int type,@RequestParam(defaultValue = "1")int page){
 
            List<Topic>  topicList=topicService.getTopicList(keyword,type,page,10);
 
@@ -73,8 +73,8 @@ public class TopicController {
     @ResponseBody
     public ResultDTO addTopic(Topic topic, @RequestParam(value = "file",required = false)CommonsMultipartFile file, HttpServletRequest request){
 
-        String userId=(String)request.getSession().getAttribute("userId");
-
+       // String userId=(String)request.getSession().getAttribute("userId");
+        String userId="1";
         UserVo userVo=new UserVo();
         userVo.setUserId(userId);
 

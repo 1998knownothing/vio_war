@@ -138,10 +138,10 @@
 
     //获取url上的目标id
     var getParams = bui.getPageParams();
-    var empId;
+    var topicId;
     getParams.done(function(result){
         console.log(result);
-        empId=result.id;
+        topicId=result.id;
     })
 
 
@@ -161,7 +161,7 @@
         })
 
 
-        bui.get("http://localhost:8080/vio_war/employment/get/emp/"+empId).then(function(res){
+        bui.get("http://localhost:8080/vio_war/topic/get/topic/"+topicId).then(function(res){
             console.log(res);
             handleUser(res.data);
         },function(res,status){

@@ -19,6 +19,7 @@ public class LogTest {
         logger.info("logback的--info日志--输出了");
         logger.warn("logback的--warn日志--输出了");
         logger.error("logback的--error日志--输出了");
+
     }
 
 }

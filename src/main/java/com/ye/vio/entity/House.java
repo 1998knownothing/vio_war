@@ -1,5 +1,6 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ye.vio.vo.UserVo;
 
 import java.util.Date;
@@ -38,7 +39,7 @@ public class House {
    private String topic;
 
    private String note;
-
+    @JsonFormat(pattern="yyyy-MM-dd", locale="zh", timezone="GMT+8")
    private Date createTime;
 
    private String label;

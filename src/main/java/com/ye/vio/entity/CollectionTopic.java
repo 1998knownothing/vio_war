@@ -1,5 +1,7 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -15,7 +17,7 @@ public class CollectionTopic {
     Topic topic;
 
     String userId;
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     Date createTime;
 
     public String getCollectionTopicId() {

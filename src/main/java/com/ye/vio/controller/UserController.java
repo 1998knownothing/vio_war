@@ -42,7 +42,19 @@ public class UserController {
 
 
     }
+    @RequestMapping(value = "/session",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultDTO getUserId(HttpServletRequest request){
 
+        String userId=(String) request.getSession().getAttribute("userId");
+
+        User user=userService.getUserById(userId);
+        if (user!=null)
+        return ResultDTO.okOf(user);
+        else return  ResultDTO.errorOf(404,"未登陆");
+
+
+    }
     @RequestMapping(value = "/get/{userid}",method = RequestMethod.POST)
     @ResponseBody
     public ResultDTO getUserByUserId(@PathVariable("userid")String userId){

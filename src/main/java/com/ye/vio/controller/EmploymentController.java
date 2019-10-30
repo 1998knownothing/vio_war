@@ -4,6 +4,7 @@ import com.ye.vio.dto.EmploymentCondition;
 import com.ye.vio.dto.EmploymentExecution;
 import com.ye.vio.dto.ResultDTO;
 import com.ye.vio.entity.Employment;
+import com.ye.vio.entity.Fengzhuang;
 import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.service.EmploymentService;
 import com.ye.vio.vo.EmploymentVo;
@@ -32,13 +33,13 @@ public class EmploymentController {
     @Resource
     EmploymentService employmentService;
     //根据empid获取对应详细招聘信息
+
+
     @RequestMapping(value = "/get/emp/{id}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getEmpById(@PathVariable("id")String id){
 
-        Employment employment =new Employment();
-
-            employment = employmentService.getEmploymentByEmploymentId(id);
+        Employment   employment = employmentService.getEmploymentByEmploymentId(id);
 
         return ResultDTO.okOf(employment);
     }
@@ -62,7 +63,7 @@ public class EmploymentController {
             ,@RequestParam(value = "file",required = false) CommonsMultipartFile logo
             ,HttpServletRequest request){
         String userId=(String)request.getSession().getAttribute("userId");
-        employment.setUserId(userId);
+        employment.setUserId("1");//暂时
         //System.out.println(employment.getCompany());
         //System.out.println(logo.getName());
         int effected= employmentService.addEmployment(employment,logo);
@@ -73,7 +74,7 @@ public class EmploymentController {
     @RequestMapping(value = "/get/user/emplist",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO getEmpListByUserId(HttpServletRequest request
-            ,int page){
+            ,@RequestParam(defaultValue = "1") int page){
 
             String userId=(String)request.getSession().getAttribute("userId");
 
@@ -92,7 +93,7 @@ public class EmploymentController {
     //获取所有招聘信息分页方式
     @RequestMapping(value = "/get/emplist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getEmpList(int page,
+    public ResultDTO getEmpList(@RequestParam(defaultValue = "1")int page,
                                 @RequestParam(value="keyword",required = false)String keyword,
                                 @RequestParam(value="city",required = false)String city,
                                 @RequestParam(value="chk_value[]",required = false)String[] checkboxValue){

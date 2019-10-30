@@ -5,10 +5,7 @@ import com.ye.vio.entity.CollectionEmp;
 import com.ye.vio.service.CollectionEmpService;
 import com.ye.vio.vo.EmploymentVo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +17,8 @@ import java.util.List;
  * @author: Mr.liu
  * @create: 2019-08-16 22:33
  **/
+
+
 @Controller
 @RequestMapping("/collection")
 public class CollectionEmpController {
@@ -30,7 +29,7 @@ public class CollectionEmpController {
 
     @RequestMapping(value = "/get/emplist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getCollectionEmpListByUserId(int page
+    public ResultDTO getCollectionEmpListByUserId(@RequestParam(defaultValue = "1")int page
             , HttpServletRequest request){
         String userId=(String) request.getSession().getAttribute("userId");
 

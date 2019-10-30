@@ -5,10 +5,7 @@ import com.ye.vio.entity.CollectionHouse;
 import com.ye.vio.service.CollectionHouseService;
 import com.ye.vio.vo.HouseVo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +26,7 @@ public class CollectionHouseController {
 
     @RequestMapping(value = "/get/houselist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getCollectionHouseListByUserId(HttpServletRequest request,int page){
+    public ResultDTO getCollectionHouseListByUserId(HttpServletRequest request,@RequestParam(defaultValue = "1")int page){
 
         String userId=(String) request.getSession().getAttribute("userId");
 

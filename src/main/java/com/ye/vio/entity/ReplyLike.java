@@ -1,5 +1,6 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -23,7 +24,7 @@ public class ReplyLike {
     private String likedSonReplyId;
 
     private String toUserId;
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date createTime;
 
    private String topicId;

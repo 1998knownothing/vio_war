@@ -1,5 +1,6 @@
 package com.ye.vio.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ye.vio.entity.FatherReply;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public class TopicVo {
     private String resumeImg;
 
     private String content;
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date createTime;
 
     private int collectNum;

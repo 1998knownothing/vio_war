@@ -1,5 +1,7 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -16,7 +18,7 @@ public class HouseImg {
     private String houseId;
 
     private String houseImgAddr;
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date createTime;
 
     public String getHouseImgId() {

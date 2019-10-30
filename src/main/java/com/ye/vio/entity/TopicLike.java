@@ -1,5 +1,7 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -18,7 +20,7 @@ public class TopicLike {
     private String likedTopicId;
 
     private String toUserId;//接受方
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date createTime;
 
     public String getTopicLikeId() {

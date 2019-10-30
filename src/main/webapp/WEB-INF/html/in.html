@@ -12,9 +12,9 @@
 	<body>
 	<style>
 		.publish-mark {
-			position: fixed;
-			right: .2rem;
-			bottom: .3rem;
+			position:fixed;
+			right: 20px;
+			bottom: 60px;
 			width: 60px;
 			height: 60px;
 			line-height: .8rem;
@@ -26,7 +26,7 @@
 		}
 
 		.publish-mark i {
-			font-size: .36rem;
+			font-size: .24rem;
 			text-align: center;
 			color: #fff;
 		}
@@ -41,8 +41,10 @@
 		<div class="bui-bar-main">职前公社</div>
 		<div class="bui-bar-right">
 		</div>
+
 	</header>
 	<main>
+		<div id="slide" class="bui-slide bui-slide-skin01"></div>
 		<!-- 搜索条控件结构 -->
 		<div id="searchbar" class="bui-searchbar bui-box">
         <div class="span1">
@@ -120,12 +122,36 @@
 			</div>
 			<div class="bui-scroll-foot"></div>
 		</div>
-		<a href="page/job.html">
-		<div class="publish-mark bui-btn" id="publish-open" href="page/job.html">
-			<i >发布</i>
-		</div>
-		</a>
+
+
 	</main>
+	<footer>
+
+			<div class="publish-mark bui-btn" id="publish-open" href="http://localhost:8080/vio_war/page/job.html">
+				<i >发布</i>
+			</div>
+
+		<!-- tab菜单结构 -->
+		<ul id="tabDynamicNav" class="bui-nav">
+			<li class="bui-btn bui-box-vertical active" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
+				<div class="span1">招聘</div>
+			</li>
+			<li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
+				<div class="span1">求租</div>
+			</li>
+			<li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></span></i>
+				<div class="span1">房源</div>
+			</li>
+
+			<li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/topic.html"><i class="icon-edit"></i>
+				<div class="span1">社区</div>
+			</li>
+
+			<li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
+				<div class="span1">我的</div>
+			</li>
+		</ul>
+	</footer>
 </div>
 
 <script>/**
@@ -138,6 +164,27 @@
 bui.ready(function(){
  //条件筛选控件结构
  //折叠面板
+	// 静态初始化
+	var uiSlide = bui.slide({
+		id:"#slide",
+		height:380,
+		autopage: true,
+		loop: true,
+		data: [{
+			title: "年底大片实时看",
+			image: "http://www.easybui.com/demo/images/banner01.png",
+			url: "pages/ui/article.html",
+		},{
+			title: "走路跑步领红包",
+			image: "http://www.easybui.com/demo/images/banner02.png",
+			url: "pages/ui/article.html",
+		},{
+			title: "每日推荐最新职位",
+			image: "http://www.easybui.com/demo/images/banner03.png",
+			url: "pages/ui/article.html",
+		}]
+	})
+	uiSlide.start();
     var uiAccordion = bui.accordion({
             id:".bui-panel",    //必须
             handle: ".bui-panel-head",  //默认,除非修改才需要加
@@ -202,13 +249,14 @@ bui.ready(function(){
 							 break;
 					 }
 
-					 html += `<li class="bui-btn bui-box" href="page/jobDetail.html?id=${el.employmentId}">
+					 html += `<li class="bui-btn bui-box" href="http://localhost:8080/vio_war/page/jobDetail.html?id=${el.employmentId}">
                 <div class="bui-thumbnail ${subClass}" data-sub="${sub}" ><img src="${el.companyLogo}" alt=""></div>
                 <div class="span1">
                     <h3 class="item-title">${el.positionName}</h3>
-                    <p class="item-text">${el.company}</p>
-                    <p class="item-text">${el.city}</p>
-                    <p class="item-text">${el.period}</p>
+                    <p class="item-text">公司名：${el.company}</p>
+                    <p class="item-text">所在城市：${el.city}</p>
+                    <p class="item-text">实习期：${el.period}</p>
+                    <p class="item-text">职位类型：${el.position}</p>
                 </div>
                 <span class="price">${el.createTime}<i>发布</i>
                 </span>

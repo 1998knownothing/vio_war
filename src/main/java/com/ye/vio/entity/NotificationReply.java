@@ -1,5 +1,7 @@
 package com.ye.vio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -31,7 +33,7 @@ public class NotificationReply {
     private String toUserId;
 
     private String toNickName;
-
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date createTime;
 
     private int isRead;

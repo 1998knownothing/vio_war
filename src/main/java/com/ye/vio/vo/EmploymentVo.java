@@ -19,6 +19,8 @@ public class EmploymentVo {
 
     private String positionName;
 
+    private String position;
+
     private String company;
 
     private String city;
@@ -43,6 +45,7 @@ public class EmploymentVo {
         this.createTime=employment.getCreateTime();
         this.period=employment.getPeriod();
         this.isQuick=employment.getIsQuick();
+        this.position=employment.getPosition();
     }
 
 

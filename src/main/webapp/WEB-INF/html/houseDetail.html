@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>房屋详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+    <style></style>
+</head>
+<body>
+<style>
+    .publish-mark {
+        position:fixed;
+        right: 20px;
+        bottom: 60px;
+        width: 60px;
+        height: 60px;
+        line-height: .8rem;
+        text-align: center;
+        background-color: #26d76d;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    .publish-mark i {
+        font-size: .24rem;
+        text-align: center;
+        color: #fff;
+    }
+    .personal-img {
+        border-radius: 100%;
+        background:#fff;
+        /* border: 2px solid #fff; */
+        overflow: hidden;
+        margin: 0 auto .2rem auto;
+        text-align: center;
+    }
+    .bui-box .span1 > .bui-btn {
+        border-right: 0;
+    }
+    .bui-box .span1:first-child > .bui-btn {
+        border-left: 0;
+    }
+
+</style>
+<div class="bui-page" id="page">
+    <header class="bui-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">房屋详情</div>
+        <div class="bui-bar-right">
+            <div class="bui-btn btn-share"><i class="icon-share"></i></div>
+
+        </div>
+
+    </header>
+    <main>
+        <div id="slide" class="bui-slide bui-slide-skin01"></div>
+        <article class="bui-article">
+
+
+            <h1 id="topic">房屋</h1>
+
+
+            <div class=" bui-box">
+                <div class="" id="logo">
+                </div>
+                <div class="span1">
+                    <div class="span2" id="username">
+
+                    </div>
+                    <div class="span1" id="usex">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-info bui-box">
+                <!-- <span class="article-from" id="city"></span> -->
+                <!-- <div class="span1"> 入住时间:<i class="icon-time" id="checkInTime"></i></div> -->
+                <div class="span1">发布时间: <i class="icon-time" id="createTime"></i></div>
+                <!-- <i class="icon-warning" id="isQuick"></i> -->
+            </div>
+            <div>
+                <ul class="bui-nav-icon bui-fluid-3">
+                    <li class="bui-btn">
+                        <div class="item-title" id="type"> 标题文字 </div>
+                        <div class="item-text"> 类型 </div>
+                    </li>
+                    <li class="bui-btn">
+                        <div class="item-title" id="isQuick"> 标题文字 </div>
+                        <div class="item-text"> 性别要求 </div>
+                    </li>
+                    <li class="bui-btn">
+                        <div class="item-title" id="rental"> 标题文字 </div>
+                        <div class="item-text"> 元/月 </div>
+                    </li>
+                </ul>
+
+                <ul class="bui-list contact-list">
+                    <!-- <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label ">租住类型</label>
+                        <div class="span1">
+                            <div class="bui-value" id="type"></div>
+                        </div>
+
+                    </li> -->
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label ">适合公司</label>
+                        <div class="span1">
+                            <div class="bui-value" id="label"></div>
+                        </div>
+
+                    </li>
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label ">详细地址</label>
+                        <div class="span1">
+                            <div class="bui-value" id="detail"></div>
+                        </div>
+
+                    </li>
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label">备注</label>
+                        <div class="span1">
+                            <div class="bui-value" id="note"></div>
+                        </div>
+                    </li>
+                    <!-- <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label">租金(元/月)</label>
+                        <div class="span1">
+                            <div class="bui-value" id="rental"></div>
+                        </div>
+                    </li> -->
+
+                    <li class="bui-btn bui-box clearactive">
+                        <label class="bui-label">联系方式(微信/手机号/QQ)</label>
+                        <div class="span1" >
+                            <div class="bui-value" id="contact">++</div>
+                        </div>
+                    </li>
+
+                </ul>
+
+
+            </div>
+
+        </article>
+    </main>
+    <footer>
+        <!-- tab菜单结构 -->
+        <ul id="tabDynamicNav" class="bui-nav">
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
+                <div class="span1">招聘</div>
+            </li>
+            <li class="bui-btn bui-box-vertical   active"  href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
+                <div class="span1">求租</div>
+            </li>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></span></i>
+                <div class="span1">房源</div>
+            </li>
+
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/topic.html"><i class="icon-edit"></i>
+                <div class="span1">社区</div>
+            </li>
+
+            <li class="bui-btn bui-box-vertical  active" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
+                <div class="span1">我的</div>
+            </li>
+        </ul>
+    </footer>
+</div>
+
+<script>bui.ready(function(){
+
+    //获取url上的目标id
+    var getParams = bui.getPageParams();
+    var houseId;
+    getParams.done(function(result){
+        console.log(result);
+        houseId=result.id;
+    })
+
+
+    var pageview = {};
+    var obj=[];
+    pageview.init = function () {
+        // 绑定分享
+
+        var uiActionsheet = bui.actionsheet({
+            trigger: ".btn-share",
+            buttons: [{ name:"分享到微博",value:"weibo" },{ name:"朋友圈",value:"pyq" }],
+            callback: function (e) {
+                var val = $(e.target).attr("value");
+                if( val == "cancel"){
+                    this.hide();
+                }
+
+
+            }
+        })
+
+
+        bui.get("http://localhost:8080/vio_war/house/get/house/"+houseId).then(function(res){
+                handleUser(res.data);
+            },function(res,status){
+                console.log(res);
+
+
+            }
+        )
+
+
+
+    }
+
+
+    var dat;
+
+    // handleUser(dat);
+    var o=[];
+// tt();
+//     function tt(){
+//         var houseImgList= [
+//             {
+//                 "houseImgId": "1",
+//                 "houseId": "1",
+//                 "houseImgAddr": "http://www.easybui.com/demo/images/banner01.png",
+//                 "createTime": null
+//             },
+//             {
+//                 "houseImgId": "2",
+//                 "houseId": "1",
+//                 "houseImgAddr": "http://www.easybui.com/demo/images/banner02.png",
+//                 "createTime": null
+//             },
+//             {
+//                 "houseImgId": "3",
+//                 "houseId": "1",
+//                 "houseImgAddr": "http://www.easybui.com/demo/images/banner03.png",
+//                 "createTime": null
+//             }
+//         ]
+//             //
+//             var arr=houseImgList;
+//             console.log("arr1"+arr);
+//             arr.push({houseImgAddr:"http://www.easybui.com/demo/images/banner01.png"});
+//             console.log("arr2"+arr);
+//            for (var i=0;i<arr.length;i++){
+//                var item=arr[i];
+//                 obj.push({image:item.houseImgAddr});
+//             }
+//             console.log("obj"+obj);
+
+
+//     }
+    function handleUser(data) {
+
+        console.log(data.houseImgList);
+
+        var arr1=data.houseImgList;
+        for (var i=0;i<arr1.length;i++){
+            var item=arr1[i];
+            obj.push({image:item.houseImgAddr});
+        }
+        $('#label').text(data.label);
+        // $('#city').text(data.city);
+        // $('#area').text(data.area);
+        $('#note').text(data.note);
+        $('#topic').text(data.topic);
+        // $('#address').text(data.address);
+        $('#rental').text(data.rental);
+        $('#detail').text(data.city+" "+data.area+" "+data.address);
+        $('#contact').text(data.contact);
+        $('#createTime').text(data.createTime);
+        var html="";
+        html += `<div>
+                <img src="${data.user.imgAddr}" style="border-radius:50%;" alt="" width="50" height="50">
+            </div>`;
+
+
+        // 快速初始化
+
+
+        //     obj.push({image:"http://www.easybui.com/demo/images/banner01.png"});
+
+
+        // o.push({image:"http://www.easybui.com/demo/images/banner01.png"});
+        // o.push({image:"http://www.easybui.com/demo/images/banner01.png"});
+        console.log(obj);
+        var uiSlide = bui.slide({
+            id:"#slide",
+            height:380,
+            autopage: true,
+            data:obj
+        })
+        $("#logo").html(html);
+
+
+        var uname="";
+        uname +=`<h3>${data.user.nickName}</h3>`;
+        $("#username").html(uname);
+
+
+        if(data.sex==1){
+            $('#usex').text("男");
+        }
+        if(data.sex==2){
+            $('#usex').text("女");
+        }
+
+
+        if(data.sex==0){
+            $('#isQuick').text("不限");
+        }
+        if(data.sex==1){
+            $('#isQuick').text("男");
+        }
+        if(data.sex==2){
+            $('#isQuick').text("女");
+        }
+        if(data.type==0){
+            $('#type').text("不限");
+        }
+        if(data.type==1){
+            $('#type').text("合租");
+        }
+        if(data.type==2){
+            $('#type').text("整租");
+        }
+
+    }
+
+    // function count(o){
+    //     var t = typeof o;
+    //     if(t == 'string'){
+    //         return o.length;
+    //     }else if(t == 'object'){
+    //     var n = 0;
+    //     for(var i in o){
+    //          n++;
+    //      }
+    //      return n;
+    //   }
+    // return false;
+    // }
+    pageview.init();
+    bui.btn({
+        id:"#page",
+        handle: ".bui-btn"  // 绑定多个 ".bui-btn,.submit,a"
+    }).load();
+    return pageview;
+})
+
+</script>
+</body>
+</html>

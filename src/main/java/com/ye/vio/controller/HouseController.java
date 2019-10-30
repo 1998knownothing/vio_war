@@ -81,7 +81,7 @@ public class HouseController {
 
     @RequestMapping(value = "/get/user/houselist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getHouseListByUserId( int page, HttpServletRequest request){
+    public ResultDTO getHouseListByUserId( @RequestParam(defaultValue = "1")int page, HttpServletRequest request){
 
             String userId=(String)request.getSession().getAttribute("userId");
 
@@ -93,7 +93,7 @@ public class HouseController {
     }
     @RequestMapping(value = "/get/houselist",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getHouseList(RentCondition rentCondition,int page){
+    public ResultDTO getHouseList(RentCondition rentCondition,@RequestParam(defaultValue = "1")int page){
 
 
 
@@ -104,4 +104,6 @@ public class HouseController {
 
 
     }
+
+
 }

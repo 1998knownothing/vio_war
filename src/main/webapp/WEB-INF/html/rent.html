@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>寻租模块</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+    <style></style>
+</head>
+<body>
+<style>
+
+    .publish-mark {
+        position:fixed;
+        right: 20px;
+        bottom: 60px;
+        width: 60px;
+        height: 60px;
+        line-height: .8rem;
+        text-align: center;
+        background-color: #26d76d;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    .publish-mark i {
+        font-size: .24rem;
+        text-align: center;
+        color: #fff;
+    }
+    .bui-box .span1 > .bui-btn {
+        border-right: 0;
+    }
+    .bui-box .span1:first-child > .bui-btn {
+        border-left: 0;
+    }
+    .top{
+        position: absolute;
+        top: 2px;
+    }
+    .relative{
+        position: relative;
+    }
+    .position{
+        position: absolute;
+        left: 50px;
+        top: 15px;
+    }
+    .position1{
+        position:relative;
+    }
+    .size{
+        position:absolute;
+        left: 5px;
+    }
+    .size1{
+        position:absolute;
+        botton:3px;
+    }
+    .h{
+        padding: 5px;
+    }
+    .hh{
+        border-radius:50%;
+    }
+</style>
+<div class="bui-page" id="page">
+    <header class="bui-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">职前公社</div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main>
+        <!-- 搜索条控件结构 -->
+        <div id="searchbar" class="bui-searchbar bui-box">
+            <div class="span1">
+                <div class="bui-input">
+                    <i class="icon-search"></i>
+                    <input name="keyword" type="search" value="" placeholder="搜索职位或公司名称"/>
+                </div>
+            </div>
+            <div class="btn-search">搜索</div>
+        </div>
+
+        <!-- 条件筛选控件结构 -->
+        <div class="bui-box">
+            <div class="span1">
+
+
+                <div class="bui-box">
+                    <!-- <div class="span1">
+                            <div id="provinceSelect" class="bui-btn bui-box">
+                              <div class="span1">省份</div>
+                              <i class="icon-listright"></i>
+                            </div>
+                          </div> -->
+                    <div class="span1">
+
+                        <div id="citySelect" class="bui-btn bui-box">
+                            <div class="span1">地市</div>
+                            <i class="icon-listright"></i>
+                        </div>
+
+                    </div>
+                    <div class="span1">
+
+                        <div id="areaSelect" class="bui-btn bui-box">
+                            <div class="span1">区域</div>
+                            <i class="icon-listright"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="span1">
+                <!-- 单个下拉结构 -->
+                <div id="uiDoropdownClass1" class="bui-dropdown">
+                    <div class="bui-btn bui-box">
+                        <div class="span1">类型</div>
+                        <i class="icon-dropdown"></i>
+                    </div>
+                    <ul class="bui-list">
+                        <li class="bui-btn" value="0">不限</li>
+                        <li class="bui-btn" value="1">合租</li>
+                        <li class="bui-btn" value="2">整租</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="span1">
+                <!-- 单个下拉结构 -->
+                <div id="uiDoropdownClass3" class="bui-dropdown">
+                    <div class="bui-btn bui-box">
+                        <div class="span1">租金</div>
+                        <i class="icon-dropdown"></i>
+                    </div>
+                    <ul class="bui-list">
+                        <li class="bui-btn" value="0">不限</li>
+                        <li class="bui-btn" value="1">1000元以下</li>
+                        <li class="bui-btn" value="2">1000-2000元</li>
+                        <li class="bui-btn" value="3">2000-3000元</li>
+                        <li class="bui-btn" value="4">3000元以上</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 列表控件结构 -->
+        <div id="scrollSearch" class="bui-scroll">
+            <div class="bui-scroll-head"></div>
+            <div class="bui-scroll-main">
+                <ul class="bui-list">
+
+                </ul>
+            </div>
+            <div class="bui-scroll-foot"></div>
+        </div>
+        <a href="page/job.html">
+            <div class="publish-mark bui-btn" id="publish-open" href="http://localhost:8080/vio_war/page/rentPublish.html">
+                <i >发布</i>
+            </div>
+        </a>
+    </main>
+    <footer>
+        <!-- tab菜单结构 -->
+        <ul id="tabDynamicNav" class="bui-nav">
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></i>
+                <div class="span1">招聘</div>
+            </li>
+            <li class="bui-btn bui-box-vertical  active" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></i>
+                <div class="span1">求租</div>
+            </li>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></i>
+                <div class="span1">房源</div>
+            </li>
+
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/topic.html"><i class="icon-edit"></i>
+                <div class="span1">社区</div>
+            </li>
+
+            <li class="bui-btn bui-box-vertical " href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
+                <div class="span1">我的</div>
+            </li>
+        </ul>
+    </footer>
+</div>
+
+<script>/**
+ * 搜索列表页模板
+ * 默认模块名: pages/searchbar/searchbar
+ * @return {[object]}  [ 返回一个对象 ]
+ */
+
+var type,area,rentalType,city;
+bui.ready(function(){
+    //条件筛选控件结构
+    //折叠面板
+
+
+    var uiAccordion = bui.accordion({
+        id:"#accordion"  //必须
+
+    });
+
+    console.log(uiAccordion);
+    uiAccordion.showFirst();
+
+    var pageview = {};
+
+
+    // 模块初始化定义
+    pageview.init = function () {
+
+        levelSelect();
+
+        //下拉菜单
+        var uiDoropdown1 = bui.dropdown({
+            id: "#uiDoropdownClass1",
+            //设置relative为false,二级菜单继承父层宽度
+            relative: true,
+            value: "",
+            callback: function(e) {
+                // console.log(this.value());
+                // var ty=this.value();
+                // if (ty==2){
+                // alert("hhhh");
+                // }
+
+            },
+            onChange:function(e){
+                type=this.value();
+                console.log(type);
+            }
+        })
+
+
+
+        var uiMask = bui.mask({
+            appendTo: $(".main"),
+            zIndex: 1,
+            callback: function (argument) {
+
+            }
+        });
+        var tabSide=null;
+
+        function levelSelect() {
+            var uiMask = bui.mask();
+            /* 一, 初始化控件 */
+
+            // 城市的数据
+            var chineseCities = {};
+            var uiLoading = bui.loading();
+
+
+            // 城市
+            var citySelect = bui.select({
+                trigger: "#citySelect",
+                title: "请选择地市",
+                type: "radio",
+                height: 300,
+                autoClose: true,
+                field: {
+                    value: "name"
+                },
+                data: []
+            });
+
+            // 地区
+            var areaSelect = bui.select({
+                trigger: "#areaSelect",
+                title: "请选择区域",
+                type: "radio",
+                height: 300,
+                autoClose: true,
+                field: {
+                    value: "name"
+                },
+                data: []
+            });
+
+
+
+            var datas={"data":[
+                    {"name":"北京","area":["东城区","西城区","崇文区","宣武区","朝阳区","丰台区","石景山区","海淀区","门头沟区","房山区","通州区","顺义区","昌平区","大兴区","平谷区","怀柔区","密云县","延庆县"]},
+                    {"name":"上海", "area":["黄浦区","卢湾区","徐汇区","长宁区","静安区","普陀区","闸北区","虹口区","杨浦区","宝山区","闵行区","嘉定区","松江区","金山区","青浦区","南汇区","奉贤区","浦东新区","崇明县"]},
+                    {"name":"深圳", "area":["福田区","罗湖区","南山区","宝安区","龙岗区","盐田区"]},
+                    {"name":"广州", "area":["越秀区","荔湾区","海珠区","天河区","白云区","黄埔区","番禺区","花都区","南沙区","萝岗区","增城市","从化市"]}
+                ]}
+
+            uiLoading.show();
+            chineseCities.city=datas.data;
+            citySelect.option("data",datas.data)
+            uiLoading.hide();
+
+            /* 二, 监听控件的事件变化 */
+
+            citySelect.on("change",function(){
+                var index =citySelect.index()||0;
+                chineseCities.area=chineseCities.city[index]["area"];
+                areaSelect.option("data",chineseCities.area)
+                areaSelect.show("none");
+                city = citySelect.text();
+            });
+            areaSelect.on("change",function(){
+
+                area = areaSelect.text();
+                address = "";
+
+
+                address =city + area;
+
+                // 输出地址
+                console.log(address);
+
+            })
+
+
+
+        }
+        var uiDoropdown3 = bui.dropdown({
+            id: "#uiDoropdownClass3",
+            //设置relative为false,二级菜单继承父层宽度
+            relative: true,
+            value: "",
+            callback: function(e) {
+                rentalType=this.value();
+                console.log(rentalType);
+
+            }
+        })
+
+        // 列表加载
+        var uiList = bui.list({
+            id: "#scrollSearch",
+            url: "http://localhost:8080/vio_war/rent/get/rentlist",
+            //method: "POST",
+            field: {
+                data:"data"
+            },
+            data: {
+                // "keyword":keyword,
+            },
+            page:1,
+            pageSize:5,
+
+            template: function (data) {
+                var html = "";
+                data.map(function(el, index) {
+                    // 演示传参,标准JSON才能转换
+                    var param = { "id": index, "title": el.name };
+                    var paramStr = JSON.stringify(param);
+                    // 处理角标状态
+                    var sub = '',
+                        sex = '';
+                    switch (el.type) {
+                        case 1:
+                            sub = '整租';
+                            subClass = 'bui-sub';
+                            break;
+                        case 2:
+                            sub = '合租';
+                            subClass = 'bui-sub danger';
+                            break;
+                        default:
+                            sub = '';
+                            subClass = '';
+                            break;
+                    }
+                    switch (el.sex) {
+                        case 1:
+                            sex = '男';
+                            subClass = 'bui-sub';
+                            break;
+                        case 2:
+                            sex = '女';
+                            subClass = 'bui-sub danger';
+                            break;
+                        default:
+                            sex = '';
+                            subClass = '';
+                            break;
+                    }
+                    html += `<li class="bui-btn submit" href="http://localhost:8080/vio_war/page/rentDetail.html?id=${el.rentId}">
+                    <div class="comment-line position1">
+                  <div class="bui-box">
+                    <div class="thumbnail" data-sub="${sub}" style="border-radius:50%;"><img style="border-radius:50%;" src="${el.user.imgAddr}" alt=""></div>
+                    <div class="span1">
+                        <div class="bui-box">
+                            <div class="span1">
+                                 <h3 class="item-title">${el.user.nickName}</h3>
+                            </div>
+                            <div class="position">
+                                <span class="item-text">${el.user.school}</span>
+                                 <span class="item-text">${el.user.company}</span>
+                            </div>
+                        </div>
+				             <br>
+						      <!-- 内容 -->
+                           <div class="span1">
+                    <h3 class="item-title">${el.address}</h3>
+                    <p class="item-text">城市：${el.city}</p>
+                    <p class="item-text">求租区域：${el.area}</p>
+                    <p class="item-text">`+`求租类型；${sub}`+`</p>
+                    <p class="item-text" >`+`性别要求；${sex}`+`</p>
+                    <p class="item-text">意向租金：${el.rental}</p>
+                    <p class="item-text">公司标签：${el.label}</p>
+                    <p class="item-text">入住时间:${el.checkInTime}</p>
+                </div>
+
+                    </div>
+                </div>
+			      </li>
+                 <hr>`
+                });
+
+                return html;
+            }
+        });
+
+        // var n = 0;
+        //搜索条的初始化
+        var uiSearchbar = bui.searchbar({
+            id:"#searchbar",
+            onInput: function(e,keyword) {
+
+            },
+            onRemove: function(e,keyword) {
+                //删除关键词需要做什么其它处理
+                // console.log(keyword);
+            },
+            callback: function (e,keyword) {
+                if( uiList ){
+
+                    uiList.empty();
+                    // 重新初始化数据
+                    uiList.init({
+                        page: 1,
+                        data: {
+                            "keyword":keyword,
+                            "city":city,
+                            "area":area,
+                            "rentalType":rentalType,
+                            "type":type
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    pageview.bind = function () {
+
+    }
+    // 执行初始化
+    pageview.init();
+    // 绑定事件
+    pageview.bind();
+    //页面初始化后，给指定id的div的btn注册
+    bui.btn({
+        id:"#page",
+        handle: ".bui-btn"  // 绑定多个 ".bui-btn,.submit,a"
+    }).load();
+
+})
+
+</script>
+</body>
+</html>

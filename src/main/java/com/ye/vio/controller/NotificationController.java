@@ -6,10 +6,7 @@ import com.ye.vio.entity.NotificationReply;
 import com.ye.vio.service.NotificationLikeService;
 import com.ye.vio.service.NotificationReplyService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +31,7 @@ public class NotificationController {
 
     @RequestMapping(value = "/reply",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getNotificationReply(HttpServletRequest request, int page){
+    public ResultDTO getNotificationReply(HttpServletRequest request, @RequestParam(defaultValue = "1")int page){
 
         String userId=(String) request.getSession().getAttribute("userId");
 
@@ -45,7 +42,7 @@ public class NotificationController {
 
     @RequestMapping(value = "/like",method = RequestMethod.GET)
     @ResponseBody
-    public ResultDTO getNotificationLike(HttpServletRequest request, int page){
+    public ResultDTO getNotificationLike(HttpServletRequest request, @RequestParam(defaultValue = "1")int page){
 
         String userId=(String) request.getSession().getAttribute("userId");
 

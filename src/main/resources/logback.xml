@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- 配置常量 -->
-    <property name="LOG_HOME" value="tp/log"/>
+    <property name="LOG_HOME" value="/data/wwwroot/default/vio/tp/log"/>
     <property name="log.maxHistory" value="30"/>
     <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--><!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
     <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:  %msg%n"/>
@@ -64,7 +64,7 @@
         </filter>
     </appender>
     <!--绑定appender-->
-    <logger name="com.ye.via" level="debug" additivity="true">
+    <logger name="com.ye.vio" level="debug" additivity="true">
         <appender-ref ref="debugAppender"/>
         <appender-ref ref="errorAppender"/>
         <appender-ref ref="infoAppender"/>
