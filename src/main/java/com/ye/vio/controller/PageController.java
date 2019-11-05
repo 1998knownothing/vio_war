@@ -134,10 +134,10 @@ public class PageController {
     }
 
 
-    @GetMapping("/collection.html")
+    @GetMapping("/user.html")
     public String collection(){
 
-        return "collection";
+        return "user";
     }
 
 

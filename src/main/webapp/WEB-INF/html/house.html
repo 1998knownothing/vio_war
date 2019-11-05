@@ -37,7 +37,40 @@
     .bui-box .span1:first-child > .bui-btn {
         border-left: 0;
     }
-
+    .top{
+        position: absolute;
+        top: 2px;
+    }
+    .relative{
+        position: relative;
+    }
+    .position{
+        position: absolute;
+        left: 50px;
+        top: 15px;
+    }
+    .position1{
+        position:relative;
+    }
+    .size{
+        position:absolute;
+        left: 5px;
+    }
+    .size1{
+        position:absolute;
+        botton:3px;
+    }
+    .h{
+        padding: 5px;
+    }
+    .hh{
+        border-radius:50%;
+    }
+    .bg{
+        background-color:rgba(249,247,247,1.00);
+        border-radius: 0px;
+        padding: 10px;
+    }
 
 </style>
 <div class="bui-page" id="page">
@@ -98,8 +131,8 @@
                     </div>
                     <ul class="bui-list">
                         <li class="bui-btn" value="0">不限</li>
-                        <li class="bui-btn" value="1">合租</li>
-                        <li class="bui-btn" value="2">整租</li>
+                        <li class="bui-btn" value="1">整租</li>
+                        <li class="bui-btn" value="2">合租</li>
                     </ul>
                 </div>
             </div>
@@ -140,13 +173,13 @@
     <footer>
         <!-- tab菜单结构 -->
         <ul id="tabDynamicNav" class="bui-nav">
-            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></i>
                 <div class="span1">招聘</div>
             </li>
-            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></i>
                 <div class="span1">求租</div>
             </li>
-            <li class="bui-btn bui-box-vertical   active" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></span></i>
+            <li class="bui-btn bui-box-vertical   active" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></i>
                 <div class="span1">房源</div>
             </li>
 
@@ -353,6 +386,10 @@ bui.ready(function(){
                             sub = '合租';
                             subClass = 'bui-sub danger';
                             break;
+                        case 0:
+                            sub = '不限';
+                            subClass = 'bui-sub danger';
+                            break;
                         default:
                             sub = '';
                             subClass = '';
@@ -373,21 +410,39 @@ bui.ready(function(){
                             break;
                     }
 
-                    html += `<li class="bui-btn bui-box" href="http://localhost:8080/vio_war/page/houseDetail.html?id=${el.houseId}">
- <div class="bui-thumbnail " data-sub="${sub}" ><img src="${el.user.imgAddr}" alt=""></div>
-                <div class="span1">
-                    <h3 class="item-title">${el.address}</h3>
+                    html += `<li class="bui-btn submit" href="http://localhost:8080/vio_war/page/rentDetail.html?id=${el.rentId}">
+                    <div class="comment-line position1">
+                  <div class="bui-box">
+                    <div class="thumbnail" data-sub="${sub}" style="border-radius:50%;"><img style="border-radius:50%;" src="${el.user.imgAddr}" alt=""></div>
+                    <div class="span1">
+                        <div class="bui-box">
+                            <div class="span1">
+                                 <h3 class="item-title">${el.user.nickName}</h3>
+                            </div>
+                            <div class="position">
+                                <span class="time">${el.user.school}</span>
+                                <span class="time">${el.user.company}</span>
+                            </div>
+                        </div>
+				             <br>
+						      <!-- 内容 -->
+                    <div class="bui-btn bui-box title1 bg">
+                        <div class="bui-thumbnail"><img src="${el.houseImgList[0].houseImgAddr}" alt=""></div>
+                        <div class="span1">
+                           <h3 class="item-title">${el.address}</h3>
                     <p class="item-text">城市：${el.city}</p>
-                    <p class="item-text">房屋区域：${el.area}</p>
-                    <p class="item-text">`+`房屋类型；${sub}`+`</p>
+                    <p class="item-text">求租区域：${el.area}</p>
+                    <p class="item-text">`+`求租类型；${sub}`+`</p>
                     <p class="item-text" >`+`性别要求；${sex}`+`</p>
                     <p class="item-text">意向租金：${el.rental}</p>
                     <p class="item-text">公司标签：${el.label}</p>
+                    <p class="item-text">入住时间:${el.checkInTime}</p>
+	                       </div>
+                          </div>
+                    </div>
                 </div>
-                <span class="price">${el.createTime}<i>发布</i>
-                </span>
-
-            </li>`
+			      </li>
+                 <hr>`
                 });
 
                 return html;
@@ -399,7 +454,7 @@ bui.ready(function(){
         var uiSearchbar = bui.searchbar({
             id:"#searchbar",
             onInput: function(e,keyword) {
-                alert(city+area)
+
             },
             onRemove: function(e,keyword) {
                 //删除关键词需要做什么其它处理
@@ -418,7 +473,6 @@ bui.ready(function(){
                             "area":area,
                             "rentalType":rentalType,
                             "type":type
-
                         }
                     });
                 }

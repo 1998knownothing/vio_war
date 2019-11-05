@@ -66,7 +66,7 @@ public class CollectionHouseServiceImpl implements CollectionHouseService {
 
         int effected=0;
 
-            effected=removeCollectionHouse(userId,collectionHouseId);
+            effected=collectionHouseDao.deleteCollectionHouse(userId,collectionHouseId);
             if(effected<=0)throw new CustomizeException(CustomizeErrorCode.OPERATION_ERROR);
 
         return effected;

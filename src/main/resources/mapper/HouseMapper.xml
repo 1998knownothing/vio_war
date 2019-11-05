@@ -13,8 +13,8 @@
 		state,city,area,address,rental,contact,topic,
 		note,create_time,label)
 		VALUES
-		(#{houseId},#{user.userId},#{type},#{houseType},
-		#{sex},#{city},#{state},#{area},
+		(#{houseId},#{user.userId},#{type},#{houseType},#{sex},
+		#{state},#{city},#{area},
 		#{address},#{rental},#{contact},#{topic},#{note},
 		#{createTime},#{label})
     </insert>

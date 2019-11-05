@@ -66,7 +66,7 @@ public class CollectionEmpServiceImpl implements CollectionEmpService {
         }
         int effected=0;
 
-            effected=removeCollectionEmp(userId,collectionEmpId);
+            effected=collectionEmpDao.deleteCollectionEmp(userId,collectionEmpId);
             if(effected<=0)throw new CustomizeException(CustomizeErrorCode.OPERATION_ERROR);
 
         return effected;

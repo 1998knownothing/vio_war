@@ -64,7 +64,7 @@ public class CollectionTopicServiceImpl implements CollectionTopicService {
     public int removeCollectionTopic(String userId, String collectionTopicId) {
         int effectedDelete=0;
 
-            effectedDelete=removeCollectionTopic(userId,collectionTopicId);
+            effectedDelete=collectionTopicDao.deleteCollectionTopic(userId,collectionTopicId);
             if(effectedDelete<=0)throw new RuntimeException("添加话题收藏失败");
             int effectedUpdate=collectionTopicDao.updateTopicCollectNum(2,collectionTopicId);
             if(effectedUpdate<=0)throw new RuntimeException("更新话题收藏数失败--");

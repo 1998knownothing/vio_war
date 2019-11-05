@@ -66,6 +66,11 @@
     .hh{
         border-radius:50%;
     }
+    .bg{
+        background-color:rgba(249,247,247,1.00);
+        border-radius: 0px;
+        padding: 10px;
+    }
 </style>
 <div class="bui-page" id="page">
     <header class="bui-bar">
@@ -82,7 +87,7 @@
             <div class="span1">
                 <div class="bui-input">
                     <i class="icon-search"></i>
-                    <input name="keyword" type="search" value="" placeholder="搜索职位或公司名称"/>
+                    <input name="keyword" type="search" value="" placeholder="搜索地址或公司名称"/>
                 </div>
             </div>
             <div class="btn-search">搜索</div>
@@ -127,8 +132,8 @@
                     </div>
                     <ul class="bui-list">
                         <li class="bui-btn" value="0">不限</li>
-                        <li class="bui-btn" value="1">合租</li>
-                        <li class="bui-btn" value="2">整租</li>
+                        <li class="bui-btn" value="1">整租</li>
+                        <li class="bui-btn" value="2">合租</li>
                     </ul>
                 </div>
             </div>
@@ -361,15 +366,19 @@ bui.ready(function(){
                     switch (el.type) {
                         case 1:
                             sub = '整租';
-                            subClass = 'bui-sub';
+
                             break;
                         case 2:
                             sub = '合租';
-                            subClass = 'bui-sub danger';
+
+                            break;
+                        case 0:
+                            sub = '不限';
+
                             break;
                         default:
                             sub = '';
-                            subClass = '';
+
                             break;
                     }
                     switch (el.sex) {
@@ -396,13 +405,13 @@ bui.ready(function(){
                                  <h3 class="item-title">${el.user.nickName}</h3>
                             </div>
                             <div class="position">
-                                <span class="item-text">${el.user.school}</span>
-                                 <span class="item-text">${el.user.company}</span>
+                                <span class="time">${el.user.school}</span>
+                                <span class="time">${el.user.company}</span>
                             </div>
                         </div>
 				             <br>
 						      <!-- 内容 -->
-                           <div class="span1">
+                           <div class="span1 bg">
                     <h3 class="item-title">${el.address}</h3>
                     <p class="item-text">城市：${el.city}</p>
                     <p class="item-text">求租区域：${el.area}</p>
@@ -428,7 +437,7 @@ bui.ready(function(){
         var uiSearchbar = bui.searchbar({
             id:"#searchbar",
             onInput: function(e,keyword) {
-
+                alert(city+area)
             },
             onRemove: function(e,keyword) {
                 //删除关键词需要做什么其它处理

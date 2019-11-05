@@ -13,6 +13,7 @@
             <result column="position_name" property="positionName" />
             <result column="company" property="company" />
             <result column="city" property="city" />
+            <result column="period" property="period" />
             <result column="company_logo" property="companyLogo" />
             <result column="bcreate_time" property="createTime" />
         </association>
@@ -53,6 +54,7 @@
         b.position_name as position_name,
         b.company,
         b.city,
+        b.period,
         b.company_logo,
         b.create_time as bcreate_time
         FROM

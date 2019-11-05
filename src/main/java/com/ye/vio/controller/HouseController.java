@@ -30,14 +30,58 @@ public class HouseController {
     @Resource
     HouseService houseService;
 
-
+/*
     @RequestMapping(value = "/add/house",method = RequestMethod.POST)
     @ResponseBody
-    public ResultDTO addHouse(House house,@RequestParam(value = "file") CommonsMultipartFile[] files, HttpServletRequest request){
+    public ResultDTO addHouse(int sex,int houseType,int type,String city,String area,String address
+            ,String rental,String contact,String topic,String note,String label
+            ,@RequestParam(value = "file") CommonsMultipartFile[] files
+            , HttpServletRequest request){
 
         List<CommonsMultipartFile> list=new ArrayList<>();
         String userId=(String)request.getSession().getAttribute("userId");
+        House house=new House();
+        UserVo user=new UserVo();
+        user.setUserId(userId);
+        house.setUser(user);
+        house.setCity(city);
+        house.setArea(area);
+        house.setSex(sex);
+        house.setHouseType(houseType);
+        house.setType(type);
+        house.setAddress(address);
+        house.setRental(rental);
+        house.setContact(contact);
+        house.setTopic(topic);
+        house.setNote(note);
+        house.setLabel(label);
 
+        if(files!=null&&files.length>0){
+
+            for (CommonsMultipartFile c:files){
+                list.add(c);
+            }
+        }
+        int effected=houseService.addHouse(house,list);
+
+        return ResultDTO.okOf(effected);
+
+
+    }
+*/
+
+    @RequestMapping(value = "/add/house",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultDTO addHouse(House house
+            ,@RequestParam(value = "file") CommonsMultipartFile[] files
+            , HttpServletRequest request){
+
+        List<CommonsMultipartFile> list=new ArrayList<>();
+        String userId=(String)request.getSession().getAttribute("userId");
+//        String area=house.getArea();
+//        String[] str=area.split(",");
+//        house.setCity(str[0]);
+//        house.setArea(str[1]);
         UserVo user=new UserVo();
         user.setUserId(userId);
         house.setUser(user);
@@ -49,7 +93,7 @@ public class HouseController {
             }
         }
             int effected=houseService.addHouse(house,list);
-
+        System.out.println(effected);
             return ResultDTO.okOf(effected);
 
 

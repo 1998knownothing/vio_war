@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+    <style></style>
+</head>
+<body>
+<style>
+    .publish-mark {
+        position:fixed;
+        right: 20px;
+        bottom: 60px;
+        width: 60px;
+        height: 60px;
+        line-height: .8rem;
+        text-align: center;
+        background-color: #26d76d;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    .publish-mark i {
+        font-size: .24rem;
+        text-align: center;
+        color: #fff;
+    }
+
+
+    .page-form .bui-fluid-space-3 .span1 {
+        margin-bottom: .2rem;
+    }
+    .selected-val {
+        margin-right: .1rem;
+    }
+</style>
+<div class="bui-page page-form" id="page">
+    <header class="bui-bar">
+        <div class="bui-bar-left"> 	<a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">个人信息修改</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    <main>
+        <h1 class="section-title">您的个人信息</h1>
+        <ul class="bui-list">
+            <li class="bui-list">
+                <ul class="bui-btn bui-box clearactive">
+                    <label class="bui-label" for="position">您的昵称：</label>
+                    <div class="span1">
+                        <div class="bui-input user-input">
+                            <input id="nickName" type="text" value="" placeholder="" maxlength="16"> </div>
+                    </div>
+                </ul>
+                <ul class="bui-btn bui-box clearactive">
+                    <label class="bui-label" for="position">性别：</label>
+                    <div class="span1">
+                        <div class="bui-input user-input">
+                            <input id="sex" type="text" value="" placeholder="" maxlength="16"> </div>
+                    </div>
+                </ul>
+
+            </li>
+        </ul>
+
+
+        <ul class="bui-list">
+
+
+            <ul class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="school">毕业学校：</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <input id="school" type="text" value="" placeholder="" maxlength="16"> </div>
+                </div>
+            </ul>
+            <ul class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="company">公司：</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <input id="company" type="text" value="" placeholder="" maxlength="16"> </div>
+                </div>
+            </ul>
+            <li class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="email">email：</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <input id="email" type="text" value="" placeholder="" maxlength="16"> </div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="contact">联系方式：</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <input id="contact" type="text" value="" placeholder="" maxlength="16"> </div>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="bui-btn bui-box clearactive">
+            <label class="bui-label" for="position">职位:</label>
+            <div class="span1">
+                <div class="bui-input user-input">
+                    <input id="position" type="text" value="" placeholder="" maxlength="16"> </div>
+            </div>
+        </ul>
+
+
+
+
+        <div class="container-y">
+            <div class="bui-box-space">
+                <div class="span1">
+                    <div class="bui-btn round primary" id="btnSend">更新</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+
+        <!-- tab菜单结构 -->
+        <ul id="tabDynamicNav" class="bui-nav">
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
+                <div class="span1">招聘</div>
+            </li>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
+                <div class="span1">求租</div>
+            </li>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></span></i>
+                <div class="span1">房源</div>
+            </li>
+
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/topic.html"><i class="icon-edit"></i>
+                <div class="span1">社区</div>
+            </li>
+
+            <li class="bui-btn bui-box-vertical  active" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
+                <div class="span1">我的</div>
+            </li>
+        </ul>
+    </footer>
+
+</div>
+<script>
+    bui.ready(function(){
+
+        var pageview = {};
+        // 初始化定义
+        pageview.init = function () {
+            bui.ajax({
+                url: "http://localhost:8080/vio_war/user/session",
+            }).then(function(res){
+                handleUser(res)
+
+                console.log(res)
+            },function(res,status){
+                console.log(status);
+            })
+        }
+        function handleUser(data) {
+
+            var sexval;
+
+            switch (data.data.sex) {
+                case 1:
+                    sexval = '男';
+                    break;
+                case 2:
+                    sexval = '女';
+                    break;
+                default:
+                    sexval = '未知';
+                    break;
+            }
+
+            $('#sex').val(sexval);
+            $('#nickName').val(data.data.nickName);
+            $('#school').val(data.data.school);
+            $('#company').val(data.data.company);
+            $('#email').val(data.data.email);
+            $('#contact').val(data.data.contact);
+            $('#position').val(data.data.position);
+        }
+
+
+    var $btnSend=$("#btnSend");
+    $btnSend.on("click",function(argument) {
+
+
+        var sex =$("#sex").val();
+
+        if(sex=="男"){
+            sex=1;
+        }if (sex=="女"){
+            sex=2;
+        } else {
+            sex=0;
+        }
+
+        var school = $("#school").val();
+        var company = $("#company").val();
+        var email = $("#email").val();
+        var contact = $("#contact").val();
+        var position = $("#position").val();
+
+
+        bui.ajax({
+            url: "http://localhost:8080/vio_war/user/modify",
+            method: "POST",
+            data: {
+                "school": school,
+                "company": company,
+                "email": email,
+                "contact": contact,
+                "position": position,
+                "sex": sex
+            }
+        }).then(function (res) {
+            console.log(res)
+            bui.alert("成功更新");
+        }, function (res, status) {
+            bui.alert("更新失败");
+        })
+    })
+
+
+
+    bui.btn({
+        id:"#page",
+        handle: ".bui-btn"  // 绑定多个 ".bui-btn,.submit,a"
+    }).load();
+        pageview.init();
+        return pageview;
+})
+</script>
+</body>
+</html>

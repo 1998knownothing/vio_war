@@ -335,9 +335,6 @@
             </div>
         </div>
     </main>
-    <footer>
-
-
 
         <footer>
             <!-- tab菜单结构 -->
@@ -405,7 +402,7 @@
                     }
 
                     html += `<li  class="bui-btn bui-box title1" href="http://localhost:8080/vio_war/page/jobDetail.html?id=${el.employmentId}">
-                        <div class="bui-thumbnail"><img src="${el.companyLogo}" alt=""></div>
+                        <div class="bui-thumbnail"><img src="${el.companyLogo}"></div>
 
                         <div class="span1">
                             <h3 class="item-title title">${el.positionName}</h3>
@@ -423,7 +420,7 @@
                              <span class="time">${el.createTime}</span>
                            </div>
                            <div class="span1">
-                               <div class="bui-box-align-right" onclick="employ()">删除</div>
+                               <div class="bui-box-align-right" id="${el.employmentId}" onclick="employ(this.id)">删除</div>
                            </div>
                         </div>
                          <hr>`
@@ -477,19 +474,19 @@
                     // 判断求租类型
                     var type = '';
                     switch (el.type) {
-                        case 1:
+                        case 0:
                             type = '不限';
+                            break;
+                        case 1:
+                            type = '整租';
                             break;
                         case 2:
                             type = '合租';
                             break;
-                        case 3:
-                            type = '整租';
-                            break;
 
                     }
 
-                    html += `<li class="bui-btn bui-box" href="http://localhost:8080/vio_war/page/rentDetail.html?id=${el.rentId}">
+                    html += `<li class="bui-btn bui-box"  href="http://localhost:8080/vio_war/page/rentDetail.html?id=${el.rentId}">
 
 				 <div class="span1">
                     <div class=" bui-box">
@@ -509,7 +506,7 @@
                              <span class="time">${el.createTime}</span>
                            </div>
                            <div class="span1">
-                               <div class="bui-box-align-right" onclick="rent()">删除</div>
+                               <div class="bui-box-align-right" id="${el.rentId}" onclick="rent(this.id)">删除</div>
                            </div>
                         </div>
                          <hr>`
@@ -559,9 +556,6 @@
                 var html = "";
                 data.forEach(function(el, index) {
 
-
-
-
                     // 处理角标状态
                     var sub = '',
                         subClass = '';
@@ -572,11 +566,12 @@
                             subClass = '';
                             break;
                     }
-
+                    var house=el.houseId;
                     html += `<li class="bui-btn bui-box title1">
-                        <div class="bui-thumbnail"><img src="${el.houseImgList[0].houseImgAddr}" alt=""></div>
+                        <div class="bui-thumbnail"><img src="${el.houseImgList[0].houseImgAddr}"  alt="${el.houseId}"></div>
                         <div class="span1">
                             <h3 class="item-title title">${el.topic}</h3>
+                            <br> <br>
                             <p class="item-text"><span class="bui-label">房源地址</span><span class="bui-value">${el.address}</span></p>
                             <p class="item-text"><span class="bui-label">租金</span><span class="bui-value">${el.rental}/月</span></p>
                         </div>
@@ -586,7 +581,7 @@
                              <span class="time">${el.createTime}</span>
                            </div>
                            <div class="span1">
-                               <div class="bui-box-align-right" onclick="rentsource()">删除</div>
+                               <div class="bui-box-align-right" id="${el.houseId}" onclick="rentsource(this.id)">删除</div>
                            </div>
                         </div>
                          <hr>`
@@ -656,7 +651,7 @@
                              <span class="time">${el.createTime}</span>
                            </div>
                            <div class="span1">
-                               <div class="bui-box-align-right" onclick="topic()">删除</div>
+                               <div class="bui-box-align-right" id="${el.topicId}" onclick="topic(this.id)">删除</div>
                            </div>
                         </div>
                          <hr>`
@@ -685,7 +680,7 @@
                              <span class="time">${el.createTime}</span>
                            </div>
                            <div class="span1">
-                               <div class="bui-box-align-right" onclick="topic()">删除</div>
+                               <div class="bui-box-align-right" id="${el.topicId}" onclick="topic(this.id)">删除</div>
                            </div>
                         </div>
                          <hr>`
@@ -734,12 +729,12 @@
     })
 
         //招聘
-        function employ()
+        function employ(empid)
         {
             bui.confirm("消息确认框", function(e) {
                 //this 是指点击的按钮
                 var text = $(e.target).text();
-                var empid=$("#empid").val();
+
                 if (text == "确定") {
                     bui.delete("http://localhost:8080/vio_war/employment/remove/emp/"+empid,{type:"new"} ).then(function(res){
                         console.log(res+empid)
@@ -754,41 +749,61 @@
         }
 
         //求租
-        function rent()
+        function rent(rentid)
         {
             bui.confirm("消息确认框", function(e) {
                 //this 是指点击的按钮
                 var text = $(e.target).text();
 
+
                 if (text == "确定") {
-                    console.log("你点击了" + $(e.target).text())
+                    bui.delete("http://localhost:8080/vio_war/rent/remove/rent/"+rentid,{type:"new"} ).then(function(res){
+                        console.log(res+rentid)
+                        bui.alert("成功删除")
+                    },function(res,status){
+                        console.log(status);
+                    })
+                    console.log("你点击了"+rentid + $(e.target).text())
                 }
                 this.close()
             });
         }
         //房源
-        function rentsource()
+        function rentsource(houseid)
         {
             bui.confirm("消息确认框", function(e) {
                 //this 是指点击的按钮
                 var text = $(e.target).text();
-
+                //var houseid=$("#houseId").attr("alt");
+                //alert(houseid)
                 if (text == "确定") {
-                    console.log("你点击了" + $(e.target).text())
+                    bui.delete("http://localhost:8080/vio_war/house/remove/house/"+houseid,{type:"new"} ).then(function(res){
+                        console.log(res+houseid)
+                        bui.alert("成功删除")
+                    },function(res,status){
+                        console.log(status);
+                    })
+                    console.log("你点击了"+houseid+ $(e.target).text())
                 }
                 this.close()
             });
         }
 
         //简历话题
-        function topic()
+        function topic(topicid)
         {
             bui.confirm("消息确认框", function(e) {
                 //this 是指点击的按钮
                 var text = $(e.target).text();
 
                 if (text == "确定") {
-                    console.log("你点击了" + $(e.target).text())
+                    bui.delete("http://localhost:8080/vio_war/topic/remove/topic/"+topicid,{type:"new"} ).then(function(res){
+                        console.log(res+topicid)
+                        bui.alert("成功删除")
+                    },function(res,status){
+                        console.log(status);
+                    })
+                    console.log("你点击了"+topicid + $(e.target).text())
                 }
                 this.close()
             });

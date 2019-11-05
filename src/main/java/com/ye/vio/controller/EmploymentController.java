@@ -1,11 +1,8 @@
 package com.ye.vio.controller;
 
 import com.ye.vio.dto.EmploymentCondition;
-import com.ye.vio.dto.EmploymentExecution;
 import com.ye.vio.dto.ResultDTO;
 import com.ye.vio.entity.Employment;
-import com.ye.vio.entity.Fengzhuang;
-import com.ye.vio.enums.CustomizeErrorCode;
 import com.ye.vio.service.EmploymentService;
 import com.ye.vio.vo.EmploymentVo;
 import org.springframework.stereotype.Controller;
@@ -15,9 +12,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: vio

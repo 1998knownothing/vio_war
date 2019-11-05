@@ -66,7 +66,7 @@ public class HouseServiceImpl implements HouseService {
     @Override
     @Transactional
     public int addHouse(House house,List<CommonsMultipartFile> houseImgs) {
-        if(house==null||house.getHouseId()==null||house.getUser().getUserId()==null)
+        if(house==null||house.getUser().getUserId()==null)
             throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
 
                 house.setHouseId(UUIDUtils.UUID());

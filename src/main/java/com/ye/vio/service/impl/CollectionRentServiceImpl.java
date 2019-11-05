@@ -64,7 +64,7 @@ public class CollectionRentServiceImpl implements CollectionRentService {
             throw new CustomizeException(CustomizeErrorCode.INVALID_INPUT);
         int effected=0;
 
-            effected=removeCollectionRent(userId,collectionRentId);
+            effected=collectionRentDao.deleteCollectionRent(userId,collectionRentId);
             if(effected<=0)throw new CustomizeException(CustomizeErrorCode.OPERATION_ERROR);
 
 
