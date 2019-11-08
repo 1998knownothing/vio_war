@@ -216,19 +216,6 @@ bui.ready(function(){
     uiAccordion.showFirst();
 
 
-    //默认全部展开
-    // uiAccordion.showAll();
-    // var service = $('input[name="service"]:checked').val();
-    // alert(service);
-    // 取值
-    // var positionList = $('input[name="type"]').prop("checked",true);
-    // var service = $('input[name="service"]:checked').val();
-    // console.log(service)
-    //var city="广州";
-
-
-
-
 
     var pageview = {};
 
@@ -410,7 +397,7 @@ bui.ready(function(){
                             break;
                     }
 
-                    html += `<li class="bui-btn submit" href="http://localhost:8080/vio_war/page/rentDetail.html?id=${el.rentId}">
+                    html += `<li class="bui-btn submit" href="http://localhost:8080/vio_war/page/houseDetail.html?id=${el.houseId}">
                     <div class="comment-line position1">
                   <div class="bui-box">
                     <div class="thumbnail" data-sub="${sub}" style="border-radius:50%;"><img style="border-radius:50%;" src="${el.user.imgAddr}" alt=""></div>
@@ -429,14 +416,16 @@ bui.ready(function(){
                     <div class="bui-btn bui-box title1 bg">
                         <div class="bui-thumbnail"><img src="${el.houseImgList[0].houseImgAddr}" alt=""></div>
                         <div class="span1">
-                           <h3 class="item-title">${el.address}</h3>
+                           <h3 class="item-title">${el.topic}</h3>
                     <p class="item-text">城市：${el.city}</p>
-                    <p class="item-text">求租区域：${el.area}</p>
+                    <p class="item-text">区域：${el.area}</p>
                     <p class="item-text">`+`求租类型；${sub}`+`</p>
                     <p class="item-text" >`+`性别要求；${sex}`+`</p>
-                    <p class="item-text">意向租金：${el.rental}</p>
+                    <p class="item-text">详细地址：${el.address}</p>
+                    <p class="item-text">租金：${el.rental}</p>
+                    <p class="item-text">联系方式：${el.contact}</p>
                     <p class="item-text">公司标签：${el.label}</p>
-                    <p class="item-text">入住时间:${el.checkInTime}</p>
+
 	                       </div>
                           </div>
                     </div>
@@ -480,15 +469,9 @@ bui.ready(function(){
         });
     }
 
-    pageview.bind = function () {
 
-
-
-    }
-    // 执行初始化
     pageview.init();
     // 绑定事件
-    pageview.bind();
     //页面初始化后，给指定id的div的btn注册
     bui.btn({
         id:"#page",

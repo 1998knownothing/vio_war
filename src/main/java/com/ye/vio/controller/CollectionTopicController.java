@@ -38,7 +38,7 @@ public class CollectionTopicController {
         return ResultDTO.okOf(collectionTopicList);
     }
 
-    @RequestMapping(value = "/add/topic/{topicid}",method = RequestMethod.POST)
+    @RequestMapping(value = "/add/topic/{topicid}",method = RequestMethod.GET)
     @ResponseBody
     public ResultDTO addCollectionTopic(HttpServletRequest request,@PathVariable("topicid") String topicId){
 
@@ -56,13 +56,15 @@ public class CollectionTopicController {
         return ResultDTO.okOf(effected);
     }
 
-    @RequestMapping(value = "/remove/topic/{collectionTopicId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/topic/{topicId}/{collectionTopicId}",method = RequestMethod.DELETE)
     @ResponseBody
-    public ResultDTO removeCollectionTopicByUserId(HttpServletRequest request, @PathVariable("collectionTopicId")String collectionTopicId){
+    public ResultDTO removeCollectionTopicByUserId(HttpServletRequest request,
+                                                   @PathVariable("collectionTopicId")String collectionTopicId,
+                                                   @PathVariable("topicId")String topicId){
 
         String userId=(String) request.getSession().getAttribute("userId");
 
-        int effected=collectionTopicService.removeCollectionTopic(userId,collectionTopicId);
+        int effected=collectionTopicService.removeCollectionTopic(userId,collectionTopicId,topicId);
 
 
         return ResultDTO.okOf(effected);

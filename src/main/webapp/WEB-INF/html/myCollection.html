@@ -631,8 +631,9 @@
                 // 处理角标状态
                 switch (el.topic.type) {
                     case 1:
-                        html += `<li class="bui-btn submit" href="topicDetail2.html?id=${el.topic.topicId}">
+                        html += `<li class="bui-btn submit" href="topicDetail.html?id=${el.topic.topicId}">
                                   <!-- 内容 -->
+                                   <input type="hidden" id="topic${el.collectionTopicId}" value="${el.topic.topicId}" />
                                 <div class="item-text comment-content"><h3 class="item-title">${el.topic.content}</h3></div>
                                 <div class="bui-box">
                                 <a href="#" class="span1"><i class="icon-dout">&#xe641;</i>${el.topic.likeNum}</a>
@@ -654,6 +655,7 @@
                     case 2:
                         html += `<li class="bui-btn submit" href="topicDetail2.html?id=${el.topic.topicId}">
                             <!-- 内容 -->
+                            <input type="hidden" id="topic${el.collectionTopicId}" value="${el.topic.topicId}" />
                             <div class="item-text comment-content"><h3 class="item-title">${el.topic.content}</h3></div>
                             <!-- 图片 -->
                             <div class="bui-box-space container-full">
@@ -724,6 +726,7 @@
     //招聘
     function employ(empid)
     {
+
         bui.confirm("消息确认框", function(e) {
             //this 是指点击的按钮
             var text = $(e.target).text();
@@ -784,16 +787,17 @@
     }
 
     //简历话题
-    function topic(topicid)
+    function topic(collectionid)
     {
+        var topicId=$("#topic"+collectionid).val();
         bui.confirm("消息确认框", function(e) {
             //this 是指点击的按钮
             var text = $(e.target).text();
 
             if (text == "确定") {
-                bui.delete("http://localhost:8080/vio_war/collection/remove/topic/"+topicid,{type:"new"} ).then(function(res){
-                    console.log(res+topicid)
-                    bui.alert("成功删除")
+                bui.delete("http://localhost:8080/vio_war/collection/remove/topic/"+topicId+"/"+collectionid).then(function(res){
+                    console.log(res+topicid+"  "+collectionid);
+                    bui.alert("成功取消收藏")
                 },function(res,status){
                     console.log(status);
                 })

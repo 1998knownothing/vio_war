@@ -53,7 +53,7 @@ public class CollectionTopicServiceImpl implements CollectionTopicService {
 
             effectedInsert=collectionTopicDao.insertCollectionTopic(collectionTopic);
             if(effectedInsert<=0)throw new RuntimeException("添加话题收藏失败");
-            int effectedUpdate=collectionTopicDao.updateTopicCollectNum(1,collectionTopic.getCollectionTopicId());
+            int effectedUpdate=collectionTopicDao.updateTopicCollectNum(1,collectionTopic.getTopic().getTopicId());
             if(effectedUpdate<=0)throw new RuntimeException("更新话题收藏数失败++");
 
         return effectedInsert;
@@ -61,12 +61,12 @@ public class CollectionTopicServiceImpl implements CollectionTopicService {
 
     @Override
     @Transactional
-    public int removeCollectionTopic(String userId, String collectionTopicId) {
+    public int removeCollectionTopic(String userId, String collectionTopicId,String topicId) {
         int effectedDelete=0;
 
             effectedDelete=collectionTopicDao.deleteCollectionTopic(userId,collectionTopicId);
             if(effectedDelete<=0)throw new RuntimeException("添加话题收藏失败");
-            int effectedUpdate=collectionTopicDao.updateTopicCollectNum(2,collectionTopicId);
+            int effectedUpdate=collectionTopicDao.updateTopicCollectNum(2,topicId);
             if(effectedUpdate<=0)throw new RuntimeException("更新话题收藏数失败--");
 
         return effectedDelete;

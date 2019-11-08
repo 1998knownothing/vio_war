@@ -103,6 +103,11 @@
                             <div class="bui-value" id="contact">wangxx@xxx.net</div>
                         </div>
                     </li>
+                    <li class="bui-btn bui-box clearactive">
+                        <div id="collect">
+
+                        </div>
+                    </li>
                 </ul>
 
 
@@ -127,7 +132,7 @@
                 <div class="span1">社区</div>
             </li>
 
-            <li class="bui-btn bui-box-vertical  active" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
                 <div class="span1">我的</div>
             </li>
         </ul>
@@ -188,6 +193,11 @@
                 <img src="${data.user.imgAddr}" alt="" width="100" height="100">
             </div>`;
         $("#logo").html(html);
+
+        var html1="";
+        html1 += `<div id="${data.rentId}" onclick="collect(this.id)"><i class="icon-dout">&#xe62a;<i id="collectNum">点击收藏</i></i></div>`;
+        $("#collect").html(html1);
+
         if(data.sex==0){
             $('#isQuick').text("性别要求[不限]");
         }
@@ -215,6 +225,20 @@
     }).load();
     return pageview;
 })
+function collect(resultId)
+{
+
+    bui.ajax({
+        url: "http://localhost:8080/vio_war/collection/add/rent/"+resultId,
+        method:"POST"
+
+    }).then(function(res){
+        console.log(res.message)
+    },function(res,status){
+        console.log(res.message)
+    })
+    bui.alert("收藏");
+}
 
 </script>
 </body>

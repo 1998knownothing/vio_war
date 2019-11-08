@@ -567,7 +567,7 @@
                             break;
                     }
                     var house=el.houseId;
-                    html += `<li class="bui-btn bui-box title1">
+                    html += `<li class="bui-btn bui-box title1" href="http://localhost:8080/vio_war/page/houseDetail.html?id=${el.houseId}">
                         <div class="bui-thumbnail"><img src="${el.houseImgList[0].houseImgAddr}"  alt="${el.houseId}"></div>
                         <div class="span1">
                             <h3 class="item-title title">${el.topic}</h3>
@@ -634,7 +634,7 @@
                     // 处理角标状态
                     switch (el.type) {
                         case 1:
-                            html += `<li class="bui-btn submit" href="topicDetail2.html?id=${el.topicId}">
+                            html += `<li class="bui-btn submit" href="topicDetail.html?id=${el.topicId}">
                                   <!-- 内容 -->
 
                        <div class="item-text comment-content"><h3 class="item-title" >${el.content}</h3></div>

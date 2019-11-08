@@ -301,7 +301,7 @@
 			<li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
 				<div class="span1">招聘</div>
 			</li>
-			<li class="bui-btn bui-box-vertical  active" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
+			<li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
 				<div class="span1">求租</div>
 			</li>
 			<li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></span></i>
@@ -366,8 +366,8 @@
 						case 2:
 							html += `<li class="bui-btn bui-box" href="topicDetail.html?id=${el.topicId}">
                                 <div class="span1">
-                                  <p><a class="blue">@${el.fromNickName}</a>评论了你的职言：${el.fatherReplyContent}</p>
-                                  <p class="bg">${el.toNickName}：${el.topicContent}</p>
+                                  <p><a class="blue">@${el.fromNickName}</a>评论了你的职言：${el.topicContent}</p>
+                                  <p class="bg">${el.toNickName}：${el.fatherReplyContent}</p>
                                 </div>
                                     </li>
                                 <div class="bui-box">
@@ -425,10 +425,8 @@
 				data.forEach(function(el, index) {
 
 
-
-					var sub='';
 					switch (el.notificationType) {
-						case 0:
+						case 2:
 							html += `<li class="bui-btn bui-box" href="topicDetail.html?id=${el.topicId}">
                                 <div class="span1">
                                   <p><a class="blue">@${el.fromNickName}</a>点赞了你的评论</p>

@@ -85,6 +85,11 @@ public class PageController {
 
         return "topicDetail";
     }
+    @GetMapping("/topicDetail2.html")
+    public String topicDetail2(){
+
+        return "topicDetail2";
+    }
     @GetMapping("/personal.html")
     public String personal(){
 

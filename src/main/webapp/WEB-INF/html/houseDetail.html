@@ -129,17 +129,16 @@
                             <div class="bui-value" id="note"></div>
                         </div>
                     </li>
-                    <!-- <li class="bui-btn bui-box clearactive">
-                        <label class="bui-label">租金(元/月)</label>
-                        <div class="span1">
-                            <div class="bui-value" id="rental"></div>
-                        </div>
-                    </li> -->
 
                     <li class="bui-btn bui-box clearactive">
                         <label class="bui-label">联系方式(微信/手机号/QQ)</label>
                         <div class="span1" >
                             <div class="bui-value" id="contact">++</div>
+                        </div>
+                    </li>
+                    <li class="bui-btn bui-box clearactive">
+                        <div id="collect">
+
                         </div>
                     </li>
 
@@ -156,7 +155,7 @@
             <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
                 <div class="span1">招聘</div>
             </li>
-            <li class="bui-btn bui-box-vertical   active"  href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
+            <li class="bui-btn bui-box-vertical"  href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
                 <div class="span1">求租</div>
             </li>
             <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></span></i>
@@ -222,41 +221,7 @@
 
     // handleUser(dat);
     var o=[];
-// tt();
-//     function tt(){
-//         var houseImgList= [
-//             {
-//                 "houseImgId": "1",
-//                 "houseId": "1",
-//                 "houseImgAddr": "http://www.easybui.com/demo/images/banner01.png",
-//                 "createTime": null
-//             },
-//             {
-//                 "houseImgId": "2",
-//                 "houseId": "1",
-//                 "houseImgAddr": "http://www.easybui.com/demo/images/banner02.png",
-//                 "createTime": null
-//             },
-//             {
-//                 "houseImgId": "3",
-//                 "houseId": "1",
-//                 "houseImgAddr": "http://www.easybui.com/demo/images/banner03.png",
-//                 "createTime": null
-//             }
-//         ]
-//             //
-//             var arr=houseImgList;
-//             console.log("arr1"+arr);
-//             arr.push({houseImgAddr:"http://www.easybui.com/demo/images/banner01.png"});
-//             console.log("arr2"+arr);
-//            for (var i=0;i<arr.length;i++){
-//                var item=arr[i];
-//                 obj.push({image:item.houseImgAddr});
-//             }
-//             console.log("obj"+obj);
 
-
-//     }
     function handleUser(data) {
 
         console.log(data.houseImgList);
@@ -280,16 +245,11 @@
         html += `<div>
                 <img src="${data.user.imgAddr}" style="border-radius:50%;" alt="" width="50" height="50">
             </div>`;
+        var html1="";
+        html1 += `<div id="${data.houseId}" onclick="collect(this.id)"><i class="icon-dout">&#xe62a;<i id="collectNum">点击收藏</i></i></div>`;
+        $("#collect").html(html1);
 
 
-        // 快速初始化
-
-
-        //     obj.push({image:"http://www.easybui.com/demo/images/banner01.png"});
-
-
-        // o.push({image:"http://www.easybui.com/demo/images/banner01.png"});
-        // o.push({image:"http://www.easybui.com/demo/images/banner01.png"});
         console.log(obj);
         var uiSlide = bui.slide({
             id:"#slide",
@@ -334,19 +294,7 @@
 
     }
 
-    // function count(o){
-    //     var t = typeof o;
-    //     if(t == 'string'){
-    //         return o.length;
-    //     }else if(t == 'object'){
-    //     var n = 0;
-    //     for(var i in o){
-    //          n++;
-    //      }
-    //      return n;
-    //   }
-    // return false;
-    // }
+
     pageview.init();
     bui.btn({
         id:"#page",
@@ -354,6 +302,21 @@
     }).load();
     return pageview;
 })
+
+function collect(houseId)
+{
+
+    bui.ajax({
+        url: "http://localhost:8080/vio_war/collection/add/house/"+houseId,
+        method:"POST"
+
+    }).then(function(res){
+        console.log(res.message)
+    },function(res,status){
+        console.log(res.message)
+    })
+    bui.alert("收藏");
+}
 
 </script>
 </body>

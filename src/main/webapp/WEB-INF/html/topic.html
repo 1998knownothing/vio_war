@@ -11,6 +11,12 @@
 </head>
 <body>
 <style>
+    .bg{
+        background-color:rgba(235,230,230,1.00);
+        opacity:0.9;
+        border-radius: 10px;
+        padding: 10px;
+    }
     .bui-dialog-foot-nav {
         bottom: 1rem;
         display: none;
@@ -310,6 +316,7 @@
 
 
     </main>
+
     <footer>
         <!-- tab菜单结构 -->
         <ul id="tabDynamicNav" class="bui-nav">
@@ -332,6 +339,7 @@
             </li>
         </ul>
     </footer>
+
 </div>
 <script>
 
@@ -374,7 +382,7 @@
                             break;
                     }
 
-                    html += `<li class="bui-btn submit" href="topicDetail1.html?id=${el.topicId}">
+                    html += `<li class="bui-btn submit" href="topicDetail.html?id=${el.topicId}">
                     <div class="comment-line position1">
                 <div class="bui-box">
                     <div class="thumbnail" style="border-radius:50%;"><img src="${el.userVo.imgAddr}" alt=""></div>
@@ -390,7 +398,7 @@
                         </div>
 				             <br>
 						      <!-- 内容 -->
-                        <div class="item-text comment-content">${el.content}</div>
+                        <div class="item-text comment-content bg">${el.content}</div>
                         <div class="bui-box">
                             <div class="span1">
                                 <span class="time size1">${el.createTime}</span>
@@ -424,38 +432,6 @@
             }
         })
 
-
-        /*
-        //搜索条的初始化
-        var uiSearchbar = bui.searchbar({
-            id: "#searchbar",
-            onInput: function(e, keyword) {
-                //实时搜索
-                // console.log(++n)
-            },
-            onRemove: function(e, keyword) {
-                //删除关键词需要做什么其它处理
-                // console.log(keyword);
-            },
-            callback: function(e, keyword) {
-
-                if (uiList1) {
-
-                    //点击搜索清空数据
-                    uiList1.empty();
-                    // 重新初始化数据
-                    uiList1.init({
-                        page: 1,
-                        data: {
-                            "keyword": keyword
-                        }
-                    });
-
-                }
-            }
-
-        });
-      */
 
         //第二个页面
         //加载列表
@@ -494,7 +470,7 @@
                             break;
                     }
 
-                    html += `<li class="bui-btn submit" href="topicDetail1.html?id=${el.topicId}">
+                    html += `<li class="bui-btn submit" href="topicDetail2.html?id=${el.topicId}">
                     <div class="comment-line position1">
                       <div class="bui-box">
                     <div class="thumbnail" style="border-radius:50%;"><img src="${el.resumeImg}" alt=""></div>
@@ -510,7 +486,7 @@
                         </div>
 				             <br>
 						      <!-- 内容 -->
-                        <div class="item-text comment-content">${el.content}</div>
+                        <div class="item-text comment-content bg">${el.content}</div>
                          <!-- 图片 -->
                                 <div class="bui-box-space container-full">
                                 <div class="span1">
@@ -601,18 +577,6 @@
 
 
 
-        /*
-            //跳转页面
-             function WindowDialog1()
-        {
-            window.location.href = "issue3.html";
-        }
-             function WindowDialog2()
-        {
-            window.location.href = "commment.html";
-        }
-            */
-
 
         //顶部导航加载
         //按钮在tab外层,需要传id
@@ -634,7 +598,6 @@
 
             }
         }).to(0)
-
 
 
         bui.btn({

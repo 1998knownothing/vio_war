@@ -11,6 +11,7 @@
 </head>
 <body>
 <style>
+
     .personal-img {
 
         background: #fff996;
@@ -102,6 +103,11 @@
                             <div class="bui-value" id="workAddr"></div>
                         </div>
                     </li>
+                    <li class="bui-btn bui-box clearactive">
+                        <div id="collect">
+
+                        </div>
+                    </li>
 
                 </ul>
 
@@ -185,10 +191,16 @@
         $('#positionDesc').text(data.positionDesc);
         $('#createTime').text(data.createTime);
         var html="";
+
         html += `<div class="personal-img">
                 <img src="${data.companyLogo}" alt="">
             </div>`;
         $("#logo").html(html);
+
+        var html1="";
+        html1 += `<div id="${data.employmentId}" onclick="collect(this.id)"><i class="icon-dout">&#xe62a;<i id="collectNum">点击收藏</i></i></div>`;
+        $("#collect").html(html1);
+
 
         if(data.isQuick==1){
             $('#isQuick').text("尽快入职[是]");
@@ -197,6 +209,7 @@
         }
 
     }
+
     pageview.init();
     bui.btn({
         id:"#page",
@@ -204,7 +217,20 @@
     }).load();
     return pageview;
 })
+function collect(empId)
+{
 
+    bui.ajax({
+        url: "http://localhost:8080/vio_war/collection/add/emp/"+empId,
+        method:"POST"
+
+    }).then(function(res){
+        console.log(res.message)
+    },function(res,status){
+        console.log(res.message)
+    })
+    bui.alert("收藏");
+}
 </script>
 </body>
 </html>

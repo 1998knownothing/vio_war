@@ -13,6 +13,6 @@ public interface CollectionTopicService {
 
     public int addCollectionTopic(CollectionTopic collectionTopic);
 
-    public int removeCollectionTopic(String userId, String collectionTopicId);
+    public int removeCollectionTopic(String userId, String collectionTopicId,String topicId);
 
 }
