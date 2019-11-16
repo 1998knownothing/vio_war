@@ -93,7 +93,6 @@ public class HouseController {
             }
         }
             int effected=houseService.addHouse(house,list);
-        System.out.println(effected);
             return ResultDTO.okOf(effected);
 
 

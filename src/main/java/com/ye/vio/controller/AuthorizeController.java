@@ -102,13 +102,14 @@ public class AuthorizeController {
                 user.setNickName(name);
                 user.setEmail(emial);
                 user.setImgAddr(imgAddr);
+                user.setCreateTime(new Date());
                 userService.addUser(user);
                 //存储关联githu账号信息
                 auth.setId(UUIDUtils.UUID());
                 auth.setAuthId(authId);
                 auth.setToken(token);
                 auth.setUser(user);
-
+                auth.setCreateTime(new Date());
                authService.addAuth(auth);
 
             }

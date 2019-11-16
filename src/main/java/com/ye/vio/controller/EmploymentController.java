@@ -20,7 +20,7 @@ import java.util.List;
  * @author: Mr.liu
  * @create: 2019-08-05 00:01
  **/
-
+@CrossOrigin
 @Controller
 @RequestMapping("/employment")
 public class EmploymentController {
@@ -58,7 +58,7 @@ public class EmploymentController {
             ,@RequestParam(value = "file",required = false) CommonsMultipartFile logo
             ,HttpServletRequest request){
         String userId=(String)request.getSession().getAttribute("userId");
-        employment.setUserId("1");//暂时
+        employment.setUserId(userId);//暂时
         //System.out.println(employment.getCompany());
         //System.out.println(logo.getName());
         int effected= employmentService.addEmployment(employment,logo);

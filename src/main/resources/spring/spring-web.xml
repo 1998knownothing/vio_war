@@ -60,7 +60,9 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/upload/company_logo/**" />
-
+            <mvc:mapping path="/topic/add/**" />
+            <mvc:mapping path="/topic/remove/**" />
+            <mvc:mapping path="/like/**" />
             <bean class="com.ye.vio.interceptor.ApiInterceptor"></bean>
         </mvc:interceptor>
 

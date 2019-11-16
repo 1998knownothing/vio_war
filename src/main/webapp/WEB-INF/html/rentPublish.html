@@ -161,7 +161,7 @@
                 <div class="span1">社区</div>
             </li>
 
-            <li class="bui-btn bui-box-vertical  active" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
+            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
                 <div class="span1">我的</div>
             </li>
         </ul>
@@ -203,9 +203,11 @@
                 "checkInTime": checkInTime
             }
         }).then(function (res) {
-            console.log(res)
+            console.log(res);
+            bui.alert("成功发布");
         }, function (res, status) {
-
+            console.log(res);
+            console.log(status);
         })
     })
 

@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>房屋详情</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta http-equiv="Access-Control-Allow-Origin" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
     <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
@@ -131,7 +132,7 @@
                     </li>
 
                     <li class="bui-btn bui-box clearactive">
-                        <label class="bui-label">联系方式(微信/手机号/QQ)</label>
+                        <label class="bui-label">联系方式</label>
                         <div class="span1" >
                             <div class="bui-value" id="contact">++</div>
                         </div>
@@ -152,21 +153,21 @@
     <footer>
         <!-- tab菜单结构 -->
         <ul id="tabDynamicNav" class="bui-nav">
-            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/in.html"><i class="icon-chat"></span></i>
+            <li id="empArea" class="bui-btn bui-box-vertical"><i class="icon-chat"></span></i>
                 <div class="span1">招聘</div>
             </li>
-            <li class="bui-btn bui-box-vertical"  href="http://localhost:8080/vio_war/page/rent.html"><i class="icon-face"></span></i>
+            <li id="rentArea" class="bui-btn bui-box-vertical" ><i class="icon-face"></span></i>
                 <div class="span1">求租</div>
             </li>
-            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/house.html"><i class="icon-home"></span></i>
+            <li id="houseArea" class="bui-btn bui-box-vertical"><i class="icon-home"></span></i>
                 <div class="span1">房源</div>
             </li>
 
-            <li class="bui-btn bui-box-vertical" href="http://localhost:8080/vio_war/page/topic.html"><i class="icon-edit"></i>
+            <li id="topicArea" class="bui-btn bui-box-vertical"><i class="icon-edit"></i>
                 <div class="span1">社区</div>
             </li>
 
-            <li class="bui-btn bui-box-vertical  active" href="http://localhost:8080/vio_war/page/personal.html"><i class="icon-setting"></i>
+            <li id="personal" class="bui-btn bui-box-vertical  active" ><i class="icon-setting"></i>
                 <div class="span1">我的</div>
             </li>
         </ul>
@@ -183,12 +184,16 @@
         houseId=result.id;
     })
 
-
+    var url="http://localhost:8080";
     var pageview = {};
     var obj=[];
     pageview.init = function () {
         // 绑定分享
-
+        document.getElementById('empArea').href = url+"/vio_war/page/in.html";//给HTML元素的value属性赋值
+        document.getElementById('rentArea').href =  url+"/vio_war/page/rent.html";//给HTML元素的value属性赋值
+        document.getElementById('houseArea').href =  url+"/vio_war/page/house.html";//给HTML元素的value属性赋值
+        document.getElementById('topicArea').href =  url+"/vio_war/page/topic.html";//给HTML元素的value属性赋值
+        document.getElementById('personal').href =  url+"/vio_war/page/personal.html";//给HTML元素的value属性赋值
         var uiActionsheet = bui.actionsheet({
             trigger: ".btn-share",
             buttons: [{ name:"分享到微博",value:"weibo" },{ name:"朋友圈",value:"pyq" }],
@@ -203,7 +208,7 @@
         })
 
 
-        bui.get("http://localhost:8080/vio_war/house/get/house/"+houseId).then(function(res){
+        bui.get(url+"/vio_war/house/get/house/"+houseId).then(function(res){
                 handleUser(res.data);
             },function(res,status){
                 console.log(res);
@@ -255,8 +260,10 @@
             id:"#slide",
             height:380,
             autopage: true,
+            loop: true,
             data:obj
         })
+        uiSlide.start();
         $("#logo").html(html);
 
 

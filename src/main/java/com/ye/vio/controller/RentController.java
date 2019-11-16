@@ -87,7 +87,7 @@ public class RentController {
         String userId=(String)request.getSession().getAttribute("userId");
         Rent rent=new Rent();
         UserVo userVo=new UserVo();
-        userVo.setUserId("1");
+        userVo.setUserId(userId);
         rent.setUser(userVo);
         rent.setType(type);
         rent.setSex(sex);

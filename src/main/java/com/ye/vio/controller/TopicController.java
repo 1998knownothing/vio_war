@@ -23,7 +23,7 @@ import java.util.Map;
  * @author: Mr.liu
  * @create: 2019-08-10 14:27
  **/
-
+@CrossOrigin()
 @Controller
 @RequestMapping("/topic")
 public class TopicController {
@@ -73,8 +73,7 @@ public class TopicController {
     @ResponseBody
     public ResultDTO addTopic(Topic topic, @RequestParam(value = "file",required = false)CommonsMultipartFile file, HttpServletRequest request){
 
-       // String userId=(String)request.getSession().getAttribute("userId");
-        String userId="1";
+        String userId=(String)request.getSession().getAttribute("userId");
         UserVo userVo=new UserVo();
         userVo.setUserId(userId);
 
@@ -95,7 +94,7 @@ public class TopicController {
 
         int effected=topicService.removeTopic(topicId,userId);
 
-            return ResultDTO.okOf(effected);
+        return ResultDTO.okOf(effected);
 
     }
 }

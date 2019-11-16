@@ -145,7 +145,7 @@ public class PageController {
         return "user";
     }
 
-
+    @CrossOrigin()
     @GetMapping("/test")
     @ResponseBody
     public Object test(HttpServletRequest request){

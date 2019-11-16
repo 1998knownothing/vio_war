@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.css">
     <script src="https://cdn.jsdelivr.net/npm/buijs/lib/zepto.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/buijs/lib/latest/bui.js"></script>
+    <script typet="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
 <style>
@@ -213,6 +214,8 @@
     .forn{
         font-size: 10px;
     }
+    .like1{ font-size:15px;  color:#ccc; cursor:pointer;}
+    .cs{color:#f00;}
 </style>
 <div class="bui-page page-comment">
 
@@ -333,9 +336,11 @@ bui.ready(function(){
                            <span class="time" id="createTime">${data.createTime}</span>
                             </div>
                             <div class="bui-box">
-                               <div class="span1" id="like" onclick="topicLike()"><i class="icon-dout">&#xe641;<i id="likeNum">${data.likeNum}</i></i></div>
+                               <div class="span1" id="like" onclick="topicLike()"><i class="icon-dout like1">&#10084;</i>
+                                <i id="good1">${data.likeNum}</i></div>
                               <div class="span1" id="comment"  onclick="topicComment()"><i class="icon-dout">&#xe678;<i id="commentNum">${data.commentNum}</i></i></div>
-                              <div class="span1" id="collect" onclick="collect()"><i class="icon-dout">&#xe62a;<i id="collectNum">${data.collectNum}</i></i></div>
+                              <div class="span1" id="collect" onclick="collect()"><i class="icon-dout like1">&#xe62a;</i>
+                              <i id="good3">${data.collectNum}</i></div>
                             </div>
                         </div>
               </div>
@@ -348,11 +353,11 @@ bui.ready(function(){
             //绑上按钮事件点赞 评论还有父评论id  父评论按钮事件对应父评论接口
 
             html1 += `
-                <input type="hidden" id="comment${el.fatherReplyId}" value="${el.userVo.userId}" />
+                <input type="hidden" id="comment${el.fatherReplyId}" value="${el.userVo.userId}" fla1="0" />
                <li class="bui-btn bui-box-align-top">
                                 <div class="thumbnail"><img src="${el.userVo.imgAddr}" alt="" style="height:20px;width:20px;border-radius:0.5;"></div>
                                 <div class="span1">
-                                    <div class="item-title"><span class="name h forn" style="">${el.userVo.nickName}</span><span class="digg bui-right">${el.likeNum} <i class="icons"><i class="icon-dout" id="fatherReply,${el.fatherReplyId}" onclick="replyLike(this.id)">&#xe641;</i></i></span></div>
+                                    <div class="item-title"><span class="name h forn" style="">${el.userVo.nickName}</span><span class="digg bui-right"><i id="id${el.fatherReplyId}">${el.likeNum}</i> <i class="icons"><i class="icon-dout like1" id="fatherReply,${el.fatherReplyId}" onclick="replyLike(this.id)">&#10084;</i></i></span></div>
                                     <div class="item-content h bg" id="${el.fatherReplyId}" onclick="sonComment(this.id)">
                                         ${el.content}
                                     </div>
@@ -364,11 +369,11 @@ bui.ready(function(){
                 //绑上按钮事件点赞 评论还有子评论id  子评论按钮事件对应子评论接口
 
                 html1 += `
-                <input type="hidden" id="comment${el.sonReplyId}" value="${el.userVo.userId}" />
+                <input type="hidden" id="comment${el.sonReplyId}" value="${el.userVo.userId}" fla="0" />
                <li class="bui-btn bui-box-align-top position">
                                 <div class="thumbnail"><img src="${el.userVo.imgAddr}" alt="" style="height:20px;width:20px;border-radius:0.5;"></div>
                                 <div class="span1">
-                                    <em class="item-title"><span class="name h forn" style="">${el.userVo.nickName}</span><span class="digg bui-right">${el.likeNum} <i class="icons"><i class="icon-dout" onclick="like()">&#xe641;</i></i></span></em>
+                                    <em class="item-title"><span class="name h forn" style="">${el.userVo.nickName}</span><span class="digg bui-right"><i id="id1${el.sonReplyId}">${el.likeNum}</i> <i class="icons"><i class="icon-dout like1" id="sonReply,${el.sonReplyId}" onclick="like(this.id)">&#10084;</i></i></span></em>
                                     <div class="item-content h bg" id="${el.sonReplyId}" onclick="sonComment(this.id)">
                                        回复:${el.content}
                                     </div>
@@ -391,14 +396,13 @@ bui.ready(function(){
         handle: ".bui-btn"  // 绑定多个 ".bui-btn,.submit,a"
     }).load();
     return pageview;
-
 })
 
     function sonComment(Id)
     {
         var topicId=$("#topicId").val();
         var fatherReplyId=Id;
-       // var sonReplyId=$("#topicUser").val();
+        // var sonReplyId=$("#topicUser").val();
         var toUserId=$("#comment"+Id).val();
         console.log(topicId+" "+fatherReplyId+" "+toUserId);
         var uiPrompt = bui.prompt("请输入您要回复的评论",function(e){
@@ -408,14 +412,13 @@ bui.ready(function(){
             }else{
                 if( this.value() ){
                     var content=this.value();
-                    alert(content)
                     bui.ajax({
                         url: "http://localhost:8080/vio_war/comment/add/son",
                         method:"POST",
                         data: {
                             "topicId":topicId,
                             "fatherReplyId":fatherReplyId,
-                           // "sonReplyId":sonReplyId,
+                            // "sonReplyId":sonReplyId,
                             "toUserId":toUserId,
                             "content":content,
                         }
@@ -475,23 +478,39 @@ bui.ready(function(){
 
     }
 
+
+    var flag=false;
+    var flag1=false;
     function topicLike()
     {
-        alert("点赞");
-        var topicUserId = $("#comment").val();
-        var topicUserId = $("#comment").val();
-        bui.ajax({
-            url: "http://localhost:8080/vio_war/like/topic",
-            method:"POST",
-            data: {
-                "likedTopicId":topicId,
-                "toUserId":topicUserId
-            }
-        }).then(function(res){
-            console.log(res)
-        },function(res,status){
+        /*  alert("点赞");*/
+        var topicId=$("#topicId").val();
+        var topicUserId=$("#topicUser").val();
+          bui.ajax({
+              url: "http://localhost:8080/vio_war/like/topic",
+              method:"POST",
+              data: {
+                  "likedTopicId":topicId,
+                  "toUserId":topicUserId
+              }
+          }).then(function(res){
+              console.log(res)
+          },function(res,status){
 
-        })
+          })
+        //点赞、取消点赞
+        var good2 = document.getElementById("good1").textContent;
+        if(flag==false){
+            good2 = parseInt(good2) + 1;
+            flag=true;
+        }
+        else{
+            good2 = parseInt(good2) - 1;
+            flag=false;
+        }
+        document.getElementById("good1").innerText = good2;
+
+
     }
 
     function replyLike(father)
@@ -500,7 +519,7 @@ bui.ready(function(){
         strs=father.split(",");
         //获取url上的目标id
         var fatherReplyId =strs[1];
-        alert(fatherReplyId);
+
 
         var topicId = $("#topicId").val();
         var commentUserId = $("#comment"+fatherReplyId).val();
@@ -518,9 +537,63 @@ bui.ready(function(){
         },function(res,status){
 
         })
-        bui.alert("点赞成功");
+
+        //点赞、取消点赞
+        var flag1=$("#comment"+fatherReplyId).attr("fla1");
+        flag1=Number(flag1);
+        var good2 = document.getElementById("id"+fatherReplyId).textContent;
+        var nv = document.getElementById("comment"+fatherReplyId);
+        if(flag1==0){
+            good2 = parseInt(good2) + 1;
+            nv.setAttribute("fla1","1");
+        }
+        else{
+            good2 = parseInt(good2) - 1;
+            nv.setAttribute("fla1","0");
+        }
+        document.getElementById("id"+fatherReplyId).innerText = good2;
     }
 
+    //子评论点赞
+    function like(son)
+    {
+        var strs= new Array(); //定义一数组
+        strs=son.split(",");
+        //获取url上的目标id
+        var sonReplyId =strs[1];
+        var topicId = $("#topicId").val();
+        var commentUserId = $("#comment"+sonReplyId).val();
+        bui.ajax({
+            url: "http://localhost:8080/vio_war/like/reply",
+            method:"POST",
+            data: {
+                "topicId":topicId,
+                "likedSonReplyId":sonReplyId,
+                "toUserId":commentUserId
+            }
+        }).then(function(res){
+            console.log(res)
+        },function(res,status){
+
+        })
+
+
+
+        //点赞、取消点赞
+        var flag1=$("#comment"+sonReplyId).attr("fla");
+        flag1=Number(flag1);
+        var good2 = document.getElementById("id1"+sonReplyId).textContent;
+        var nv = document.getElementById("comment"+sonReplyId);
+        if(flag1==0){
+            good2 = parseInt(good2) + 1;
+            nv.setAttribute("fla","1");
+        }
+        else{
+            good2 = parseInt(good2) - 1;
+            nv.setAttribute("fla","0");
+        }
+        document.getElementById("id1"+sonReplyId).innerText = good2;
+    }
 
     function collect()
     {
@@ -535,8 +608,28 @@ bui.ready(function(){
         },function(res,status){
             console.log(res.message)
         })
-        bui.alert("收藏");
+        /*    bui.alert("收藏");*/
+
+        //点赞、取消点赞
+        var good2 = document.getElementById("good3").textContent;
+        if(flag1==false){
+            good2 = parseInt(good2) + 1;
+            flag1=true;
+        }
+        else{
+            good2 = parseInt(good2) - 1;
+            flag1=false;
+        }
+        document.getElementById("good3").innerText = good2;
     }
+</script>
+<script typet="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $(".like1").click(function () {
+            $(this).toggleClass('cs');
+        })
+    })
 </script>
 </body>
 </html>
