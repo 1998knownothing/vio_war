@@ -120,7 +120,7 @@
 
         <div class="personal-header">
             <div class="bighead" id="logo" >
-                <img  src="https://avatars3.githubusercontent.com/u/49364675?v=4" alt="">
+                <img  src="https://avatars0.githubusercontent.com/u/56313193?v=4" alt="">
             </div>
             <p class="name" id="nickName">您未登录</p>
             <p class="name" id="info"></p>
@@ -198,7 +198,8 @@ bui.ready(function(){
             handleButton()
             console.log(res)
         },function(res,status){
-            console.log(status);
+            bui.alert("未登陆，请登录");
+
             // status = "timeout" || "error" || "abort", "parsererror"
         })
     }

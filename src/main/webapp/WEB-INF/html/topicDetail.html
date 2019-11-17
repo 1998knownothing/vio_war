@@ -425,7 +425,7 @@ bui.ready(function(){
                     }).then(function(res){
                         console.log(res)
                     },function(res,status){
-
+                        bui.alert("未登陆，请登录");
                     })
 
                     bui.hint("评论成功");
@@ -465,7 +465,7 @@ bui.ready(function(){
                         console.log("成功评论"+topicId)
                         bui.alert("评论"+res.message);
                     },function(res,status){
-
+                        bui.alert("未登陆，请登录");
                     })
 
                     bui.hint("评论成功");

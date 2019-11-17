@@ -796,12 +796,12 @@
 
             if (text == "确定") {
                 bui.delete("http://localhost:8080/vio_war/collection/remove/topic/"+topicId+"/"+collectionid).then(function(res){
-                    console.log(res+topicid+"  "+collectionid);
+                    console.log(res+topicId+"  "+collectionid);
                     bui.alert("成功取消收藏")
                 },function(res,status){
                     console.log(status);
                 })
-                console.log("你点击了"+topicid + $(e.target).text())
+                console.log("你点击了"+topicId + $(e.target).text())
             }
             this.close()
         });

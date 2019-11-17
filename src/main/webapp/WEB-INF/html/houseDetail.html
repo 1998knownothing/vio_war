@@ -159,7 +159,7 @@
             <li id="rentArea" class="bui-btn bui-box-vertical" ><i class="icon-face"></span></i>
                 <div class="span1">求租</div>
             </li>
-            <li id="houseArea" class="bui-btn bui-box-vertical"><i class="icon-home"></span></i>
+            <li id="houseArea" class="bui-btn bui-box-vertical   active"><i class="icon-home"></span></i>
                 <div class="span1">房源</div>
             </li>
 
@@ -167,7 +167,7 @@
                 <div class="span1">社区</div>
             </li>
 
-            <li id="personal" class="bui-btn bui-box-vertical  active" ><i class="icon-setting"></i>
+            <li id="personal" class="bui-btn bui-box-vertical" ><i class="icon-setting"></i>
                 <div class="span1">我的</div>
             </li>
         </ul>
@@ -318,11 +318,11 @@ function collect(houseId)
         method:"POST"
 
     }).then(function(res){
-        console.log(res.message)
+        bui.alert("收藏");
     },function(res,status){
-        console.log(res.message)
+        bui.alert("未登陆，请登录");
     })
-    bui.alert("收藏");
+
 }
 
 </script>
