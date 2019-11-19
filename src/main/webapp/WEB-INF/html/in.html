@@ -12,23 +12,27 @@
 	<body>
 	<style>
 		.publish-mark {
-			position:fixed;
+			position:absolute;
+			width: 70px;
+			height: 40px;
 			right: 20px;
-			bottom: 60px;
-			width: 60px;
-			height: 60px;
-			line-height: .8rem;
+			bottom: 75px;
+			padding-top: 10px;
+			font-size: 15px;
+			cursor: pointer;
 			text-align: center;
-			background-color: #26d76d;
-			-webkit-border-radius: 50%;
-			-moz-border-radius: 50%;
-			border-radius: 50%;
-		}
-
-		.publish-mark i {
-			font-size: .24rem;
-			text-align: center;
+			outline: none;
 			color: #fff;
+			background-color: #4CAF50;
+			border-radius: 15px;
+			box-shadow: 0 9px #999;
+		}
+		.publish-mark:hover {background-color: #3e8e41}
+
+		.publish-mark:active {
+			background-color: #3e8e41;
+			box-shadow: 0 5px #666;
+			transform: translateY(4px);
 		}
 
 
