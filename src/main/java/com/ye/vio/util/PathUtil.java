@@ -18,7 +18,7 @@ public class PathUtil {
         if(os.toLowerCase().startsWith("win")){
             basePath="D:/projectdev/vio";
         }else {
-            basePath="/data/wwwroot/default/vio/";
+            basePath="/data/file/";
         }
         //basePath=basePath.replace("/",seperator);
         System.out.println("---------os:"+os+"  seperator"+seperator);

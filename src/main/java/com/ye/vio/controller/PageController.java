@@ -2,10 +2,14 @@ package com.ye.vio.controller;
 
 import com.ye.vio.dto.ResultDTO;
 
+import com.ye.vio.util.FileUtil;
+import com.ye.vio.util.Path1;
+import com.ye.vio.util.TestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -151,8 +155,48 @@ public class PageController {
     public Object test(HttpServletRequest request){
         logger.info("----------test------");
         logger.error("-------error---------");
-    String path=request.getSession().getServletContext().getRealPath("/");
+        String path=request.getSession().getServletContext().getRealPath("/");
         return ResultDTO.okOf("haha"+path);
+    }
+    @CrossOrigin()
+    @PostMapping("/upload")
+    @ResponseBody
+    public Object test1(HttpServletRequest request, MultipartFile file){
+
+        String path=request.getSession().getServletContext().getRealPath("/");
+        String path1=request.getSession().getServletContext().getRealPath("/");
+        String targetPath= Path1.getTemplatePath();//获取模板基础存储路径
+        try{
+            String pathUrl= FileUtil.uploadFile(request,file,targetPath);//存储模板并返回子存储路径
+            if(pathUrl==null){
+                return ResultDTO.okOf("失败"+path);
+            }
+            path=pathUrl;
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            ResultDTO.okOf("error"+path);
+        }
+        return ResultDTO.okOf("pathUrl:"+path+"===="+path1);
+    }
+    @CrossOrigin()
+    @PostMapping("/upload2")
+    @ResponseBody
+    public Object test2(HttpServletRequest request, MultipartFile file){
+
+        String path=request.getSession().getServletContext().getRealPath("/");
+        String path1=request.getSession().getServletContext().getRealPath("/");
+        String targetPath= Path1.getTemplatePath();//获取模板基础存储路径
+        try{
+            String pathUrl= TestUtil.uploadFile(file,targetPath);//存储模板并返回子存储路径
+            if(pathUrl==null){
+                return ResultDTO.okOf("失败"+path);
+            }
+            path=pathUrl;
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            ResultDTO.okOf("error"+path);
+        }
+        return ResultDTO.okOf("pathUrl:"+path+"===="+path1);
     }
 
 }
